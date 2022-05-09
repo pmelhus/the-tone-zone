@@ -1,0 +1,27 @@
+
+
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -25px;
+
+}
+
+.username-div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.password-div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  text-align: left;
+}
