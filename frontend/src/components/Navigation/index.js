@@ -3,8 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Navigation({ isLoaded, sessionUser }) {
   // const sessionUser = useSelector((state) => state.session.user);
@@ -17,9 +16,9 @@ function Navigation({ isLoaded, sessionUser }) {
   return (
     <header>
       <div className="nav-div">
-        <nav className='nav-main'>
+        <nav className="nav-main">
           <ul className="ul-nav">
-          <i id="logo"class="fa-solid fa-message-music fa-2xl"></i>
+            <i id="logo" class="fa-solid fa-message-music fa-2xl"></i>
 
             <li>
               <NavLink to="/discover">

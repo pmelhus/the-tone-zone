@@ -28,7 +28,8 @@ export const login = (user) => async (dispatch) => {
     }),
   });
   const data = await response.json();
-  // console.log(data, '============= validations')
+  // console.log(response, '=============')
+
   dispatch(setUser(data.user));
   return response
 };
@@ -47,11 +48,11 @@ export const restoreUser = () => async dispatch => {
 export const signup = (user) => async dispatch => {
 
   const { images, image, username, email, password } = user;
+  console.log(user)
   const formData = new FormData();
   formData.append("username", username);
   formData.append("email", email);
   formData.append("password", password);
-
   if (images && images.length !== 0) {
     for (var i = 0; i < images.length; i++) {
       formData.append("images", images[i]);
@@ -59,6 +60,7 @@ export const signup = (user) => async dispatch => {
   }
 
   if (image) formData.append("image", image);
+  console.log(formData.entries())
 
   const response = await csrfFetch(`/api/users/`, {
     method: "POST",
@@ -67,7 +69,6 @@ export const signup = (user) => async dispatch => {
     },
     body: formData,
   });
-
   const data = await response.json();
   dispatch(setUser(data.user));
   return response;

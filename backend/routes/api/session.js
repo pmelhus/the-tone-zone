@@ -33,13 +33,13 @@ router.post(
       error.status = 401;
       error.title = "Login failed";
       error.errors = ["The provided credentials were invalid."];
-      // console.log('==============')
+      // console.log('==============',error)
       return next(error);
     }
 
     await setTokenCookie(res, user);
     return res.json({
-      user,
+      user
     });
   })
   );

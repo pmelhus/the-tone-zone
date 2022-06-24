@@ -46,20 +46,29 @@ app.use((_req, _res, next) => {
   next(err);
 });
 
+// app.use((err, _req, _res, next) => {
+
+//   if (err instanceof ValidationError) {
+//     err.status = 422;
+//     const errorMessages = {};
+//     err.errors.forEach((e) => {
+//       errorMessages[e.path] =
+//         // If field appears as first word in error message, strip it out
+//         e.message
+//     });
+//     err.errors = errorMessages;
+//     err.title = "Validation error";
+//   }
+
+//   next(err);
+// });
+
 app.use((err, _req, _res, next) => {
-
+  // check if error is a Sequelize error:
   if (err instanceof ValidationError) {
-    err.status = 422;
-    const errorMessages = {};
-    err.errors.forEach((e) => {
-      errorMessages[e.path] =
-        // If field appears as first word in error message, strip it out
-        e.message
-    });
-    err.errors = errorMessages;
-    err.title = "Validation error";
+    err.errors = err.errors.map((e) => e.message);
+    err.title = 'Validation error';
   }
-
   next(err);
 });
 
@@ -72,7 +81,7 @@ app.use((err, _req, res, _next) => {
     errors: err.errors,
     stack: isProduction ? null : err.stack,
   });
-  // console.log(err)
+  console.log(err)
 });
 
 module.exports = app;

@@ -18,23 +18,26 @@ const LoginModal = ({ visible, setVisible }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    dispatch(sessionActions.login({ credential, password })).catch(
-      async (res) => {
-        const data = await res.json();
-        // console.log(data, "===========DATA")
+return dispatch(sessionActions.login({ credential, password })).catch(
+    async (res) => {
+
+      const data = await res.json();
+      // console.log(data)
         if (data && data.errors) {
           setErrors(data.errors);
         }
+        if (!errors) return history.push("/discover");
       }
+
     );
-    return history.push("/discover");
+    // console.log(dispatch(sessionActions.login({ credential, password })))
   };
 
   const demo = (e) => {
     const credential = "FakeUser2";
     const password = "password3";
 
-    dispatch(sessionActions.login({ credential, password })).catch(
+dispatch(sessionActions.login({ credential, password })).catch(
       async (res) => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
@@ -70,7 +73,8 @@ const LoginModal = ({ visible, setVisible }) => {
           </div> */}
           <form onSubmit={handleSubmit}>
             <ul>
-              {errors.map((error, idx) => (
+              {errors && errors.map((error, idx) =>
+                (
                 <li key={idx}>{error}</li>
               ))}
             </ul>
