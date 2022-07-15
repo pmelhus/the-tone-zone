@@ -25,3 +25,29 @@ form {
 label {
   text-align: left;
 }
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -25px;
+}
+
+.signup-form label {
+  padding: 6px 0;
+}
+
+.signup-form button {
+  margin: 0;
+  /* padding: 0; */
+}
+
+#profile-avatar-upload {
+  display: none;
+  cursor: pointer;
+}
+
+#profile-avatar-label {
+  border: .1px rgb(190, 188, 188) solid;
+  cursor: pointer;
+}

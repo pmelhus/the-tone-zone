@@ -9,6 +9,7 @@ import CommentCard from "./CommentCard";
 import WriteComment from "./WriteComment";
 import AddToPlaylistModal from "./AddToPlaylistModal";
 import { ValidationError } from "../../../utils/validationError";
+
 import "./Song.css";
 
 const Song = () => {
@@ -78,35 +79,41 @@ const Song = () => {
               />
 
               <div className="img-div">
-                <img src={song?.imageUrl}></img>
+                {song?.imageUrl ? (
+                    <img src={song?.imageUrl} />
+                  ) : (
+                    <img src="https://yt3.ggpht.com/Kat62xks4-8MlvT1CjkMsYqxP5sVDNOv7IMB2Kwg27n2dIcA55-obkQnA9vi6kx3Dfhay0aGIP4=s900-c-k-c0x00ffffff-no-rj"/>
+                  )}
               </div>
             </div>
           </div>
           <div className="comment-button-section">
             <WriteComment song={song} />
             <div className="song-buttons">
-              <button
-                onClick={() => setSignInToggle(!signInToggle)}
-                type="button"
-              >
-                Edit
-              </button>
               {user?.id === song?.User?.id && (
-                <button onClick={handleDelete}>Delete</button>
-              )}
-              <div className="dropdown-more">
-                <button onClick={(e) => openMenu(e)}>
-                  <i class="fa-solid fa-ellipsis"></i>More
-                </button>
-                {showMenu && (
-                  <div
-                    className="profile-dropdown"
-                    onClick={(e) => openPlaylist()}
+                <>
+                  <button
+                    onClick={() => setSignInToggle(!signInToggle)}
+                    type="button"
                   >
-                    <a>add to playlist</a>
+                    Edit
+                  </button>
+                  <button onClick={handleDelete}>Delete</button>
+                  <div className="dropdown-more">
+                    <button onClick={(e) => openMenu(e)}>
+                      <i class="fa-solid fa-ellipsis"></i>More
+                    </button>
+                    {showMenu && (
+                      <div
+                        className="profile-dropdown"
+                        onClick={(e) => openPlaylist()}
+                      >
+                        <a>add to playlist</a>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
+                </>
+              )}
             </div>
           </div>
           <div className="avatar-comment-description">

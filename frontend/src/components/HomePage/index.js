@@ -9,9 +9,8 @@ import "./HomePage.css";
 import { useState } from "react";
 import * as sessionActions from "../../store/session";
 
-const HomePage = () => {
-  const [signInToggle, setSignInToggle] = useState(false);
-  const [signUpToggle, setSignUpToggle] = useState(false);
+const HomePage = ({signInToggle, setSignInToggle, signUpToggle, setSignUpToggle}) => {
+
   const sessionUser = useSelector((state) => state.session.user);
   // if (sessionUser) {
   //   return <Redirect to="/discover" />;

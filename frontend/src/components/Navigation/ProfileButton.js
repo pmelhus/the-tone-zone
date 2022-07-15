@@ -4,7 +4,7 @@ import * as sessionActions from "../../store/session";
 import { Redirect, useHistory, NavLink } from "react-router-dom";
 import "./ProfileButton.css";
 
-function ProfileButton() {
+function ProfileButton({setSignInToggle2}) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   let history = useHistory();
@@ -36,6 +36,7 @@ function ProfileButton() {
 
   const logout = (e) => {
     e.preventDefault();
+    setSignInToggle2(false)
     dispatch(sessionActions.logout());
     history.push("/");
   };

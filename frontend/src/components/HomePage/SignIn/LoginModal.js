@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import "./LoginModal.css";
 
-const LoginModal = ({ visible, setVisible, setSignUpToggle }) => {
+const LoginModal = ({ setSignInToggle, signInToggle, setSignUpToggle}) => {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [credential, setCredential] = useState("");
@@ -34,7 +34,7 @@ const LoginModal = ({ visible, setVisible, setSignUpToggle }) => {
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    setVisible(false);
+    setSignInToggle(false);
     setSignUpToggle(true);
   };
 
@@ -53,10 +53,13 @@ const LoginModal = ({ visible, setVisible, setSignUpToggle }) => {
   };
 
   const backgroundClick = () => {
-    setVisible(!visible);
+    setSignInToggle(!signInToggle);
+    history.replace('/', {commentAttempt: false})
     setExited(true);
   };
-  if (!visible) return null;
+  if (!signInToggle) return null
+
+
   return (
     <div
       className="background-modal"
@@ -80,7 +83,7 @@ const LoginModal = ({ visible, setVisible, setSignUpToggle }) => {
           {history.location.state?.commentAttempt && !exited && (
             <p>Please log in or sign up to comment on a song!</p>
           )}
-          <form onSubmit={handleSubmit}>
+          <form className="signin-form" onSubmit={handleSubmit}>
             <ul>
               {errors && errors.map((error, idx) => <li key={idx}>{error}</li>)}
             </ul>
@@ -104,10 +107,10 @@ const LoginModal = ({ visible, setVisible, setSignUpToggle }) => {
             </div>
             <button type="submit">Log In</button>
             <button onClick={demo}>Demo Login</button>
-            <div>
+
               <p>Don't have an account?</p>
               <button onClick={handleSignUp}>Sign up</button>
-            </div>
+        
           </form>
         </div>
       </div>

@@ -1,21 +1,31 @@
-import React from "react";
+import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import LoginModal from "../HomePage/SignIn/LoginModal";
+import SignUpModal from "../HomePage/SignUp/SignUpModal";
 
 function Navigation({ isLoaded, sessionUser }) {
-  // const sessionUser = useSelector((state) => state.session.user);
+  // const sessionUser = useSelector((st ate) => state.session.user);
+  const [signInToggle2, setSignInToggle2] = useState(false);
+  const [signUpToggle2, setSignUpToggle2] = useState(false);
+  const location = useLocation();
+  const streamUrl = location.pathname.split("/")[1];
+
+  const handleSignIn = (e) => {
+    setSignInToggle2(true);
+  };
+
+  const handleSignUp = (e) => {
+    setSignUpToggle2(true);
+  };
 
   let sessionLinks;
   if (sessionUser) {
-    sessionLinks = <ProfileButton user={sessionUser} />;
+    sessionLinks = <ProfileButton {...{setSignInToggle2}} user={sessionUser} />;
   }
-
-  const location = useLocation();
-
-  const streamUrl = location.pathname.split("/")[1];
 
   return (
     <header>
@@ -28,17 +38,18 @@ function Navigation({ isLoaded, sessionUser }) {
                 src="https://res.cloudinary.com/dmtap2h65/image/upload/v1657853171/Tone_Zone_logo_m442ls.png"
               ></img>
             </NavLink>
-
-            <NavLink
-              className={
-                location.pathname === "/discover" && "nav-div-selected"
-              }
-              to="/discover"
-            >
-              <li className="ul-nav-items">
-                <p>Home</p>
-              </li>
-            </NavLink>
+            {sessionUser && (
+              <NavLink
+                className={
+                  location.pathname === "/discover" && "nav-div-selected"
+                }
+                to="/discover"
+              >
+                <li className="ul-nav-items">
+                  <p>Home</p>
+                </li>
+              </NavLink>
+            )}
             <NavLink
               className={streamUrl === "stream" && "nav-div-selected"}
               to="/stream"
@@ -47,24 +58,54 @@ function Navigation({ isLoaded, sessionUser }) {
                 <p>Stream</p>
               </li>
             </NavLink>
-            <NavLink
-              className={
-                location.pathname === "/you/library/playlists" && "nav-div-selected"
-              }
-              to="/you/library/playlists"
-            >
-              <li className="ul-nav-items">
-                <p>Library</p>
-              </li>
-            </NavLink>
+            {sessionUser && (
+              <NavLink
+                className={
+                  location.pathname === "/you/library/playlists" &&
+                  "nav-div-selected"
+                }
+                to="/you/library/playlists"
+              >
+                <li className="ul-nav-items">
+                  <p>Library</p>
+                </li>
+              </NavLink>
+            )}
           </ul>
-          <div className="profile-button">
-            <NavLink to="/upload">
-              <p>Upload</p>
-            </NavLink>
+          <div className={sessionUser ? "profile-button" : "signin-signup-div"}>
+            {sessionUser ? (
+              <NavLink to="/upload">
+                <p>Upload</p>
+              </NavLink>
+            ) : (
+              <>
+                <a onClick={handleSignIn}>
+                  <li className="ul-nav-items">
+                    <p>Sign In</p>
+                  </li>
+                </a>
+                <a onClick={handleSignUp}>
+                  <li className="ul-nav-items">
+                    <p>Sign Up</p>
+                  </li>
+                </a>
+              </>
+            )}
             {isLoaded && sessionLinks}
           </div>
         </nav>
+        <LoginModal
+          setSignInToggle={setSignInToggle2}
+          signInToggle={signInToggle2}
+          setSignUpToggle={setSignUpToggle2}
+          signUpToggle={signUpToggle2}
+        />
+        <SignUpModal
+          setSignInToggle={setSignInToggle2}
+          signInToggle={signInToggle2}
+          setSignUpToggle={setSignUpToggle2}
+          signUpToggle={signUpToggle2}
+        />
       </div>
     </header>
   );
