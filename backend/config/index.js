@@ -10,5 +10,9 @@ module.exports = {
   jwtConfig: {
     secret: process.env.JWT_SECRET,
     expiresIn: process.env.JWT_EXPIRES_IN
+  },
+  rapidAPI: {
+    key: process.env.RAPID_API_KEY,
+    host: process.env.RAPID_API_HOST
   }
 };

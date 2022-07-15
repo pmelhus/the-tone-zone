@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
@@ -13,36 +13,56 @@ function Navigation({ isLoaded, sessionUser }) {
     sessionLinks = <ProfileButton user={sessionUser} />;
   }
 
+  const location = useLocation();
+
+  const streamUrl = location.pathname.split("/")[1];
+
   return (
     <header>
       <div className="nav-div">
         <nav className="nav-main">
           <ul className="ul-nav">
-            <i id="logo" class="fa-solid fa-message-music fa-2xl"></i>
+            <NavLink to="/">
+              <img
+                alt="site icon"
+                src="https://res.cloudinary.com/dmtap2h65/image/upload/v1657853171/Tone_Zone_logo_m442ls.png"
+              ></img>
+            </NavLink>
 
-            <li>
-              <NavLink to="/discover">
-                <a>Home</a>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/stream">
-                <a>Stream</a>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/you/library">
-                <a>Library</a>
-              </NavLink>
-            </li>
+            <NavLink
+              className={
+                location.pathname === "/discover" && "nav-div-selected"
+              }
+              to="/discover"
+            >
+              <li className="ul-nav-items">
+                <p>Home</p>
+              </li>
+            </NavLink>
+            <NavLink
+              className={streamUrl === "stream" && "nav-div-selected"}
+              to="/stream"
+            >
+              <li className="ul-nav-items">
+                <p>Stream</p>
+              </li>
+            </NavLink>
+            <NavLink
+              className={
+                location.pathname === "/you/library" && "nav-div-selected"
+              }
+              to="/you/library"
+            >
+              <li className="ul-nav-items">
+                <p>Library</p>
+              </li>
+            </NavLink>
           </ul>
           <div className="profile-button">
-            <div>
-              <NavLink to="/upload">
-                <a>Upload</a>
-              </NavLink>
-            </div>
-            <div>{isLoaded && sessionLinks}</div>
+            <NavLink to="/upload">
+              <p>Upload</p>
+            </NavLink>
+            {isLoaded && sessionLinks}
           </div>
         </nav>
       </div>

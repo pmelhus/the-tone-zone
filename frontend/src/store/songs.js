@@ -33,16 +33,13 @@ const deleteSong = (song) => ({
   song,
 });
 
-
-
-
 export const getAllSongs = () => async (dispatch) => {
   // console.log('================')
   const res = await fetch("/api/songs");
   if (res.ok) {
     const songs = await res.json();
     // console.log(list)
-    console.log(songs, "===========")
+    // console.log(songs, "===========");
     dispatch(getSongs(songs));
   } else {
     throw res;
@@ -60,18 +57,19 @@ export const getOneSong = (id) => async (dispatch) => {
 };
 
 export const createSong = (song) => async (dispatch) => {
-  const { userId, title, description, audio, files} = song;
+  const { userId, title, description, audio, files } = song;
   const formData = new FormData();
   formData.append("userId", userId);
   formData.append("title", title);
   formData.append("description", description);
 
-  if (files.length === 2){
+  if (files.length === 2) {
     for (let i = 0; i < files.length; i++) {
-console.log(files[i])
-      formData.append("files", files[i])}
+      console.log(files[i]);
+      formData.append("files", files[i]);
     }
-  if (audio && files.length === 1) formData.append('audio', audio)
+  }
+  if (audio && files.length === 1) formData.append("audio", audio);
 
   try {
     const response = await csrfFetch(`/api/songs/`, {
@@ -85,7 +83,6 @@ console.log(files[i])
     if (!response.ok) {
       let error;
       if (response.status === 422) {
-
         error = await response.json();
         throw new ValidationError(error.errors, response.statusText);
       } else {
@@ -105,7 +102,6 @@ console.log(files[i])
     const song = await response.json();
     dispatch(addOneSong(song, song.user));
   } catch (error) {
-
     // console.log(error, '=-=================')
     throw error;
   }
@@ -113,46 +109,42 @@ console.log(files[i])
 
 export const updateSong = (data) => async (dispatch) => {
   try {
-  const response = await csrfFetch(`/api/songs/${data.songId}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+    const response = await csrfFetch(`/api/songs/${data.songId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
-
-  if (!response.ok) {
-    let error;
-    if (response.status === 422) {
-
-      error = await response.json();
-      throw new ValidationError(error.errors, response.statusText);
-    } else {
-      let errorJSON;
-      error = await response.text();
-      try {
-        // Check if the error is JSON, i.e., from the Pokemon server. If so,
-        // don't throw error yet or it will be caught by the following catch
-        errorJSON = JSON.parse(error);
-      } catch {
-        // Case if server could not be reached
-        throw new Error(error);
+    if (!response.ok) {
+      let error;
+      if (response.status === 422) {
+        error = await response.json();
+        throw new ValidationError(error.errors, response.statusText);
+      } else {
+        let errorJSON;
+        error = await response.text();
+        try {
+          // Check if the error is JSON, i.e., from the Pokemon server. If so,
+          // don't throw error yet or it will be caught by the following catch
+          errorJSON = JSON.parse(error);
+        } catch {
+          // Case if server could not be reached
+          throw new Error(error);
+        }
+        throw new Error(`${errorJSON.title}: ${errorJSON.message}`);
       }
-      throw new Error(`${errorJSON.title}: ${errorJSON.message}`);
     }
+    const song = await response.json();
+    dispatch(update(song));
+  } catch (error) {
+    // console.log(error, '=-=================')
+    throw error;
   }
-  const song = await response.json();
-  dispatch(update(song));
-} catch (error) {
-
-  // console.log(error, '=-=================')
-  throw error;
-}
 };
 
 export const deleteOneSong = (data) => async (dispatch) => {
-
   const response = await csrfFetch(`/api/songs/${data.id}`, {
     method: "DELETE",
     headers: {
@@ -166,25 +158,16 @@ export const deleteOneSong = (data) => async (dispatch) => {
   dispatch(deleteSong(song));
 };
 
-const initialState = {list: []};
+const initialState = {};
 
-const sortList = (list) => {
-
-  return list.sort((songA, songB) => {
-    const songDate = (date) => new Date(date)
-    return songDate(songB.createdAt) - songDate(songA.createdAt);
-  }).map((song) =>{
-     return song
-    });
-};
 
 
 const songReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD: {
-      const allSongs = {}
+      const allSongs = {};
       action.songs.forEach((song) => (allSongs[song.id] = song));
-      return { ...allSongs, ...state, list: sortList(action.songs) };
+      return { ...allSongs, ...state};
     }
     case ADD_ONE: {
       if (!state[action.song.id]) {

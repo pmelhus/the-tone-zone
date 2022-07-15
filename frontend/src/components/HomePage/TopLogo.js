@@ -1,12 +1,18 @@
-import "./TopLogo.css"
+import "./TopLogo.css";
+
 
 const TopLogo = () => {
-  
-  return(
-    <h1 className='logo'>
-      ToneZone
-    </h1>
-  )
-}
+  return (
+    <div className="logo-homepage">
 
-export default TopLogo
+        <img
+          alt="site icon"
+          src="https://res.cloudinary.com/dmtap2h65/image/upload/v1657853171/Tone_Zone_logo_m442ls.png"
+        ></img>
+        <h1 className="logo">ToneZone</h1>
+
+    </div>
+  );
+};
+
+export default TopLogo;

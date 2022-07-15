@@ -58,9 +58,9 @@ const Comment = ({ comment }) => {
   };
 
   const commentDate = (date) => {
-    const localDate = new Date(date)
-    return localDate
-  }
+    const localDate = new Date(date);
+    return localDate;
+  };
   const dispatch = useDispatch();
   return (
     <>
@@ -69,21 +69,39 @@ const Comment = ({ comment }) => {
         onMouseEnter={() => setIsShown(true)}
         onMouseLeave={() => setIsShown(false)}
       >
-        <img src={comment?.User?.profileImageUrl}></img>
+        {comment.User.profileImageUrl ? (
+          <img src={comment.User.profileImageUrl} />
+        ) : (
+          <img
+            src="https://img.myloview.com/posters/default-avatar-profile-in-trendy-style-for-social-media-user-icon-400-228654852.jpg"
+          />
+        )}
+
         <div className="username-body">
           <p className="username-comment">
             {comment?.User?.username === user.username
               ? "You"
               : `${comment?.User?.username}`}{" "}
-          <div className='trash-time'>
-            {user.id === comment.User.id && isShown && (
-              <button onClick={(e) => handleDelete(e)}>
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            )}
-            <p>{commentDate(comment.createdAt).toLocaleTimeString().split(' ')[0].split(':').splice(0, 2).join(':') + ' ' + commentDate(comment.createdAt).toLocaleTimeString().split(' ')[1]} on {
-            commentDate(comment.createdAt).toLocaleDateString()}</p>
-          </div>
+            <div className="trash-time">
+              {user.id === comment.User.id && isShown && (
+                <button onClick={(e) => handleDelete(e)}>
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              )}
+              <p>
+                {commentDate(comment.createdAt)
+                  .toLocaleTimeString()
+                  .split(" ")[0]
+                  .split(":")
+                  .splice(0, 2)
+                  .join(":") +
+                  " " +
+                  commentDate(comment.createdAt)
+                    .toLocaleTimeString()
+                    .split(" ")[1]}{" "}
+                on {commentDate(comment.createdAt).toLocaleDateString()}
+              </p>
+            </div>
           </p>
           <p className="body-comment">{comment.body}</p>
         </div>

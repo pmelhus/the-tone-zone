@@ -18,7 +18,7 @@ router.get(
   "/",
   asyncHandler(async function (req, res) {
     const allSongs = await Song.findAll({
-      include: User
+      include: [User, Comment]
     });
     // const comments = await Comment.findAll({ where: { songId: id } });
     // console.log(allSongs);
@@ -92,10 +92,28 @@ router.delete(
   asyncHandler(async (req, res) => {
     const id = req.params.id;
     const song = await Song.findByPk(id);
-   
+
     await song.destroy();
     return res.json(song);
   })
 );
+
+router.get(
+  "/fetchedSongs",
+  asyncHandler(async(req,res) => {
+    const options = {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': '3e50c0eb79msh1518f938d7c9afcp11a11fjsnaa58465f4eea',
+        'X-RapidAPI-Host': 'soundcloud-scraper.p.rapidapi.com'
+      }
+    };
+
+  const fetchResponse = fetch('https://soundcloud-scraper.p.rapidapi.com/v1/track/metadata?track=https%3A%2F%2Fsoundcloud.com%2Fedsheeran%2Fphotograph', options)
+      .then(response => response.json())
+      .then(response => console.log(response))
+      .catch(err => console.error(err));
+  })
+)
 
 module.exports = router;

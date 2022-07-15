@@ -10,12 +10,11 @@ import "./Songs.css";
 const Songs = ({ sessionUser }) => {
   const dispatch = useDispatch();
   const songList = useSelector((state) => Object.values(state.songs));
-const dateNow = new Date()
+  const dateNow = new Date();
 
-
-const songDate = (date) => {
-  return new Date(date)
-}
+  const songDate = (date) => {
+    return new Date(date);
+  };
 
   useEffect(() => {
     dispatch(getAllSongs());
@@ -23,7 +22,7 @@ const songDate = (date) => {
 
   const handleSubmit = async (e, song) => {
     e.preventDefault();
-    await dispatch(deleteOneSong(song)).then();
+    await dispatch(deleteOneSong(song));
   };
   return (
     <div className="songs-content">
@@ -33,15 +32,33 @@ const songDate = (date) => {
           return (
             <div className="song-card">
               <div className="text-content">
-                <img
-                  src={song?.User?.profileImageUrl}
-                  href={`/${song?.User?.username}`}
-                ></img>
+                {song.User.profileImageUrl ? (
+                  <img
+                    href={`/${song?.User?.username}`}
+                    src={song.User?.profileImageUrl}
+                  />
+                ) : (
+                  <img
+                    href={`/${song?.User?.username}`}
+                    src="https://img.myloview.com/posters/default-avatar-profile-in-trendy-style-for-social-media-user-icon-400-228654852.jpg"
+                  />
+                )}
                 <a href={`/${song?.User?.username}`}>{song.User?.username}</a>
 
-                <p id='time'>&nbsp;posted a track at { songDate(song.createdAt).toLocaleTimeString().split(' ')[0].split(':').splice(0, 2).join(':') + ' ' + songDate(song.createdAt).toLocaleTimeString().split(' ')[1]} on {
-            songDate(song.createdAt).toLocaleDateString()
-                } </p>
+                <p id="time">
+                  &nbsp;posted a track at{" "}
+                  {songDate(song.createdAt)
+                    .toLocaleTimeString()
+                    .split(" ")[0]
+                    .split(":")
+                    .splice(0, 2)
+                    .join(":") +
+                    " " +
+                    songDate(song.createdAt)
+                      .toLocaleTimeString()
+                      .split(" ")[1]}{" "}
+                  on {songDate(song.createdAt).toLocaleDateString()}{" "}
+                </p>
               </div>
               <div className="audio-content">
                 <div className="image-content">
@@ -55,7 +72,9 @@ const songDate = (date) => {
                       </a>
                     </div>
                     <div>
-                      <a href={`/stream/${song.id}`} id="song-title">{song.title}</a>
+                      <a href={`/stream/${song.id}`} id="song-title">
+                        {song.title}
+                      </a>
                     </div>
                   </div>
                   <AudioPlayer
@@ -65,16 +84,17 @@ const songDate = (date) => {
                     onPlay={(e) => console.log("onPlay")}
                     // other props here
                   />
-                  <div className='buttons'>
-                  {sessionUser && (
-                    <form className="delete-button"
-                      onSubmit={(e) => {
-                        handleSubmit(e, song);
-                      }}
-                    >
-                      {/* <button>Delete</button> */}
-                    </form>
-                  )}
+                  <div className="buttons">
+                    {sessionUser && (
+                      <form
+                        className="delete-button"
+                        onSubmit={(e) => {
+                          handleSubmit(e, song);
+                        }}
+                      >
+                        {/* <button>Delete</button> */}
+                      </form>
+                    )}
                   </div>
                 </div>
               </div>

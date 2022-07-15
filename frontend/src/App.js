@@ -16,17 +16,13 @@ function App() {
   return (
     <>
       <Switch>
-        {!sessionUser && (
-          <Route exact path="/">
-            <HomePage />
-          </Route>
-        )}
-        {sessionUser && (
-          <>
-            <Navigation isLoaded={isLoaded} sessionUser={sessionUser} />
-            <UserHomePage sessionUser={sessionUser} />
-          </>
-        )}
+        <Route exact path="/">
+          <HomePage />
+        </Route>
+        <>
+          <Navigation isLoaded={isLoaded} sessionUser={sessionUser} />
+          <UserHomePage sessionUser={sessionUser} />
+        </>
       </Switch>
     </>
   );

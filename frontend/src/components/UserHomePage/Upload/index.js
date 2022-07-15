@@ -82,7 +82,7 @@ const Upload = (sessionUser) => {
     setErrorMessages({});
     //!!END
 
-    history.push.goBack();
+    history.goBack();
   };
 
   useEffect(() => {

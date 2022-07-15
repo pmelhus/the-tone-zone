@@ -43,7 +43,14 @@ function ProfileButton() {
   return (
     <div className="menu">
       <button className="menu-button" onClick={openMenu}>
-        <img className="avatar" src={isLoaded && user?.profileImageUrl} />
+        {user.profileImageUrl ? (
+          <img className="avatar" src={isLoaded && user?.profileImageUrl} />
+        ) : (
+          <img
+            className="avatar"
+            src="https://img.myloview.com/posters/default-avatar-profile-in-trendy-style-for-social-media-user-icon-400-228654852.jpg"
+          />
+        )}
         <p className="username">{user.username}</p>
       </button>
       {showMenu && (

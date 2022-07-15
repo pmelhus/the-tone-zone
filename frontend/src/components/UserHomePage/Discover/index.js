@@ -12,7 +12,12 @@ const Discover = () => {
   const playlists = useSelector((state) => Object.values(state.playlists));
   const sessionUser = useSelector((state) => state.session?.user);
   const songs = useSelector((state) => Object.values(state?.songs))
-  const sortedLatest = useSelector((state) => state.songs.list)
+  const sortedLatest = useSelector((state) => Object.values(state.songs))
+
+  const songsHighestComments = sortedLatest.sort((a, b) => {
+   return a.Comments?.length - b.Comments?.length
+  })
+
   useEffect(() => {
     dispatch(getAllPlaylists());
     dispatch(getAllSongs());
@@ -39,8 +44,8 @@ const Discover = () => {
       <div className="playlists-container">
       <p>Hear the songs with the most comments:</p>
         <ul className="playlist-cards">
-          {sortedLatest &&
-            sortedLatest.map((song) => {
+          {songsHighestComments &&
+            songsHighestComments.map((song) => {
                 return (
                   <>
                     <li>
@@ -57,7 +62,7 @@ const Discover = () => {
         <ul className="playlist-cards">
           {playlists &&
             playlists.map((playlist) => {
-              if (playlist.userId === sessionUser.id)
+              if (playlist?.userId === sessionUser?.id)
                 return (
                   <>
                     <li>

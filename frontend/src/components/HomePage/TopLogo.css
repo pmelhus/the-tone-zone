@@ -1,15 +1,21 @@
-.logo {
+.logo-homepage {
   position: absolute;
-  top: 20px;
-  left: 50px;
-  display: block;
+  top: 10px;
+  left: 20px;
+  display: flex;
     width: 184px;
     height: 46px;
     margin: 0;
+    color: white;
+    z-index: 100;
+    /* align-items: center; */
+
     /* text-indent: -999em; */
 }
 
+
 h1 {
+  margin-left: 5px;
   font-size: 20px;
   color: white;
 }

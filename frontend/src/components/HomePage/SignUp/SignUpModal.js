@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import * as sessionActions from "../../../store/session";
 import "./SignUpModal.css";
 
-function SignupFormPage({ visible, setVisible }) {
+function SignupFormPage({ visible, setVisible, setSignInToggle }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
@@ -12,7 +12,7 @@ function SignupFormPage({ visible, setVisible }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
-  const [image, setImage] = useState(null)
+  const [image, setImage] = useState(null);
 
   // if (sessionUser) return <Redirect to="/discover" />;
 
@@ -20,22 +20,30 @@ function SignupFormPage({ visible, setVisible }) {
     e.preventDefault();
     if (password === confirmPassword) {
       setErrors([]);
-    return dispatch(
+      return dispatch(
         sessionActions.signup({ email, username, password, image })
-      ).then(()=> {
-        setUsername('');
-        setEmail('');
-        setPassword('')
-        setImage(null);
-      }).catch(async (res) => {
-        console.log(res)
-        const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
-      });
+      )
+        .then(() => {
+          setUsername("");
+          setEmail("");
+          setPassword("");
+          setImage(null);
+        })
+        .catch(async (res) => {
+          console.log(res);
+          const data = await res.json();
+          if (data && data.errors) setErrors(data.errors);
+        });
     }
     return setErrors([
       "Confirm Password field must be the same as the Password field",
     ]);
+  };
+
+  const handleSignIn = (e) => {
+    e.preventDefault();
+    setVisible(false);
+    setSignInToggle(true);
   };
 
   const updateFile = (e) => {
@@ -61,70 +69,64 @@ function SignupFormPage({ visible, setVisible }) {
       }}
     >
       <div className="modal" onClick={(e) => e.stopPropagation()}>
-      <div className="modal-content">
-        <form onSubmit={handleSubmit}>
-          <ul>
-            {errors.map((error, idx) => (
-              <li key={idx}>{error}</li>
-            ))}
-          </ul>
-          <label>
-            Email
-          </label>
+        <div className="modal-content">
+          <form onSubmit={handleSubmit}>
+            <ul>
+              {errors.map((error, idx) => (
+                <li key={idx}>{error}</li>
+              ))}
+            </ul>
+            <label>Email</label>
             <input
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-          <label>
-            Username
-          </label>
+            <label>Username</label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
             />
-          <label>
-            Password
-          </label>
+            <label>Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-          <label>
-            Confirm Password
-          </label>
+            <label>Confirm Password</label>
             <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
-      <label for="song-upload">Upload song cover</label>
+            <label for="song-upload">Upload song cover</label>
 
-<input
-  placeholder="Upload your image"
-  type="file"
-  accept="image/*"
-  name="image-upload"
-  onChange={updateImage}
-></input>
-        {/* <label>
+            <input
+              placeholder="Upload your image"
+              type="file"
+              accept="image/*"
+              name="image-upload"
+              onChange={updateImage}
+            ></input>
+            {/* <label>
             Multiple Upload
             <input
               type="file"
               multiple
               onChange={updateFiles} />
           </label> */}
-          <button type="submit">Sign Up</button>
-        </form>
-      </div>
-
-
+            <button type="submit">Sign Up</button>
+            <div>
+              <button onClick={handleSignIn}>Sign in</button>
+              <p>Already have an account?</p>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

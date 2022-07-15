@@ -91,7 +91,7 @@ const Song = () => {
               >
                 Edit
               </button>
-              {user.id === song.User.id && (
+              {user?.id === song?.User?.id && (
                 <button onClick={handleDelete}>Delete</button>
               )}
               <div className="dropdown-more">
@@ -111,8 +111,22 @@ const Song = () => {
           </div>
           <div className="avatar-comment-description">
             <div className="song-page-avatar">
-              <img src={song.User.profileImageUrl}></img>
-              <p>{song.User.username}</p>
+              {/* <img src={song.User?.profileImageUrl}></img> */}
+
+              {song.User?.profileImageUrl ? (
+                <>
+                  <img src={song.User?.profileImageUrl} />
+                  <p>{song.User.username}</p>
+                </>
+              ) : (
+                <>
+                  <img
+                    className="avatar"
+                    src="https://img.myloview.com/posters/default-avatar-profile-in-trendy-style-for-social-media-user-icon-400-228654852.jpg"
+                  />
+                  <p>{song.User.username}</p>
+                </>
+              )}
             </div>
             <div className="comment-body-description">
               <div className="song-description">

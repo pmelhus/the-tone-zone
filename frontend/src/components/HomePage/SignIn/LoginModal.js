@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import "./LoginModal.css";
 
-const LoginModal = ({ visible, setVisible }) => {
+const LoginModal = ({ visible, setVisible, setSignUpToggle }) => {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
+  const [exited, setExited] = useState(false);
 
   let history = useHistory();
   // if (sessionUser) return <Redirect to="/discover" />;
@@ -18,26 +19,30 @@ const LoginModal = ({ visible, setVisible }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-return dispatch(sessionActions.login({ credential, password })).catch(
-    async (res) => {
-
-      const data = await res.json();
-      // console.log(data)
+    return dispatch(sessionActions.login({ credential, password })).catch(
+      async (res) => {
+        const data = await res.json();
+        // console.log(data)
         if (data && data.errors) {
           setErrors(data.errors);
         }
         if (!errors) return history.push("/discover");
       }
-
     );
     // console.log(dispatch(sessionActions.login({ credential, password })))
+  };
+
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    setVisible(false);
+    setSignUpToggle(true);
   };
 
   const demo = (e) => {
     const credential = "FakeUser2";
     const password = "password3";
 
-dispatch(sessionActions.login({ credential, password })).catch(
+    dispatch(sessionActions.login({ credential, password })).catch(
       async (res) => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
@@ -49,6 +54,7 @@ dispatch(sessionActions.login({ credential, password })).catch(
 
   const backgroundClick = () => {
     setVisible(!visible);
+    setExited(true);
   };
   if (!visible) return null;
   return (
@@ -71,12 +77,12 @@ dispatch(sessionActions.login({ credential, password })).catch(
               <span className="or-span">or</span>
             </div>
           </div> */}
+          {history.location.state?.commentAttempt && !exited && (
+            <p>Please log in or sign up to comment on a song!</p>
+          )}
           <form onSubmit={handleSubmit}>
             <ul>
-              {errors && errors.map((error, idx) =>
-                (
-                <li key={idx}>{error}</li>
-              ))}
+              {errors && errors.map((error, idx) => <li key={idx}>{error}</li>)}
             </ul>
             <div className="username-div">
               <label>Username or Email</label>
@@ -97,8 +103,12 @@ dispatch(sessionActions.login({ credential, password })).catch(
               />
             </div>
             <button type="submit">Log In</button>
+            <button onClick={demo}>Demo Login</button>
+            <div>
+              <p>Don't have an account?</p>
+              <button onClick={handleSignUp}>Sign up</button>
+            </div>
           </form>
-          <button onClick={demo}>Demo Login</button>
         </div>
       </div>
     </div>

@@ -14,12 +14,21 @@ const CommentCard = ({ song }) => {
   const [body, setBody] = useState();
 
   const session = useSelector((state) => state.session);
-  const userId = session.user.id;
+  const userId = session.user?.id;
   const songId = song.id;
   const commentList = useSelector((state) => Object.values(state.comments));
   const commentListFiltered = commentList.filter(
     (comment) => comment.songId === songId
   );
+
+  const commentListSorted = commentListFiltered.sort((a,b) => {
+    const dateA = new Date(a.createdAt)
+    const dateB = new Date(b.createdAt)
+
+    return dateB - dateA
+  })
+
+  // console.log(commentListSorted)
 
   useEffect(() => {
     dispatch(getAllComments());
@@ -33,8 +42,8 @@ const CommentCard = ({ song }) => {
       </p>
       <div className="comment-content">
         <div className="comment-body">
-          {commentListFiltered &&
-            commentListFiltered.map((comment) => {
+          {commentListSorted &&
+            commentListSorted.map((comment) => {
               return <Comment key={comment.id} comment={comment} />;
             })}
         </div>

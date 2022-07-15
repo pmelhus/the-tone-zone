@@ -20,7 +20,7 @@ const Playlists = () => {
         <ul className="playlist-cards">
           {playlists &&
             playlists.map((playlist) => {
-              if (playlist.userId === sessionUser.id)
+              if (playlist.userId === sessionUser?.id)
                 return (
                   <>
                     <li>

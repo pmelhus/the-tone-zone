@@ -8,10 +8,10 @@ const Playlist = ({ playlist }) => {
   return (
     <div className="playlist-card">
       <img className="playlist-image" src={playlist.imageUrl}></img>
-      <Link to={`/${playlist.User.username}/playlists/${playlist.id}`}>
+      <Link to={`/${playlist.User?.username}/playlists/${playlist?.id}`}>
         <p>{playlist?.title}</p>
       </Link>
-      <p>{playlist?.User.username}</p>
+      <p>{playlist.User?.username}</p>
     </div>
   );
 };
