@@ -14,7 +14,7 @@ const Playlists = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <div className="playlists-container">
       <p>Hear your own playlists:</p>
       <div className="playlists-container">
         <ul className="playlist-cards">
@@ -31,7 +31,7 @@ const Playlists = () => {
             })}
         </ul>
       </div>
-    </>
+    </div>
   );
 };
 

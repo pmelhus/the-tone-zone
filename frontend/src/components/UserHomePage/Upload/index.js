@@ -15,7 +15,7 @@ const Upload = (sessionUser) => {
   const [audio, setAudio] = useState(null);
   const [image, setImage] = useState(null);
   // const [selectedFile, setSelectedFile] = useState(null);
-  const userId = useSelector((state) => state.session.user.id);
+  const userId = useSelector((state) => state.session?.user?.id);
   const updateDescription = (e) => setDescription(e.target.value);
   const updateTitle = (e) => setTitle(e.target.value);
   const [preview, setPreview] = useState();
@@ -81,7 +81,6 @@ const Upload = (sessionUser) => {
     //!!START SILENT
     setErrorMessages({});
     //!!END
-
     history.goBack();
   };
 
@@ -136,28 +135,28 @@ const Upload = (sessionUser) => {
           message={errorMessages.description}
         />
         <div>
-          <label for="song-upload">Upload your song:</label>
-          <br></br>
-
-          <input
-            placeholder="Upload your file"
-            type="file"
-            name="song-upload"
-            accept="audio/*"
-            onChange={updateAudio}
-            required
-          ></input>
+          <label className="upload-song-input">
+            Upload your song
+            <input
+              type="file"
+              // name="song-upload"
+              accept="audio/*"
+              onChange={updateAudio}
+              required
+            ></input>
+          </label>
         </div>
         <div>
-          <label for="song-upload">Upload song cover</label>
-          <br></br>
-          <input
-            placeholder="Upload your image"
-            type="file"
-            accept="image/*"
-            name="image-upload"
-            onChange={updateImage}
-          ></input>
+          <label className="upload-song-input">
+            Upload song cover
+            <input
+              placeholder="Upload your image"
+              type="file"
+              accept="image/*"
+              name="image-upload"
+              onChange={updateImage}
+            ></input>
+          </label>
         </div>
 
         <ErrorMessage label={"Upload your file"} message={errorMessages.file} />

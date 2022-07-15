@@ -42,3 +42,17 @@ padding-top: 40px;
  /* padding-top: px; */
  margin-top: 15px;
 }
+
+.upload-song-input {
+  border: 1px solid #ccc;
+  display: inline-block;
+  /* padding: 6px 12px; */
+  cursor: pointer;
+  padding: 5px;
+  /* margin-left: 10px; */
+  /* height: 14px; */
+}
+
+.upload-song-input > input {
+  display: none;
+}

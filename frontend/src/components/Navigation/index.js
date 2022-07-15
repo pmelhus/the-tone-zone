@@ -49,9 +49,9 @@ function Navigation({ isLoaded, sessionUser }) {
             </NavLink>
             <NavLink
               className={
-                location.pathname === "/you/library" && "nav-div-selected"
+                location.pathname === "/you/library/playlists" && "nav-div-selected"
               }
-              to="/you/library"
+              to="/you/library/playlists"
             >
               <li className="ul-nav-items">
                 <p>Library</p>
