@@ -7,7 +7,7 @@ const SignUp = ({signInToggle, setSignInToggle, signUpToggle, setSignUpToggle}) 
   return(
     <div className='sign-up-container'>
       <button onClick={()=>setSignUpToggle(!signUpToggle)}className='sign-up' type="button">Sign Up</button>
-      <SignUpModal {...{signInToggle}} {...{setSignInToggle}} visible={signUpToggle} setVisible={setSignUpToggle} />
+      <SignUpModal {...{signInToggle}} {...{setSignInToggle}} signUpToggle={signUpToggle} setSignUpToggle={setSignUpToggle} />
     </div>
   )
 }

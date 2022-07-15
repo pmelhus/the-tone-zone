@@ -20,7 +20,7 @@ z-index: 30;
 
 #logo {
   color: white;
-  z-index: 3400;
+  z-index: 1;
 margin-top: 9px;
 margin-left: -15px;
 margin-right: 10px;
@@ -90,5 +90,14 @@ margin-right: 10px;
 }
 
 .profile-button a {
+  border: none;
+}
+
+.signin-signup-div {
+  display: flex;
+}
+
+.signin-signup-div a {
+  margin: 0 8px;
   border: none;
 }

@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import * as sessionActions from "../../../store/session";
 import "./SignUpModal.css";
 
-function SignupFormPage({ visible, setVisible, setSignInToggle }) {
+function SignupFormPage({ signUpToggle, setSignUpToggle, setSignInToggle }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
@@ -42,7 +42,7 @@ function SignupFormPage({ visible, setVisible, setSignInToggle }) {
 
   const handleSignIn = (e) => {
     e.preventDefault();
-    setVisible(false);
+    setSignUpToggle(false);
     setSignInToggle(true);
   };
 
@@ -52,9 +52,9 @@ function SignupFormPage({ visible, setVisible, setSignInToggle }) {
   };
 
   const backgroundClick = () => {
-    setVisible(!visible);
+    setSignUpToggle(!signUpToggle);
   };
-  if (!visible) return null;
+  if (!signUpToggle) return null;
 
   const updateImage = (e) => {
     const file = e.target.files[0];
@@ -70,7 +70,7 @@ function SignupFormPage({ visible, setVisible, setSignInToggle }) {
     >
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-content">
-          <form onSubmit={handleSubmit}>
+          <form className="signup-form" onSubmit={handleSubmit}>
             <ul>
               {errors.map((error, idx) => (
                 <li key={idx}>{error}</li>
@@ -104,15 +104,18 @@ function SignupFormPage({ visible, setVisible, setSignInToggle }) {
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
-            <label for="song-upload">Upload song cover</label>
+            <label style={{ marginTop: "12px", padding: "8px" }} id="profile-avatar-label">
+              Upload profile avatar
+              <input
+                id="profile-avatar-upload"
+                placeholder="Upload your image"
+                type="file"
+                accept="image/*"
+                name="image-upload"
+                onChange={updateImage}
+              ></input>
+            </label>
 
-            <input
-              placeholder="Upload your image"
-              type="file"
-              accept="image/*"
-              name="image-upload"
-              onChange={updateImage}
-            ></input>
             {/* <label>
             Multiple Upload
             <input
@@ -120,11 +123,14 @@ function SignupFormPage({ visible, setVisible, setSignInToggle }) {
               multiple
               onChange={updateFiles} />
           </label> */}
-            <button type="submit">Sign Up</button>
-            <div>
-              <button onClick={handleSignIn}>Sign in</button>
-              <p>Already have an account?</p>
-            </div>
+            <button style={{ marginTop: "12px" }} type="submit">
+              Sign Up
+            </button>
+
+            <p style={{ padding: "0" }}>Already have an account?</p>
+            <button style={{ margin: "0" }} onClick={handleSignIn}>
+              Sign in
+            </button>
           </form>
         </div>
       </div>

@@ -35,3 +35,7 @@ button {
   text-align: center;
   transition: opacity .2s linear;
 }
+
+img {
+  object-fit: cover;
+}

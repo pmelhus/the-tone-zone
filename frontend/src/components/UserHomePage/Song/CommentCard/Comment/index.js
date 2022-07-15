@@ -79,11 +79,11 @@ const Comment = ({ comment }) => {
 
         <div className="username-body">
           <p className="username-comment">
-            {comment?.User?.username === user.username
+            {comment?.User?.username === user?.username
               ? "You"
               : `${comment?.User?.username}`}{" "}
             <div className="trash-time">
-              {user.id === comment.User.id && isShown && (
+              {user?.id === comment.User?.id && isShown && (
                 <button onClick={(e) => handleDelete(e)}>
                   <i class="fa-solid fa-trash"></i>
                 </button>

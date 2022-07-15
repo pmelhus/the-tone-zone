@@ -13,14 +13,18 @@ function App() {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
   const sessionUser = useSelector((state) => state.session.user);
+
+  const [signInToggle, setSignInToggle] = useState(false);
+  const [signUpToggle, setSignUpToggle] = useState(false);
+
   return (
     <>
       <Switch>
         <Route exact path="/">
-          <HomePage />
+          <HomePage {...{signUpToggle}} {...{setSignUpToggle}} {...{signInToggle}} {...{setSignInToggle}}/>
         </Route>
         <>
-          <Navigation isLoaded={isLoaded} sessionUser={sessionUser} />
+          <Navigation isLoaded={isLoaded} sessionUser={sessionUser} {...{signUpToggle}} {...{setSignUpToggle}} {...{signInToggle}} {...{setSignInToggle}} />
           <UserHomePage sessionUser={sessionUser} />
         </>
       </Switch>
