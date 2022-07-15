@@ -11,6 +11,7 @@ const ProfileTracks = ({ proPlayLoaded, setProPlayLoaded }) => {
   const songList = useSelector((state) => Object.values(state.songs));
   const sessionUser = useSelector(state => state.session.user)
 
+
   useEffect(() => {
     setProPlayLoaded(false);
     dispatch(getAllSongs());
