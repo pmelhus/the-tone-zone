@@ -1,12 +1,11 @@
-import "./SearchSongs.css";
-import HomePageSongs from "./HomePageSongs.js";
 import { useState } from "react";
 import { useHistory} from "react-router-dom"
 import {useDispatch} from "react-redux"
 import {getSearchResults} from "../../../store/search"
+import "./SearchBarNav.css"
 
 
-const SearchSongs = ({ setSignInToggle }) => {
+const SearchBarNav = () => {
 
   const [searchWord, setSearchWord] = useState(null);
   const history = useHistory()
@@ -25,19 +24,18 @@ const SearchSongs = ({ setSignInToggle }) => {
 
   return (
     <>
-      <div className="home-search-container">
-        <form onSubmit={handleSubmit}>
+        <form className='search-form'onSubmit={handleSubmit}>
           <input
+          className="search-bar-input"
             placeholder="Search for artists, bands, or tracks"
             value={searchWord}
             onChange={handleSearchWord}
           ></input>
           <button style={{display:'none'}} type="submit"></button>
         </form>
-        <HomePageSongs {...{ setSignInToggle }} />
-      </div>
+
     </>
   );
 };
 
-export default SearchSongs;
+export default SearchBarNav

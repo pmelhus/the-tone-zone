@@ -60,8 +60,10 @@ const CreatePlaylistForm = ({ setShowForm, showForm, showPlaylist }) => {
           <div className="title-div-playlist">
             <ErrorMessage message={errorMessages.overall} />
             <div className="input-flex">
-              <label>Playlist title</label>
-              <div className='button-row'>
+              <label>
+                <h4>Playlist title</h4>
+              </label>
+              <div className="button-row">
                 <input
                   type="text"
                   value={title}
@@ -69,15 +71,23 @@ const CreatePlaylistForm = ({ setShowForm, showForm, showPlaylist }) => {
                   required
                 />
               </div>
-              <div className='real-button-row'>
+              <div className="real-button-row">
                 <button type="submit">Save</button>
-
               </div>
             </div>
           </div>
           <ErrorMessage label={"Error"} message={errorMessages.title} />
+          <h4>Add song to playlist:</h4>
           <div className="song-create-playlist">
-            <img className='avatar'src={song?.imageUrl}></img>
+            {song?.imageUrl ? (
+              <img className="avatar" src={song?.imageUrl} />
+            ) : (
+              <img
+                className="avatar"
+                src="https://yt3.ggpht.com/Kat62xks4-8MlvT1CjkMsYqxP5sVDNOv7IMB2Kwg27n2dIcA55-obkQnA9vi6kx3Dfhay0aGIP4=s900-c-k-c0x00ffffff-no-rj"
+              />
+            )}
+
             <p>
               {song?.User.username} - {song?.title}
             </p>

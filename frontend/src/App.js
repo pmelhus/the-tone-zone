@@ -6,6 +6,7 @@ import Navigation from "./components/Navigation";
 import HomePage from "./components/HomePage";
 import UserHomePage from "./components/UserHomePage/index";
 
+
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -26,6 +27,7 @@ function App() {
         <>
           <Navigation isLoaded={isLoaded} sessionUser={sessionUser} {...{signUpToggle}} {...{setSignUpToggle}} {...{signInToggle}} {...{setSignInToggle}} />
           <UserHomePage sessionUser={sessionUser} />
+
         </>
       </Switch>
     </>

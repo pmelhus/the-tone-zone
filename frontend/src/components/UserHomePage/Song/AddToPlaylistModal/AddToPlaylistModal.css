@@ -2,7 +2,7 @@ button {
   width: auto;
   height: auto;
 }
-/* 
+/*
 #playlist-modal {
   width: 100px;
 } */
@@ -14,10 +14,14 @@ button {
   border: none;
   border-bottom: .5px solid #f50;
   color: #f50;
-  cursor: default;
+  cursor: pointer;
   margin-bottom: 20px;
   font-size: 17px;
   font-weight: 500;
+}
+
+#playlist-modal > nav > h3 > button:hover{
+  background-color:rgb(250, 229, 218);
 }
 
 #playlist-modal > nav {

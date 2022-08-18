@@ -7,10 +7,11 @@ import { Route, Switch, Link, NavLink } from "react-router-dom";
 import Song from "./Song";
 import Library from "./Library";
 import ProfilePage from "./ProfilePage";
-import {restoreUser} from '../../store/session'
-import {useEffect, useState} from "react"
+import { restoreUser } from "../../store/session";
+import { useEffect, useState } from "react";
 import { getAllPlaylists } from "../../store/playlists";
 import { getAllSongs } from "../../store/songs";
+import SearchResults from "./SearchResults";
 
 // howler.js range i
 const UserHomePage = (sessionUser) => {
@@ -28,7 +29,7 @@ const UserHomePage = (sessionUser) => {
     <div className="user-home-body">
       <Switch>
         <Route path="/discover">
-          <Discover {...{isLoaded}} />
+          <Discover {...{ isLoaded }} />
         </Route>
         <Route path="/stream/:songId">
           <Song />
@@ -47,8 +48,11 @@ const UserHomePage = (sessionUser) => {
         <Route path="/upload">
           <Upload sessionUser={sessionUser} />
         </Route>
-        <Route path="/:username">
+        <Route path="/username">
           <ProfilePage />
+        </Route>
+        <Route path="/search">
+          <SearchResults />
         </Route>
       </Switch>
     </div>

@@ -31,8 +31,8 @@ padding-top: 10px;
 }
 
 .real-button-row > button {
-
-  height: 25px;
+padding: 0 10px;
+  /* height: 25px; */
 }
 
 .button-row {
@@ -51,7 +51,7 @@ padding-top: 10px;
   align-items: center;
   border: 1px solid #f2f2f2;
   margin-top: 10px;
-
+  padding: 5px;
 }
 
 .song-create-playlist > p {

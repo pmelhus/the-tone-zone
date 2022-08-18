@@ -10,6 +10,7 @@ const AddToPlaylistModal = ({ playModal, setPlayModal }) => {
   const [showForm, setShowForm] = useState(false);
   const [showPlaylist, setShowPlaylist] = useState(true);
   const history = useHistory();
+  const [selected, setSelected] = useState(false)
 
   if (!playModal) return null;
   const backgroundClick = () => {
@@ -34,8 +35,10 @@ const AddToPlaylistModal = ({ playModal, setPlayModal }) => {
               onClick={(e) => {
                 setShowPlaylist(!showPlaylist);
                 setShowForm(!showForm);
+                setSelected(false)
               }}
               disabled={showPlaylist}
+              className={!selected ? 'playlist-nav-selected' : ''}
             >
               Add to playlist
             </button>
@@ -45,8 +48,10 @@ const AddToPlaylistModal = ({ playModal, setPlayModal }) => {
               onClick={(e) => {
                 setShowForm(!showForm);
                 setShowPlaylist(!showPlaylist);
+                setSelected(true)
               }}
               disabled={showForm}
+              className={selected ? 'playlist-nav-selected' : ''}
             >
               Create a playlist
             </button>
