@@ -1,16 +1,43 @@
 .search-results-container {
   position: fixed;
+  width: 1155px;
+
 }
 
 .search-results-heading {
   float: left;
-  max-width: 90%;
   display: block;
   white-space: nowrap;
   overflow: hidden;
   font-weight:lighter;
   font-size: 16px;
   text-overflow: ellipsis;
+  margin-top: 10px;
   margin-left: 10px;
+  border-bottom: .5px solid rgb(194, 191, 191);
+  width: 100%;
+}
 
+.search-results-heading p {
+  margin: 0;
+  padding-bottom: 4px;
+}
+
+.search-results-categories {
+  position: absolute;
+  top: 49px;
+  left: -30px;
+}
+
+.search-categories-list li {
+  margin-bottom: 5px;
+}
+
+.number-of-results {
+  color:rgb(194, 191, 191);
+}
+
+.search-results {
+  margin-left: 140px;
+  margin-top: 62px;
 }
