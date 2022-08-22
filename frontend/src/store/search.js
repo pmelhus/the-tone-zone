@@ -21,16 +21,24 @@ export const getSearchResults = (searchWord) => async (dispatch) => {
   }
 }
 
-const searchReducer = (state = {}, action) => {
+const initialState = {songs: null, users: null, playlists: null}
+
+const searchReducer = (state = initialState, action) => {
+  let newState;
   switch (action.type) {
     case GET_ALL: {
+      newState = Object.assign({}, state)
       const allSongs = {}
       const allUsers = {}
       const allPlaylists = {}
-      action.songs?.forEach((song) => (allSongs[song.id]= song))
+      action.songs?.forEach((song) => (allSongs[song.id]= song ))
       action.users?.forEach((user)=> (allUsers[user.id] = user))
       action.playlists?.forEach((playlist) => (allPlaylists[playlist.id] = playlist))
-      return {...allSongs, ...allUsers, ...allPlaylists, ...state }
+      newState.songs = allSongs
+      newState.users = allUsers
+      newState.playlists = allPlaylists
+      return newState;
+
     }
     default:
       return state;

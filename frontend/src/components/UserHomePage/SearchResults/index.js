@@ -1,9 +1,16 @@
 import { useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+// import {getSearchResults} from "../../../store/search"
 import "./SearchResults.css";
 
 const SearchResults = () => {
   const { pathname } = useLocation();
+  const searchResults = useSelector((state) => state.search);
+  // console.log(searchResults, "HALLO");
+  const songs = Object.values(searchResults.songs);
+  // console.log(songs)
+  const users = Object.values(searchResults.users);
+  const playlists = Object.values(searchResults.playlists);
   return (
     <>
       <div className="search-results-container">
@@ -13,16 +20,16 @@ const SearchResults = () => {
         <div className="search-results-categories">
           <ul className="search-categories-list">
             <li>
-              <a>Everything</a>
+              <button>Everything</button>
             </li>
             <li>
-              <a>Tracks</a>
+              <button>Tracks</button>
             </li>
             <li>
-              <a>People</a>
+              <button>People</button>
             </li>
             <li>
-              <a>Playlists</a>
+              <button>Playlists</button>
             </li>
           </ul>
         </div>
@@ -30,12 +37,9 @@ const SearchResults = () => {
           <div className="number-of-results">
             <p>{`Found people, tracks, playlists`}</p>
           </div>
-          <div className="search-result-card">
-            <a>
-              <img className="result-image" alt="profile-pic"></img>
-            </a>
-            <div className="result-content"></div>
-          </div>
+          <SearchUsers />
+          <SearchSongs />
+          <SearchPlaylists />
         </div>
       </div>
     </>
