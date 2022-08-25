@@ -14,7 +14,7 @@ export const getSearchResults = (searchWord) => async (dispatch) => {
   if (res.ok) {
     const results = await res.json()
     const {songs, users, playlists} = results
-   console.log(results, 'yoooo')
+  //  console.log(results, 'yoooo')
     dispatch(getAll(songs, users, playlists))
   } else {
     throw res;

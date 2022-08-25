@@ -3,7 +3,7 @@ import Songs from "./Songs";
 import { useDispatch, useSelector } from "react-redux";
 import Upload from "./Upload";
 import Discover from "./Discover";
-import { Route, Switch, Link, NavLink } from "react-router-dom";
+import { Route, Switch, Link, NavLink, useLocation} from "react-router-dom";
 import Song from "./Song";
 import Library from "./Library";
 import ProfilePage from "./ProfilePage";
@@ -12,18 +12,21 @@ import { useEffect, useState } from "react";
 import { getAllPlaylists } from "../../store/playlists";
 import { getAllSongs } from "../../store/songs";
 import SearchResults from "./SearchResults";
+import {getSearchResults} from "../../store/search"
 
 // howler.js range i
 const UserHomePage = (sessionUser) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
+  const {pathname} = useLocation()
+  const searchWord = pathname.split('/')[2]
 
   useEffect(() => {
     dispatch(getAllPlaylists());
     dispatch(getAllSongs());
-
+    dispatch(getSearchResults(searchWord))
     setIsLoaded(true);
-  }, [dispatch]);
+  }, [dispatch, pathname]);
 
   return (
     <div className="user-home-body">
@@ -52,7 +55,7 @@ const UserHomePage = (sessionUser) => {
           <ProfilePage />
         </Route>
         <Route path="/search">
-          <SearchResults />
+          <SearchResults {...{isLoaded}}/>
         </Route>
       </Switch>
     </div>

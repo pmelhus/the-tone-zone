@@ -18,22 +18,28 @@ function SignupFormPage({ signUpToggle, setSignUpToggle, setSignInToggle }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let newErrors = []
     if (password === confirmPassword) {
-      setErrors([]);
-      return dispatch(
+
+
+      dispatch(
         sessionActions.signup({ email, username, password, image })
       )
-        .then(() => {
-          setUsername("");
-          setEmail("");
-          setPassword("");
-          setImage(null);
-        })
-        .catch(async (res) => {
-          console.log(res);
-          const data = await res.json();
-          if (data && data.errors) setErrors(data.errors);
-        });
+      .then(() => {
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setImage(null);
+      })
+      .catch(async (res) => {
+        const data = await res.json();
+        console.log(data, "DATA")
+        if (data && data.errors)
+        {
+          newErrors = data.errors
+          setErrors(newErrors);
+        }
+      })
     }
     return setErrors([
       "Confirm Password field must be the same as the Password field",
@@ -104,7 +110,10 @@ function SignupFormPage({ signUpToggle, setSignUpToggle, setSignInToggle }) {
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
-            <label style={{ marginTop: "12px", padding: "8px" }} id="profile-avatar-label">
+            <label
+              style={{ marginTop: "12px", padding: "8px" }}
+              id="profile-avatar-label"
+            >
               Upload profile avatar
               <input
                 id="profile-avatar-upload"
