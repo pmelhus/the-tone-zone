@@ -26,6 +26,7 @@ router.post(
   asyncHandler(async (req, res, next) => {
     const { credential, password } = req.body;
 
+    console.log(credential, password,'USER HERE===========')
     const user = await User.login({ credential, password });
 
     if (!user) {

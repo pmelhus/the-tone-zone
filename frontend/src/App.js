@@ -5,6 +5,8 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import HomePage from "./components/HomePage";
 import UserHomePage from "./components/UserHomePage/index";
+import Waveform from "./components/Waveform"
+
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +30,7 @@ function App() {
           <UserHomePage sessionUser={sessionUser} />
         </>
       </Switch>
+
     </>
   );
 }

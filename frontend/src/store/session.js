@@ -48,16 +48,16 @@ export const restoreUser = () => async dispatch => {
 export const signup = (user) => async dispatch => {
 
   const { images, image, username, email, password } = user;
-  console.log(user)
+  // console.log(user)
   const formData = new FormData();
   formData.append("username", username);
   formData.append("email", email);
   formData.append("password", password);
-  if (images && images.length !== 0) {
-    for (var i = 0; i < images.length; i++) {
-      formData.append("images", images[i]);
-    }
-  }
+  // if (images && images.length !== 0) {
+  //   for (var i = 0; i < images.length; i++) {
+  //     formData.append("images", images[i]);
+  //   }
+  // }
 
   if (image) formData.append("image", image);
   console.log(formData.entries())

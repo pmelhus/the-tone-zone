@@ -42,7 +42,7 @@ const ImageSlides = () => {
     slidesToScroll: 1,
     lazyLoad: true,
     autoplay: true,
-    autoplaySpeed: 6000,
+    autoplaySpeed: 4000,
     pauseOnHover: true,
   };
 

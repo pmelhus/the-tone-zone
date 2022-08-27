@@ -4,6 +4,8 @@ import sessionReducer from './session';
 import songReducer from './songs'
 import commentReducer from './comments'
 import playlistReducer from './playlists'
+import searchReducer from "./search"
+
 // import songsPlaylistReducer from './songsplaylist'
 
 const rootReducer = combineReducers({
@@ -11,6 +13,7 @@ const rootReducer = combineReducers({
   songs: songReducer,
   comments: commentReducer,
   playlists: playlistReducer,
+  search: searchReducer
   // songsPlaylist: songsPlaylistReducer
 });
 

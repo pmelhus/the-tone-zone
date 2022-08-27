@@ -6,6 +6,7 @@ import "./Navigation.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LoginModal from "../HomePage/SignIn/LoginModal";
 import SignUpModal from "../HomePage/SignUp/SignUpModal";
+import SearchBarNav from "./SearchBarNav"
 
 function Navigation({ isLoaded, sessionUser }) {
   // const sessionUser = useSelector((st ate) => state.session.user);
@@ -72,6 +73,9 @@ function Navigation({ isLoaded, sessionUser }) {
               </NavLink>
             )}
           </ul>
+          {/* <div className="search-bar-nav"> */}
+            <SearchBarNav/>
+          {/* </div> */}
           <div className={sessionUser ? "profile-button" : "signin-signup-div"}>
             {sessionUser ? (
               <NavLink to="/upload">
