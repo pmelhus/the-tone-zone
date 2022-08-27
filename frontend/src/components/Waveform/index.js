@@ -1,0 +1,26 @@
+import { useEffect, useRef, useState } from 'react'
+import PropTypes from 'prop-types'
+import WaveSurfer from 'wavesurfer.js'
+
+const Waveform = () => {
+  const containerRef = useRef()
+
+  useEffect(() => {
+    const waveSurfer = WaveSurfer.create({
+      container: containerRef.current,
+    })
+    waveSurfer.load()
+
+    return () => {
+      waveSurfer.destroy()
+    }
+  }, [audio])
+
+  return <div ref={containerRef} />
+}
+
+Waveform.propTypes = {
+  audio: PropTypes.string.isRequired,
+}
+
+export default Waveform

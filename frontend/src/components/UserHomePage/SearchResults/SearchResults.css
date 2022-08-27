@@ -1,7 +1,9 @@
 .search-results-container {
   position: fixed;
   width: 1155px;
-  height: 100%;
+  /* height: 100%; */
+  /* min-height: 100vh; */
+  /* overflow-y: scroll; */
 }
 
 .search-results-heading {
@@ -40,20 +42,61 @@
 .search-results {
   margin-left: 140px;
   margin-top: 62px;
+  height: 850px;
   overflow-y: scroll;
-  height: 100%;
+  /* min-height: 100vh; */
 }
 
 #user-image-search {
   height: 140px;
   width: 140px;
+
   margin-right: 20px;
 border-radius: 100%;
 background-image: linear-gradient(rgb(211, 119, 86), rgba(113, 85, 156, 0.462), rgba(34, 47, 168, 0.886), rgb(174, 82, 82) );
+}
+
+#user-image {
+  height: 140px;
+  width: 140px;
+  object-fit: cover;
+  border-radius: 100%;
+  border:rgb(187, 187, 187) solid .01px;
+  margin-right: 20px;
 }
 
 .search-user-card {
   margin: 30px 0;
   display: flex;
   align-items: center;
+}
+
+.search-song-card {
+  display: flex;
+
+}
+
+#song-image {
+  height: 140px;
+  width: 140px;
+  object-fit: cover;
+  border:rgb(187, 187, 187) solid .01px;
+  margin-right: 20px;
+}
+
+#song-no-image {
+  height: 140px;
+  width: 140px;
+  margin-right: 20px;
+  background-image: linear-gradient(rgb(211, 119, 86), rgba(113, 85, 156, 0.462), rgba(34, 47, 168, 0.886), rgb(174, 82, 82) );
+
+}
+
+.song-search-player {
+  width: 800px;
+
+}
+
+.audio-player-search {
+  height: 100px;
 }

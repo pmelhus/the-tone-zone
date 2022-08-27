@@ -11,7 +11,7 @@ const SearchUsers = ({ searchResults }) => {
             <ul>
               <li  className="search-user-card">
                 <div className="user-image-container">
-                  <img id="user-image-search" src={user.profileImageUrl}></img>
+                  <img id={user.profileImageUrl ? "user-image" : "user-image-search"} src={user.profileImageUrl}></img>
                 </div>
                 <div>
                   <h4>{user.username}</h4>

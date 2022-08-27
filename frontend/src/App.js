@@ -5,6 +5,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import HomePage from "./components/HomePage";
 import UserHomePage from "./components/UserHomePage/index";
+import Waveform from "./components/Waveform"
 
 
 function App() {
@@ -27,9 +28,9 @@ function App() {
         <>
           <Navigation isLoaded={isLoaded} sessionUser={sessionUser} {...{signUpToggle}} {...{setSignUpToggle}} {...{signInToggle}} {...{setSignInToggle}} />
           <UserHomePage sessionUser={sessionUser} />
-
         </>
       </Switch>
+
     </>
   );
 }

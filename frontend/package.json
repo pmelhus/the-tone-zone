@@ -12,13 +12,16 @@
     "react-aws-s3": "^1.5.0",
     "react-dom": "^18.1.0",
     "react-h5-audio-player": "^3.8.4",
+    "react-icons": "^4.4.0",
     "react-redux": "^8.0.1",
     "react-router-dom": "^5.3.1",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "styled-components": "^5.3.5",
+    "wavesurfer.js": "^6.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

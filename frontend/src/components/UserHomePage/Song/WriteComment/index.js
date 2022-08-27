@@ -65,7 +65,7 @@ const WriteComment = ({ song }) => {
       <ErrorMessage message={errorMessages.overall} />
       <div className="comment-textarea">
         <form onSubmit={(e) => handleClick(e)}>
-          <img src={session.user?.profileImageUrl}></img>
+          {/* <img src={session.user?.profileImageUrl}></img> */}
           {session.user?.profileImageUrl ? (
             <img
               className="comment-avatar"
