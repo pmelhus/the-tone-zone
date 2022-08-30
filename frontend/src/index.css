@@ -50,3 +50,36 @@ button {
 img {
   object-fit: cover;
 }
+
+.continuous-audio-playback {
+  position: fixed;
+  bottom: -9px;
+  width: 100%;
+  /* height:  */
+}
+.react-audio-player {
+  width: 100%;
+  /* max-width: 4000px; */
+}
+
+.rhap_progress-section {
+  padding: 0;
+  height: 50px;
+
+}
+
+.continuous-headings {
+  position: absolute;
+  /* z-index: 10; */
+  bottom: 16px;
+  display: flex;
+  flex-direction:column;
+  left: 40px;
+
+}
+
+.continuous-headings a {
+  padding: 0;
+  margin: 0;
+
+}
