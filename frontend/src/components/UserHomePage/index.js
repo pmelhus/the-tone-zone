@@ -59,14 +59,17 @@ const UserHomePage = ({toggleWaveIsLoading, waveIsLoading, sessionUser, pauseFun
           <Upload sessionUser={sessionUser} />
         </Route>
           {isLoaded &&
+          <>
+
         <Route path="/:username">
         <ProfilePage {...{waveIsLoading}} {...{toggleWaveIsLoading}} {...{pauseFunc}} {...{playFunc}}/>
 
         </Route>
-        }
         <Route path="/search">
           <SearchResults {...{ isLoaded }} />
         </Route>
+          </>
+        }
         {/* <Route path={`/:username/playlists/:id`}>
           <p>HALLO</p>
           <ProfilePlaylist {...{}}/>
