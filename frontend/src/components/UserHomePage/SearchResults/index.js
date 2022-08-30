@@ -11,7 +11,7 @@ import SearchPlaylists from "./SearchPlaylists";
 const SearchResults = ({isLoaded}) => {
   const { pathname } = useLocation();
   const searchResults = useSelector((state) => state?.search);
-  console.log(searchResults, "HALLO");
+  // console.log(searchResults, "HALLO");
   const dispatch = useDispatch()
   // console.log(songs)
 

@@ -28,6 +28,7 @@ height: 100%;
   box-sizing:border-box;
   z-index: 10;
   /* position: absolute; */
+  margin-top: 40px;
   padding: 30px 20px 20px 30px;
 }
 
@@ -83,6 +84,7 @@ background-color: black;
 
 .title-song-player-rel {
   position: relative;
+  width: 100%;
 }
 
 #title-p {

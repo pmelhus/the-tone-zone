@@ -33,7 +33,7 @@ function SignupFormPage({ signUpToggle, setSignUpToggle, setSignInToggle }) {
       })
       .catch(async (res) => {
         const data = await res.json();
-        console.log(data, "DATA")
+        // console.log(data, "DATA")
         if (data && data.errors)
         {
           newErrors = data.errors
