@@ -9,10 +9,16 @@ margin-top: 10px;
   position: relative;
 }
 
-#playlist-img {
+/* #playlist-img {
 position: absolute;
-}
+} */
 
 #playlist-player {
-  
+
+}
+
+.playlist-waveform .waveform-container {
+  /* position: absolute; */
+  width: 98%;
+
 }

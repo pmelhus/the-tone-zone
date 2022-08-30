@@ -2,17 +2,18 @@ import "react-h5-audio-player/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { getOneSong, deleteOneSong, getAllSongs } from "../../../store/songs";
-import AudioPlayer from "react-h5-audio-player";
+// import AudioPlayer from "react-h5-audio-player";
 import { Link, useParams, useHistory } from "react-router-dom";
 import EditModal from "./EditModal";
 import CommentCard from "./CommentCard";
 import WriteComment from "./WriteComment";
 import AddToPlaylistModal from "./AddToPlaylistModal";
 import { ValidationError } from "../../../utils/validationError";
+import Waveform from "../../Waveform"
 
 import "./Song.css";
 
-const Song = () => {
+const Song = ({playFunc, pauseFunc}) => {
   const [signInToggle, setSignInToggle] = useState(false);
   const [playModal, setPlayModal] = useState(false);
   const dispatch = useDispatch();
@@ -61,7 +62,7 @@ const Song = () => {
         <>
           <div
             className="audio-and-image"
-            style={{ backgroundImage: `url("${song.imageUrl}")` }}
+            // style={{ backgroundImage: `url("${song.imageUrl}")` }}
           >
             <div className="song-player">
               <div className="title-song-player-rel">
@@ -71,13 +72,9 @@ const Song = () => {
                 </div>
               </div>
 
-              <AudioPlayer
-                className="audio-player"
-                src={song?.url}
-                onPlay={(e) => console.log("onPlay")}
-                style={{ backgroundImage: `url("${song.imageUrl}")` }}
-              />
-
+              <div className="waveform-player-single-song">
+                    <Waveform  audio={song.url} song={song} {...{pauseFunc}} {...{playFunc}} />
+                  </div>
               <div className="img-div">
                 {song?.imageUrl ? (
                     <img src={song?.imageUrl} />
@@ -85,6 +82,7 @@ const Song = () => {
                     <img src="https://yt3.ggpht.com/Kat62xks4-8MlvT1CjkMsYqxP5sVDNOv7IMB2Kwg27n2dIcA55-obkQnA9vi6kx3Dfhay0aGIP4=s900-c-k-c0x00ffffff-no-rj"/>
                   )}
               </div>
+
             </div>
           </div>
           <div className="comment-button-section">

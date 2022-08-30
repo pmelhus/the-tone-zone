@@ -36,7 +36,7 @@ router.get(
 router.put(
   "/:id",
   asyncHandler(async function (req, res) {
-    console.log(req.body);
+    // console.log(req.body);
 
     const commentId = req.body.comment.id;
     const reqBody = req.body.body;

@@ -1,16 +1,31 @@
 import { useState, useEffect } from "react";
+import {useDispatch} from "react-redux"
 import "./PlaylistSong.css";
 import EditPlaylistModal from "./EditPlaylistModal";
+import { getCurrentSong } from "../../../../store/currentSong";
 
-const PlaylistSong = ({ song, user, setUrl, setTitle, url}) => {
+const PlaylistSong = ({playFunc, setSongId, song, user, setUrl, setTitle, url, key}) => {
   const [editModal, setEditModal] = useState(false);
+  const dispatch = useDispatch()
+  console.log(song)
+  const handleClick = (e) => {
+
+    e.preventDefault();
+    dispatch(getCurrentSong(song.id))
+    setSongId(song.id)
+    setUrl(song.url);
+    playFunc()
+  };
+
 
 
 
   return (
     <>
-      <div className="button-set-url">
-        <button id='playlist-song' onClick={(e) => setUrl(song.url)}>
+      <div
+        className= "button-set-url"
+      >
+        <button id="playlist-song" onClick={handleClick}>
           <p>
             {song?.title} by {user?.username}
           </p>

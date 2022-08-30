@@ -111,7 +111,7 @@ router.get(
 
   const fetchResponse = fetch('https://soundcloud-scraper.p.rapidapi.com/v1/track/metadata?track=https%3A%2F%2Fsoundcloud.com%2Fedsheeran%2Fphotograph', options)
       .then(response => response.json())
-      .then(response => console.log(response))
+      // .then(response => console.log(response))
       .catch(err => console.error(err));
   })
 )

@@ -6,8 +6,10 @@ import AudioPlayer from "react-h5-audio-player";
 import { Link } from "react-router-dom";
 // import CommentCard from "./CommentCard";
 import "./Songs.css";
+import { getCurrentSong } from "../../../store/currentSong";
+import Waveform from "../../Waveform";
 
-const Songs = ({ sessionUser }) => {
+const Songs = ({waveIsLoading, toggleWaveIsLoading, sessionUser, playFunc, pauseFunc}) => {
   const dispatch = useDispatch();
   const songList = useSelector((state) => Object.values(state.songs));
   const dateNow = new Date();
@@ -30,11 +32,18 @@ const Songs = ({ sessionUser }) => {
     e.preventDefault();
     await dispatch(deleteOneSong(song));
   };
+
+  const getCurrent = (e, song) => {
+    // e.preventDefault()
+    // console.log(song);
+    dispatch(getCurrentSong(song));
+  };
   return (
     <div className="songs-content">
       <p id="hear-latest">Hear the latest posts in the community:</p>
       {songList &&
         songList.map((song) => {
+          // console.log(song);
           return (
             <div className="song-card">
               <div className="text-content">
@@ -79,7 +88,7 @@ const Songs = ({ sessionUser }) => {
                   )}
                 </div>
                 <div className="audio-player-div">
-                  <div className="title-div">
+                  {/* <div className="title-div">
                     <div>
                       <a href={`/${song?.User?.username}`} id="username">
                         {song.User?.username}
@@ -90,14 +99,10 @@ const Songs = ({ sessionUser }) => {
                         {song.title}
                       </a>
                     </div>
+                  </div> */}
+                  <div className="waveform-player">
+                    <Waveform {...{waveIsLoading}} {...{toggleWaveIsLoading}} audio={song.url} song={song} {...{pauseFunc}} {...{playFunc}} />
                   </div>
-                  <AudioPlayer
-                    className="audio-player"
-                    id="songs-audio-player"
-                    src={song.url}
-                    onPlay={(e) => console.log("onPlay")}
-                    // other props here
-                  />
                   <div className="buttons">
                     {sessionUser && (
                       <form

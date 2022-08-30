@@ -5,6 +5,7 @@ import songReducer from './songs'
 import commentReducer from './comments'
 import playlistReducer from './playlists'
 import searchReducer from "./search"
+import currentSongReducer from "./currentSong"
 
 // import songsPlaylistReducer from './songsplaylist'
 
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   songs: songReducer,
   comments: commentReducer,
   playlists: playlistReducer,
-  search: searchReducer
+  search: searchReducer,
+  currentSong: currentSongReducer
   // songsPlaylist: songsPlaylistReducer
 });
 

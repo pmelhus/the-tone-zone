@@ -24,6 +24,25 @@
   align-items: center;
 
 }
+.button-set-url:hover {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  border: .5px solid rgb(233, 100, 16);
+  align-items: center;
+
+}
+
+.button-set-url-selected {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  border: .5px solid gray;
+  align-items: center;
+
+}
+
+
 
 .button-set-url button {
   padding: 0;
@@ -39,4 +58,5 @@
   padding-left: 10px;
   display: flex;
   align-items: center;
+  width: 1100px;
 }

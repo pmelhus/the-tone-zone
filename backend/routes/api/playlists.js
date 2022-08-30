@@ -121,7 +121,7 @@ router.put(
     // console.log(id)
     const reqTitle = req.body.title
     const thePlaylist = await Playlist.findByPk(id)
-    await console.log(thePlaylist, '=============')
+    // await console.log(thePlaylist, '=============')
 
 
     const editedPlaylist = await thePlaylist.update({

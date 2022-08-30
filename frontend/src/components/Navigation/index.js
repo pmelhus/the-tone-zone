@@ -42,7 +42,7 @@ function Navigation({ isLoaded, sessionUser }) {
             {sessionUser && (
               <NavLink
                 className={
-                  location.pathname === "/discover" && "nav-div-selected"
+                  location.pathname === "/discover" ? "nav-div-selected" : null
                 }
                 to="/discover"
               >
