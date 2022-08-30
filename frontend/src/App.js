@@ -26,7 +26,7 @@ function App() {
 
   const audioPlayer = useRef();
 
-  console.log(audioPlayer?.current.audio);
+  console.log(audioPlayer?.current?.audio);
 
   const playFunc = () => {
     audioPlayer.current?.audio.current.play();

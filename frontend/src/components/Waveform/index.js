@@ -78,7 +78,7 @@ pauseFunc()
             <FaPlayCircle size="3em" id="waveform-button" />
           )}
         </button>
-        <div>
+        <div className="waveform-headings">
           <div>
             <a href={`/${song?.User?.username}`} id="username">
               {song.User?.username}
