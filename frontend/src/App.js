@@ -22,7 +22,7 @@ function App() {
 
   const [signInToggle, setSignInToggle] = useState(false);
   const [signUpToggle, setSignUpToggle] = useState(false);
-  const [waveIsLoading, toggleWaveIsLoading] = useState(false);
+
 
   // console.log(currentAudio, "CURRENT AUDIO");
 
@@ -66,18 +66,17 @@ console.log(WaveSurfer)
           />
           {isLoaded && (
             <UserHomePage
- 
+
               {...{ playFunc }}
               {...{ pauseFunc }}
               {...{ sessionUser }}
-              {...{ waveIsLoading }}
-              {...{ toggleWaveIsLoading }}
+
             />
           )}
           <div className="continuous-audio-playback">
             {currentAudio.url && (
               <div>
-                {!waveIsLoading && (
+
                   <AudioPlayer
                     className="audio-player"
                     src={currentAudio.url}
@@ -87,7 +86,7 @@ console.log(WaveSurfer)
                     autoPlay={true}
                     ref={audioPlayer}
                   />
-                )}
+            
 
                 <div className="continuous-headings">
                   <a href={`/${currentAudio?.User?.username}`} id="username">

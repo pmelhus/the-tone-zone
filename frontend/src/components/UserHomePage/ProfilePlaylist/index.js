@@ -24,8 +24,7 @@ const ProfilePlaylist = ({
   playFunc,
   proPlayLoaded,
   setProPlayLoaded,
-  waveIsLoading,
-  toggleWaveIsLoading,
+
 }) => {
   const [signInToggle, setSignInToggle] = useState(false);
   const history = useHistory();
@@ -91,8 +90,7 @@ const ProfilePlaylist = ({
             </div>
             <div className="playlist-waveform">
               <Waveform
-                {...{ waveIsLoading }}
-                {...{ toggleWaveIsLoading }}
+    
                 song={selectedSong}
                 {...{ pauseFunc }}
                 {...{ playFunc }}

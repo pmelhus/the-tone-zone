@@ -16,7 +16,7 @@ import SearchResults from "./SearchResults";
 import { getSearchResults } from "../../store/search";
 
 // howler.js range i
-const UserHomePage = ({toggleWaveIsLoading, waveIsLoading, sessionUser, pauseFunc, playFunc }) => {
+const UserHomePage = ({sessionUser, pauseFunc, playFunc }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
@@ -43,8 +43,7 @@ const UserHomePage = ({toggleWaveIsLoading, waveIsLoading, sessionUser, pauseFun
             {...{ pauseFunc }}
             {...{ playFunc }}
             sessionUser={sessionUser}
-            {...{toggleWaveIsLoading}}
-            {...{waveIsLoading}}
+
           />
         </Route>
         <Route path="/you/library">
@@ -62,7 +61,7 @@ const UserHomePage = ({toggleWaveIsLoading, waveIsLoading, sessionUser, pauseFun
           <>
 
         <Route path="/:username">
-        <ProfilePage {...{waveIsLoading}} {...{toggleWaveIsLoading}} {...{pauseFunc}} {...{playFunc}}/>
+        <ProfilePage {...{pauseFunc}} {...{playFunc}}/>
 
         </Route>
         <Route path="/search">

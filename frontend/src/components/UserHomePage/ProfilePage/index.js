@@ -6,7 +6,7 @@ import ProfileTracks from "./ProfileTracks";
 import ProfilePlaylist from "../ProfilePlaylist/index";
 import { useState } from "react";
 
-const ProfilePage = ({pauseFunc, playFunc, toggleWaveIsLoading, waveIsLoading}) => {
+const ProfilePage = ({pauseFunc, playFunc}) => {
   const sessionUser = useSelector((state) => state.session.user);
   const [proPlayLoaded, setProPlayLoaded] = useState(false);
   const { pathname } = useLocation();
@@ -34,8 +34,7 @@ const ProfilePage = ({pauseFunc, playFunc, toggleWaveIsLoading, waveIsLoading}) 
               <ProfilePlaylists
                 proPlayLoaded={proPlayLoaded}
                 setProPlayLoaded={setProPlayLoaded}
-                {...{toggleWaveIsLoading}}
-                {...{waveIsLoading}}
+
               />
             </Route>
 
@@ -53,8 +52,7 @@ const ProfilePage = ({pauseFunc, playFunc, toggleWaveIsLoading, waveIsLoading}) 
         {...{pauseFunc}} {...{playFunc}}
           proPlayLoaded={proPlayLoaded}
           setProPlayLoaded={setProPlayLoaded}
-          {...{toggleWaveIsLoading}}
-          {...{waveIsLoading}}
+
         />
       </Route>
     </>

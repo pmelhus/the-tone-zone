@@ -9,7 +9,7 @@ import "./Songs.css";
 import { getCurrentSong } from "../../../store/currentSong";
 import Waveform from "../../Waveform";
 
-const Songs = ({waveIsLoading, toggleWaveIsLoading, sessionUser, playFunc, pauseFunc}) => {
+const Songs = ({ sessionUser, playFunc, pauseFunc}) => {
   const dispatch = useDispatch();
   const songList = useSelector((state) => Object.values(state.songs));
   const dateNow = new Date();
@@ -101,7 +101,7 @@ const Songs = ({waveIsLoading, toggleWaveIsLoading, sessionUser, playFunc, pause
                     </div>
                   </div> */}
                   <div className="waveform-player">
-                    <Waveform {...{waveIsLoading}} {...{toggleWaveIsLoading}} audio={song.url} song={song} {...{pauseFunc}} {...{playFunc}} />
+                    <Waveform audio={song.url} song={song} {...{pauseFunc}} {...{playFunc}} />
                   </div>
                   <div className="buttons">
                     {sessionUser && (

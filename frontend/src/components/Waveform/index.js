@@ -8,8 +8,7 @@ import { getCurrentSong } from "../../store/currentSong";
 
 const Waveform = ({
 
-  waveIsLoading,
-  toggleWaveIsLoading,
+
   audio,
   song,
   playFunc,
@@ -21,6 +20,7 @@ const Waveform = ({
   const waveSurferRef = useRef({
     isPlaying: () => false,
   });
+  const [waveIsLoading, toggleWaveIsLoading] = useState()
 
   const [isPlaying, toggleIsPlaying] = useState(false);
   // const audio = useSelector(state=> (state.currentSong.song))
