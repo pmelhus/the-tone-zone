@@ -55,7 +55,7 @@ console.log(WaveSurfer)
             {...{ setSignInToggle }}
           />
         </Route>
-        <div>
+        <div className="home-body-container">
           <Navigation
             isLoaded={isLoaded}
             sessionUser={sessionUser}
@@ -86,7 +86,7 @@ console.log(WaveSurfer)
                     autoPlay={true}
                     ref={audioPlayer}
                   />
-            
+
 
                 <div className="continuous-headings">
                   <a href={`/${currentAudio?.User?.username}`} id="username">

@@ -65,7 +65,7 @@ const UserHomePage = ({sessionUser, pauseFunc, playFunc }) => {
 
         </Route>
         <Route path="/search">
-          <SearchResults {...{ isLoaded }} />
+          <SearchResults {...{pauseFunc}} {...{playFunc}} {...{ isLoaded }} />
         </Route>
           </>
         }

@@ -49,9 +49,6 @@ const Waveform = ({
       playFunc();
     });
 
-    if (playFunc()) {
-      waveSurfer.play();
-    }
 
     // setUniversalSeek(waveSurfer.getCurrentTime())
     // console.log(universalSeek, 'UNIVERSAL SEEK')
@@ -115,12 +112,15 @@ const Waveform = ({
         </div>
       </div>
       <div className="waveform-container">
+        <div className="waveform-image-container">
+
         {waveIsLoading && (
           <img
             alt="loading"
             src="https://miro.medium.com/max/1400/1*CsJ05WEGfunYMLGfsT2sXA.gif"
           ></img>
         )}
+        </div>
         <div ref={containerRef} />
       </div>
     </>

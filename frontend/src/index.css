@@ -8,23 +8,36 @@
   /* min-height: 100vh;
   max-width: 100vh; */
   /* height: 100vh; */
-  /* position: absolute; */
-height: auto;
 
+/* height: auto;
+max-width: 100%;
+max-height: 100vh;
+
+margin: auto; */
+position: absolute;
+top: 0;
+bottom: 0;
+right: 0;
+left: 0;
 }
 
 body, html {
   /* width: auto; */
   margin: 0 auto;
   /* min-width: 1220px; */
-  min-width: 850px;
-  width:100vmax;
+  /* min-width: 850px; */
+  /* width:100vmax; */
   /* height: 100vh; */
   /* max-height: 100%; */
-  overflow-y: scroll;
-  resize: vertical;
+  /* overflow-y: scroll; */
+  /* resize: vertical; */
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
 
-  height: auto;
+
 }
 
 button {
@@ -82,4 +95,10 @@ img {
   padding: 0;
   margin: 0;
 
+}
+
+.home-body-container {
+  width:auto;
+  height: 1080px;
+  
 }

@@ -4,15 +4,17 @@ import "./PlaylistSong.css";
 import EditPlaylistModal from "./EditPlaylistModal";
 import { getCurrentSong } from "../../../../store/currentSong";
 
-const PlaylistSong = ({playFunc, setSongId, song, user, setUrl, setTitle, url, key}) => {
+const PlaylistSong = ({playFunc, setSongId, songId, song, user, setUrl, setTitle, url, key}) => {
   const [editModal, setEditModal] = useState(false);
   const dispatch = useDispatch()
-  console.log(song)
+  // console.log(song)
   const handleClick = (e) => {
 
     e.preventDefault();
+
+    setSongId(song)
+    // console.log(songId, "==============")
     dispatch(getCurrentSong(song.id))
-    setSongId(song.id)
     setUrl(song.url);
     playFunc()
   };

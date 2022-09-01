@@ -8,7 +8,7 @@ import SearchSongs from "./SearchSongs";
 import SearchPlaylists from "./SearchPlaylists";
 
 
-const SearchResults = ({isLoaded}) => {
+const SearchResults = ({playFunc, pauseFunc, isLoaded}) => {
   const { pathname } = useLocation();
   const searchResults = useSelector((state) => state?.search);
   // console.log(searchResults, "HALLO");
@@ -45,7 +45,7 @@ const SearchResults = ({isLoaded}) => {
             <p>{`Found people, tracks, playlists`}</p>
           </div>
           <SearchUsers {...{searchResults}} />
-          <SearchSongs {...{searchResults}}/>
+          <SearchSongs {...{pauseFunc}} {...{playFunc}} {...{searchResults}}/>
           <SearchPlaylists {...{searchResults}} />
         </div>
       </div>

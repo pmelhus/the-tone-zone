@@ -6,3 +6,7 @@
   object-fit:contain;
 
 }
+
+.waveform-image-container {
+  position: relative;
+}

@@ -90,8 +90,8 @@ const ProfilePlaylist = ({
             </div>
             <div className="playlist-waveform">
               <Waveform
-    
-                song={selectedSong}
+
+             
                 {...{ pauseFunc }}
                 {...{ playFunc }}
                 audio={url}
@@ -159,6 +159,7 @@ const ProfilePlaylist = ({
               <PlaylistSong
               {...{playFunc}}
               {...{pauseFunc}}
+              {...{songId}}
                 key={id}
                 {...{ setSongId }}
                 url={url}

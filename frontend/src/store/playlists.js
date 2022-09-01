@@ -247,9 +247,10 @@ const playlistReducer = (state = initialState, action) => {
     }
 
     case GET_ALL_SONGS: {
+      // console.log(state)
       const newState = {
-        ...state,
-        [state.playlists]: { ...state.playlist, Songs: { ...action.songs } },
+        ...state
+
       };
 
       return newState;

@@ -7,7 +7,7 @@ const addSong = (song) => ({
 
 export const getCurrentSong = (id) => async (dispatch) => {
   const res = await fetch (`/api/songs/${id}`);
-
+console.log(res)
   const song = await res.json();
 
   dispatch(addSong(song))
