@@ -1,22 +1,37 @@
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {getSearchResults} from "../../../store/search"
-import {useEffect} from "react"
+import { getSearchResults } from "../../../store/search";
+import { useEffect, useState } from "react";
 import "./SearchResults.css";
 import SearchUsers from "./SearchUsers";
 import SearchSongs from "./SearchSongs";
 import SearchPlaylists from "./SearchPlaylists";
 
-
-const SearchResults = ({playFunc, pauseFunc, isLoaded}) => {
+const SearchResults = ({ playFunc, pauseFunc, isLoaded }) => {
   const { pathname } = useLocation();
   const searchResults = useSelector((state) => state?.search);
+  const [userFilter, setUserFilter] = useState(true);
+  const [songFilter, setSongFilter] = useState(true);
+  const [everythingFilter, setEverythingFilter] = useState(true);
+
   // console.log(searchResults, "HALLO");
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   // console.log(songs)
 
+  const handleSongFilter = () => {
+    setUserFilter(false);
+    setSongFilter(true);
+  };
 
+  const handleUserFilter = () => {
+    setUserFilter(true);
+    setSongFilter(false);
+  };
 
+  const handleEverythingFilter = () => {
+    setUserFilter(true);
+    setSongFilter(true);
+  };
 
   return (
     <>
@@ -27,16 +42,16 @@ const SearchResults = ({playFunc, pauseFunc, isLoaded}) => {
         <div className="search-results-categories">
           <ul className="search-categories-list">
             <li>
-              <button>Everything</button>
+            <i className="fa-solid fa-magnifying-glass"></i>
+              <button onClick={handleEverythingFilter}>Everything</button>
             </li>
             <li>
-              <button>Tracks</button>
+            <i className="fa-solid fa-list-music"></i>
+              <button onClick={handleSongFilter}>Tracks</button>
             </li>
             <li>
-              <button>People</button>
-            </li>
-            <li>
-              <button>Playlists</button>
+            <i className="fa-regular fa-user"></i>
+              <button onClick={handleUserFilter}>People</button>
             </li>
           </ul>
         </div>
@@ -44,9 +59,20 @@ const SearchResults = ({playFunc, pauseFunc, isLoaded}) => {
           <div className="number-of-results">
             <p>{`Found people, tracks, playlists`}</p>
           </div>
-          <SearchUsers {...{searchResults}} />
-          <SearchSongs {...{pauseFunc}} {...{playFunc}} {...{searchResults}}/>
-          <SearchPlaylists {...{searchResults}} />
+          {userFilter && (
+            <>
+              <SearchUsers {...{ searchResults }} />
+            </>
+          )}
+          {songFilter && (
+            <>
+              <SearchSongs
+                {...{ pauseFunc }}
+                {...{ playFunc }}
+                {...{ searchResults }}
+              />
+            </>
+          )}
         </div>
       </div>
     </>

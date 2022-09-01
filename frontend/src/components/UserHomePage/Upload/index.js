@@ -39,7 +39,7 @@ const Upload = (sessionUser) => {
         .then(() => history.push(`/stream`))
         .then(() => dispatch(songActions.getAllSongs()));
     } catch (error) {
-      console.log(payload);
+
       if (error instanceof ValidationError) {
         // console.log('===================')
         setErrorMessages(error.errors);
@@ -47,7 +47,10 @@ const Upload = (sessionUser) => {
 
       // If error is not a ValidationError, add slice at the end to remove extra
       // "Error: "
-      else setErrorMessages({ overall: error.toString().slice(7) });
+      else {
+        console.log(error)
+        setErrorMessages({ overall:"Please upload a valid audio file"});
+      }
     }
     //!!END
     if (createdSong) {
@@ -101,10 +104,12 @@ const Upload = (sessionUser) => {
 
   return (
     <div className="upload-content">
+
       <ErrorMessage message={errorMessages.overall} />
       <form className="upload-form" onSubmit={onSubmit}>
         <img className="image-preview" src={preview}></img>
         <div>
+
           <label for="song-name">Title</label>
           <br></br>
           <input
@@ -142,7 +147,7 @@ const Upload = (sessionUser) => {
               // name="song-upload"
               accept="audio/*"
               onChange={updateAudio}
-              required
+
             ></input>
           </label>
         </div>
@@ -159,7 +164,7 @@ const Upload = (sessionUser) => {
           </label>
         </div>
 
-        <ErrorMessage label={"Upload your file"} message={errorMessages.file} />
+
         <button type="button" onClick={handleCancelClick}>
           Cancel
         </button>

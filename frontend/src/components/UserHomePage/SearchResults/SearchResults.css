@@ -32,7 +32,20 @@
 }
 
 .search-categories-list li {
-  margin-bottom: 5px;
+  margin: 5px;
+  padding: 3px;
+}
+
+.search-categories-list button {
+  border: none;
+  padding: 3px 0;
+  margin: 0;
+  margin-left: 5px;
+}
+
+.search-categories-list li:hover {
+  background-color: orangered;
+  border-radius: 5px;
 }
 
 .number-of-results {
@@ -100,4 +113,3 @@ background-image: linear-gradient(rgb(211, 119, 86), rgba(113, 85, 156, 0.462), 
 .audio-player-search {
   height: 100px;
 }
-

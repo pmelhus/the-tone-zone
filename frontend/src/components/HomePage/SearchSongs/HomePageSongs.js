@@ -2,22 +2,19 @@ import { useDispatch, useSelector } from "react-redux";
 import AudioPlayer from "react-h5-audio-player";
 import { getAllSongs } from "../../../store/songs";
 import { useState, useEffect } from "react";
-import {useHistory} from "react-router-dom"
+import { useHistory } from "react-router-dom";
 // import * as sessionActions from "../../../store/session";
 
-const HomePageSongs = ({setSignInToggle}) => {
+const HomePageSongs = ({ setSignInToggle }) => {
   const dispatch = useDispatch();
   const songList = useSelector((state) => Object.values(state.songs));
   const dateNow = new Date();
   const sessionUser = useSelector((state) => state.session.user);
-  const history = useHistory()
+  const history = useHistory();
 
   const songDate = (date) => {
     return new Date(date);
   };
-
-
-
 
   useEffect(() => {
     dispatch(getAllSongs());
@@ -25,10 +22,10 @@ const HomePageSongs = ({setSignInToggle}) => {
 
   useEffect(() => {
     if (history.location.state?.commentAttempt && !sessionUser) {
-      setSignInToggle(true)
+      setSignInToggle(true);
     }
     // console.log(history.location.state?.from)
-  }, [history])
+  }, [history]);
 
   return (
     <>
@@ -38,11 +35,18 @@ const HomePageSongs = ({setSignInToggle}) => {
           songList.map((song) => {
             return (
               <div className="song-card-homepage">
-                  <a href={`/stream/${song.id}`} id="song-title">
-                <div className="image-content">
-                    <img src={song?.imageUrl} />
-                </div>
-                  </a>
+                <a href={`/stream/${song.id}`} id="song-title">
+                  <div className="image-content">
+                    {song?.imageUrl ? (
+                      <img className="playlist-image" src={song?.imageUrl} />
+                    ) : (
+                      <img
+                        className="playlist-image"
+                        src="https://images.pexels.com/photos/7130560/pexels-photo-7130560.jpeg"
+                      />
+                    )}
+                  </div>
+                </a>
 
                 <div className="title-div-homepage">
                   <div>
