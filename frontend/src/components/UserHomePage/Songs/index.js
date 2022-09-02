@@ -1,6 +1,6 @@
 import "react-h5-audio-player/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getAllSongs, deleteOneSong } from "../../../store/songs";
 import AudioPlayer from "react-h5-audio-player";
 import { Link } from "react-router-dom";
@@ -9,7 +9,18 @@ import "./Songs.css";
 import { getCurrentSong } from "../../../store/currentSong";
 import Waveform from "../../Waveform";
 
-const Songs = ({ sessionUser, playFunc, pauseFunc}) => {
+const Songs = ({
+  sessionUser,
+  playFunc,
+  pauseFunc,
+  waveLoading,
+  setWaveLoading,
+wavePlayer,
+
+  isPlaying,
+  toggleIsPlaying
+
+}) => {
   const dispatch = useDispatch();
   const songList = useSelector((state) => Object.values(state.songs));
   const dateNow = new Date();
@@ -18,6 +29,7 @@ const Songs = ({ sessionUser, playFunc, pauseFunc}) => {
     return new Date(date);
   };
 
+// console.log(wavePlayer)
   const songListSorted = songList.sort((a, b) => {
     const dateA = new Date(a.createdAt);
     const dateB = new Date(b.createdAt);
@@ -101,7 +113,21 @@ const Songs = ({ sessionUser, playFunc, pauseFunc}) => {
                     </div>
                   </div> */}
                   <div className="waveform-player">
-                    <Waveform audio={song.url} song={song} {...{pauseFunc}} {...{playFunc}} />
+                    <Waveform
+  {...{wavePlayer}}
+                      audio={song.url}
+                      {...{ waveLoading }}
+                      {...{ setWaveLoading }}
+                      song={song}
+                      {...{ pauseFunc }}
+                      {...{ playFunc }}
+                      {...{ isPlaying}}
+                      {...{ toggleIsPlaying }}
+
+
+
+
+                    />
                   </div>
                   <div className="buttons">
                     {sessionUser && (

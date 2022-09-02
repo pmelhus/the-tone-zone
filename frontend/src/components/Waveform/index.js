@@ -7,48 +7,65 @@ import "./Waveform.css";
 import { getCurrentSong } from "../../store/currentSong";
 
 const Waveform = ({
-
-
+  waveLoading,
+  setWaveLoading,
   audio,
   song,
   playFunc,
   pauseFunc,
-}) => {
+wavePlayer
 
+
+
+}) => {
   const dispatch = useDispatch();
   const containerRef = useRef();
   const waveSurferRef = useRef({
     isPlaying: () => false,
   });
-  const [waveIsLoading, toggleWaveIsLoading] = useState()
 
-  const [isPlaying, toggleIsPlaying] = useState(false);
+const [isPlaying, toggleIsPlaying] = useState()
+console.log(waveSurferRef)
+
+
   // const audio = useSelector(state=> (state.currentSong.song))
   // console.log(universalPlay)
   useEffect(() => {
-    toggleWaveIsLoading(true);
-    const waveSurfer = WaveSurfer.create({
+
+     const waveSurfer = WaveSurfer.create({
       container: containerRef.current,
       responsive: true,
       cursorWidth: 0,
       barWidth: 2,
       barHeight: 1,
     });
-    // console.log(waveSurfer)
+
+    // console.log(waveSurferRef)
     if (audio) {
       waveSurfer.load(audio);
     }
     waveSurfer.on("ready", () => {
       waveSurferRef.current = waveSurfer;
-      toggleWaveIsLoading(false);
+      wavePlayer.current = waveSurfer;
+
+      setWaveLoading(false);
+      waveSurfer.setMute(true);
     });
-    waveSurfer.setMute(true);
+
 
     waveSurfer.on("play", () => {
       // console.log('play')
       playFunc();
+      waveSurferRef.current = waveSurfer;
+      wavePlayer.current = waveSurfer;
+      toggleIsPlaying(true)
     });
-
+    waveSurfer.on("pause", () => {
+      pauseFunc();
+      waveSurferRef.current = waveSurfer;
+      wavePlayer.current = waveSurfer;
+      toggleIsPlaying(false)
+    });
 
     // setUniversalSeek(waveSurfer.getCurrentTime())
     // console.log(universalSeek, 'UNIVERSAL SEEK')
@@ -57,9 +74,6 @@ const Waveform = ({
     //   setUniversalSeek(waveSurfer.getCurrentTime())
     //   console.log(universalSeek, 'UNIVERSAL SEEK')
     // })
-    waveSurfer.on("pause", () => {
-      pauseFunc();
-    });
 
     // if (universalPlay) {
     //   waveSurfer.play()
@@ -71,6 +85,8 @@ const Waveform = ({
       waveSurfer.destroy();
     };
   }, [audio]);
+
+
 
   // if (audio) {
   //   return (
@@ -88,7 +104,7 @@ const Waveform = ({
           onClick={() => {
             waveSurferRef.current.playPause();
             toggleIsPlaying(waveSurferRef.current.isPlaying());
-            dispatch(getCurrentSong(song?.id));
+            dispatch(getCurrentSong(song.id));
           }}
           type="button"
         >
@@ -113,13 +129,12 @@ const Waveform = ({
       </div>
       <div className="waveform-container">
         <div className="waveform-image-container">
-
-        {waveIsLoading && (
-          <img
-            alt="loading"
-            src="https://miro.medium.com/max/1400/1*CsJ05WEGfunYMLGfsT2sXA.gif"
-          ></img>
-        )}
+          {waveLoading && (
+            <img
+              alt="loading"
+              src="https://miro.medium.com/max/1400/1*CsJ05WEGfunYMLGfsT2sXA.gif"
+            ></img>
+          )}
         </div>
         <div ref={containerRef} />
       </div>

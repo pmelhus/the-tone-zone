@@ -9,7 +9,7 @@ import Waveform from "./components/Waveform";
 import WaveSurfer from "wavesurfer.js";
 import WaveformContinuous from "./components/Waveform/WaveformContinuous";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
-import { useRef } from "react";
+import { useRef, forwardRef } from "react";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,24 +22,62 @@ function App() {
 
   const [signInToggle, setSignInToggle] = useState(false);
   const [signUpToggle, setSignUpToggle] = useState(false);
+  const [play, setPlay] = useState(false);
+  const [pause, setPause] = useState(false);
+  const [waveLoading, setWaveLoading] = useState(true);
+  const [autoPlay, setAutoplay] = useState(false);
+  // const [isPlaying, toggleIsPlaying] = useState(false);
 
+
+  // let waveSurfer
 
   // console.log(currentAudio, "CURRENT AUDIO");
 
   const audioPlayer = useRef();
+  const wavePlayer = useRef()
 
-console.log(WaveSurfer)
+
+
+  // console.log(wavePlayer)
+  // useEffect(()=> {
+  //   if (!waveLoading) {
+  //     console.log(waveSurfer)
+  //   }
+  // },[waveLoading])
 
 
   const playFunc = () => {
     audioPlayer.current?.audio.current.play();
 
+    // wavePlayer.current.play();
+    // togglePlaying(true)
+    // wavePlayer.current.play()
+    // setPlay(true)
+    // setPause(false)
   };
 
   const pauseFunc = () => {
     audioPlayer.current?.audio.current.pause();
-
+    // setPlay(false)
+    // setPause(true)
+    // wavePlayer.current.pause();
+    // togglePlaying(false)
   };
+
+  const playFunc2 = () => {
+    wavePlayer.current.play()
+
+    // wavePlayer.pause = false;
+  }
+
+  const pauseFunc2 = () => {
+    wavePlayer.current.pause()
+// wavePlayer.pause = true;
+
+
+  }
+
+
 
   // console.log(audioPlayer.current?.audio.current)
 
@@ -66,27 +104,30 @@ console.log(WaveSurfer)
           />
           {isLoaded && (
             <UserHomePage
-
               {...{ playFunc }}
               {...{ pauseFunc }}
               {...{ sessionUser }}
+              {...{ waveLoading }}
+              {...{ setWaveLoading }}
+              {...{wavePlayer}}
+
+
 
             />
           )}
           <div className="continuous-audio-playback">
             {currentAudio.url && (
               <div>
+                <AudioPlayer
+                  className="audio-player"
+                  src={currentAudio.url}
+                  onPlay={playFunc2}
 
-                  <AudioPlayer
-                    className="audio-player"
-                    src={currentAudio.url}
-                    onPlay={(e) => playFunc()}
-                    onPause={(e)=> pauseFunc()}
-                    layout="horizontal-reverse"
-                    autoPlay={true}
-                    ref={audioPlayer}
-                  />
-
+                  onPause={pauseFunc2}
+                  layout="horizontal-reverse"
+                  autoPlay={true}
+                  ref={audioPlayer}
+                />
 
                 <div className="continuous-headings">
                   <a href={`/${currentAudio?.User?.username}`} id="username">
