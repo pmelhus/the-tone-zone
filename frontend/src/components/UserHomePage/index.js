@@ -36,7 +36,14 @@ const UserHomePage = ({sessionUser, pauseFunc, playFunc, waveLoading, setWaveLoa
           <Discover {...{ isLoaded }} />
         </Route>
         <Route path="/stream/:songId">
-          <Song {...{ pauseFunc }} {...{ playFunc }} />
+          <Song             {...{ pauseFunc }}
+            {...{ playFunc }}
+            sessionUser={sessionUser}
+            {...{waveLoading}}
+            {...{setWaveLoading}}
+            {...{wavePlayer}}
+            {...{ isPlaying}}
+            {...{ toggleIsPlaying }}/>
         </Route>
         <Route exact path="/stream">
           <Songs

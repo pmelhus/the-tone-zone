@@ -1,14 +1,23 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { getAllPlaylists, addSongToPlaylist } from "../../../../../store/playlists";
-import PlaylistButton from "./PlaylistButton"
+import {
+  getAllPlaylists,
+  addSongToPlaylist,
+} from "../../../../../store/playlists";
+import PlaylistButton from "./PlaylistButton";
 
-const AddToPlaylist = ({ showPlaylist, setShowPlaylist, showForm }) => {
+const AddToPlaylist = ({
+  showPlaylist,
+  setShowForm,
+  setShowPlaylist,
+  showForm,
+  setSelected,
+}) => {
   const playlists = useSelector((state) => Object.values(state.playlists));
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
 
-  const [addedToPlaylist, setAddedToPlaylist] = useState(false)
+  const [addedToPlaylist, setAddedToPlaylist] = useState(false);
 
   // console.log(song, '=============')
 
@@ -16,21 +25,44 @@ const AddToPlaylist = ({ showPlaylist, setShowPlaylist, showForm }) => {
     dispatch(getAllPlaylists());
   }, [dispatch]);
 
+  const myPlaylists = playlists.filter((playlist) => {
+    return playlist.userId === sessionUser.id;
+  });
 
+  console.log(myPlaylists);
+
+  const [noPlaylists, setNoPlaylists] = useState(false);
 
   if (!showPlaylist && showForm) return null;
 
   return (
-    <div className="playlist-card">
-      {playlists.map((playlist) => {
-        if (playlist.userId === sessionUser.id)
-        return (
+    <>
+      <div className="playlist-card">
+        {myPlaylists.map((playlist) => {
+          return (
+            <>
+              <PlaylistButton {...{ playlist }} />
+            </>
+          );
+        })}
+      </div>
+      <div>
+        {!myPlaylists.length && (
           <>
-          <PlaylistButton playlist={playlist}/>
+            <h3>No playlists</h3>
+            <button
+              onClick={(e) => {
+                setShowForm(!showForm);
+                setShowPlaylist(!showPlaylist);
+                setSelected(true);
+              }}
+            >
+              Create playlist
+            </button>
           </>
-        );
-      })}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 

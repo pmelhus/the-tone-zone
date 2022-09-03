@@ -17,6 +17,7 @@ const WriteComment = ({ song }) => {
   const [errorMessages, setErrorMessages] = useState({});
 
   const handleClick = async (e) => {
+    e.preventDefault()
     if (!session.user) {
       history.push("/", { commentAttempt: true, from: location.pathname });
     } else {
@@ -26,6 +27,7 @@ const WriteComment = ({ song }) => {
         userId,
         songId,
       };
+
       let createdComment;
       try {
         createdComment = await dispatch(createComment(payload))
@@ -60,11 +62,12 @@ const WriteComment = ({ song }) => {
     setBody(e.target.value);
   };
 
+
   return (
     <>
       <ErrorMessage message={errorMessages.overall} />
       <div className="comment-textarea">
-        <form onSubmit={(e) => handleClick(e)}>
+        <form onSubmit={handleClick}>
           {/* <img src={session.user?.profileImageUrl}></img> */}
           {session.user?.profileImageUrl ? (
             <img
@@ -78,13 +81,13 @@ const WriteComment = ({ song }) => {
             />
           )}
           <div className="comment-body-text">
-            <textarea
+            <input
               placeholder="Write a comment"
               onChange={updateBody}
               value={body}
-            ></textarea>
+              id="comment-input"
+            ></input>
           </div>
-          <button>Submit</button>
         </form>
       </div>
       <ErrorMessage

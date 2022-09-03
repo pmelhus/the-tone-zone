@@ -23,9 +23,12 @@ wavePlayer
   const waveSurferRef = useRef({
     isPlaying: () => false,
   });
+const [time, setTime] = useState(null)
 
 const [isPlaying, toggleIsPlaying] = useState()
+const [currentAudio, setCurrentAudio] = useState(null)
 console.log(waveSurferRef)
+console.log()
 
 
   // const audio = useSelector(state=> (state.currentSong.song))
@@ -40,7 +43,8 @@ console.log(waveSurferRef)
       barHeight: 1,
     });
 
-    // console.log(waveSurferRef)
+
+    console.log(waveSurferRef.current)
     if (audio) {
       waveSurfer.load(audio);
     }
@@ -52,19 +56,32 @@ console.log(waveSurferRef)
       waveSurfer.setMute(true);
     });
 
+    if (audio !== currentAudio) {
+      waveSurfer.pause()
+    }
 
     waveSurfer.on("play", () => {
       // console.log('play')
       playFunc();
       waveSurferRef.current = waveSurfer;
-      wavePlayer.current = waveSurfer;
+      if (wavePlayer) {
+
+        wavePlayer.current = waveSurfer;
+      }
       toggleIsPlaying(true)
+      setCurrentAudio(audio)
+      setTime(waveSurfer.getCurrentTime())
     });
     waveSurfer.on("pause", () => {
       pauseFunc();
       waveSurferRef.current = waveSurfer;
-      wavePlayer.current = waveSurfer;
+      if (wavePlayer) {
+
+        wavePlayer.current = waveSurfer;
+      }
       toggleIsPlaying(false)
+      setTime(waveSurfer.getCurrentTime())
+
     });
 
     // setUniversalSeek(waveSurfer.getCurrentTime())
@@ -104,7 +121,7 @@ console.log(waveSurferRef)
           onClick={() => {
             waveSurferRef.current.playPause();
             toggleIsPlaying(waveSurferRef.current.isPlaying());
-            dispatch(getCurrentSong(song.id));
+            dispatch(getCurrentSong(song.id, time));
           }}
           type="button"
         >

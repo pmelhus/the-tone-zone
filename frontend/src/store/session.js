@@ -60,7 +60,7 @@ export const signup = (user) => async dispatch => {
   // }
 
   if (image) formData.append("image", image);
-  console.log(formData.entries())
+  // console.log(formData.entries())
 
   const response = await csrfFetch(`/api/users/`, {
     method: "POST",

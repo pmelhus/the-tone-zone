@@ -9,11 +9,11 @@ import CommentCard from "./CommentCard";
 import WriteComment from "./WriteComment";
 import AddToPlaylistModal from "./AddToPlaylistModal";
 import { ValidationError } from "../../../utils/validationError";
-import Waveform from "../../Waveform"
+import Waveform from "../../Waveform";
 
 import "./Song.css";
 
-const Song = ({playFunc, pauseFunc}) => {
+const Song = ({ playFunc, pauseFunc, wavePlayer, waveLoading, setWaveLoading, isPlaying, toggleIsPlaying }) => {
   const [signInToggle, setSignInToggle] = useState(false);
   const [playModal, setPlayModal] = useState(false);
   const dispatch = useDispatch();
@@ -73,16 +73,25 @@ const Song = ({playFunc, pauseFunc}) => {
               </div>
 
               <div className="waveform-player-single-song">
-                    <Waveform  audio={song.url} song={song} {...{pauseFunc}} {...{playFunc}} />
-                  </div>
+                <Waveform
+                  {...{ wavePlayer }}
+                  audio={song.url}
+                  {...{ waveLoading }}
+                  {...{ setWaveLoading }}
+                  song={song}
+                  {...{ pauseFunc }}
+                  {...{ playFunc }}
+                  {...{ isPlaying }}
+                  {...{ toggleIsPlaying }}
+                />
+              </div>
               <div className="img-div">
                 {song?.imageUrl ? (
-                    <img src={song?.imageUrl} />
-                  ) : (
-                    <img src="https://yt3.ggpht.com/Kat62xks4-8MlvT1CjkMsYqxP5sVDNOv7IMB2Kwg27n2dIcA55-obkQnA9vi6kx3Dfhay0aGIP4=s900-c-k-c0x00ffffff-no-rj"/>
-                  )}
+                  <img src={song?.imageUrl} />
+                ) : (
+                  <img src="https://images.pexels.com/photos/7130560/pexels-photo-7130560.jpeg" />
+                )}
               </div>
-
             </div>
           </div>
           <div className="comment-button-section">
@@ -97,6 +106,8 @@ const Song = ({playFunc, pauseFunc}) => {
                     Edit
                   </button>
                   <button onClick={handleDelete}>Delete</button>
+                  </>
+              )}
                   <div className="dropdown-more">
                     <button onClick={(e) => openMenu(e)}>
                       <i class="fa-solid fa-ellipsis"></i>More
@@ -110,8 +121,7 @@ const Song = ({playFunc, pauseFunc}) => {
                       </div>
                     )}
                   </div>
-                </>
-              )}
+
             </div>
           </div>
           <div className="avatar-comment-description">

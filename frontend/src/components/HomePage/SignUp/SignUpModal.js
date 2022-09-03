@@ -18,32 +18,29 @@ function SignupFormPage({ signUpToggle, setSignUpToggle, setSignInToggle }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let newErrors = []
+    let newErrors = [];
+    console.log(password, confirmPassword);
     if (password === confirmPassword) {
-
-
-      dispatch(
-        sessionActions.signup({ email, username, password, image })
-      )
-      .then(() => {
-        setUsername("");
-        setEmail("");
-        setPassword("");
-        setImage(null);
-      })
-      .catch(async (res) => {
-        const data = await res.json();
-        // console.log(data, "DATA")
-        if (data && data.errors)
-        {
-          newErrors = data.errors
-          setErrors(newErrors);
-        }
-      })
+      dispatch(sessionActions.signup({ email, username, password, image }))
+        .then(() => {
+          setUsername("");
+          setEmail("");
+          setPassword("");
+          setImage(null);
+        })
+        .catch(async (res) => {
+          const data = await res.json();
+          // console.log(data, "DATA")
+          if (data && data.errors) {
+            newErrors = data.errors;
+            setErrors(newErrors);
+          }
+        });
+    } else {
+      return setErrors([
+        "Confirm Password field must be the same as the Password field",
+      ]);
     }
-    return setErrors([
-      "Confirm Password field must be the same as the Password field",
-    ]);
   };
 
   const handleSignIn = (e) => {

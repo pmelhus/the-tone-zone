@@ -1,23 +1,24 @@
 const ADD_SONG = "currentSong/ADD_SONG";
 
-const addSong = (song) => ({
+const addSong = (song, time) => ({
   type: ADD_SONG,
-  song
+  song,
+  time
 })
 
-export const getCurrentSong = (id) => async (dispatch) => {
+export const getCurrentSong = (id, time) => async (dispatch) => {
   const res = await fetch (`/api/songs/${id}`);
 console.log(res)
   const song = await res.json();
 
-  dispatch(addSong(song))
+  dispatch(addSong(song, time))
 }
 
 const currentSongReducer = (state = {}, action) => {
   switch(action.type) {
     case ADD_SONG: {
       const newState = {
-       ...action.song
+        ...{...action.song}, time: {...action.time}
       }
       return newState;
     }

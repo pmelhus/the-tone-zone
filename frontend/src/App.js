@@ -37,7 +37,7 @@ function App() {
   const wavePlayer = useRef()
 
 
-
+// console.log(audioPlayer.current?.audio.current)
   // console.log(wavePlayer)
   // useEffect(()=> {
   //   if (!waveLoading) {
@@ -125,6 +125,7 @@ function App() {
 
                   onPause={pauseFunc2}
                   layout="horizontal-reverse"
+                  autoPlayAfterSrcChange={true}
                   autoPlay={true}
                   ref={audioPlayer}
                 />
