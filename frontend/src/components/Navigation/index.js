@@ -3,7 +3,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LoginModal from "../HomePage/SignIn/LoginModal";
 import SignUpModal from "../HomePage/SignUp/SignUpModal";
 import SearchBarNav from "./SearchBarNav"
