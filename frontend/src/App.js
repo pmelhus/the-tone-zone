@@ -26,62 +26,57 @@ function App() {
   const [pause, setPause] = useState(false);
   const [waveLoading, setWaveLoading] = useState(true);
   const [autoPlay, setAutoplay] = useState(false);
-  // const [isPlaying, toggleIsPlaying] = useState(false);
-
-
-  // let waveSurfer
-
-  // console.log(currentAudio, "CURRENT AUDIO");
+const [audioPlayerLoaded, setAudioPlayerLoaded] = useState(false)
 
   const audioPlayer = useRef();
   const wavePlayer = useRef()
 
 
-// console.log(audioPlayer.current?.audio.current)
-  // console.log(wavePlayer)
-  // useEffect(()=> {
-  //   if (!waveLoading) {
-  //     console.log(waveSurfer)
-  //   }
-  // },[waveLoading])
+
+
+const seek = (value) => {
+
+
+    audioPlayer.current.audio.current.currentTime = value
+
+}
 
 
   const playFunc = () => {
-    audioPlayer.current?.audio.current.play();
+    if (audioPlayerLoaded) {
 
-    // wavePlayer.current.play();
-    // togglePlaying(true)
-    // wavePlayer.current.play()
-    // setPlay(true)
-    // setPause(false)
+      seek(currentAudio.time)
+      audioPlayer.current?.audio.current.play();
+    }
+
   };
 
   const pauseFunc = () => {
     audioPlayer.current?.audio.current.pause();
-    // setPlay(false)
-    // setPause(true)
-    // wavePlayer.current.pause();
-    // togglePlaying(false)
+
   };
 
   const playFunc2 = () => {
     wavePlayer.current.play()
 
-    // wavePlayer.pause = false;
+
   }
 
   const pauseFunc2 = () => {
     wavePlayer.current.pause()
-// wavePlayer.pause = true;
+
 
 
   }
 
+  useEffect(()=> {
+if (audioPlayer.current) {
+  setAudioPlayerLoaded(true)
+}
+  }, [audioPlayer])
 
 
-  // console.log(audioPlayer.current?.audio.current)
 
-  // console.log(sessionUser)
   return (
     <>
       <Switch>
