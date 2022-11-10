@@ -27,4 +27,5 @@ const currentSongReducer = (state = {}, action) => {
   }
 }
 
+console.log('test')
 export default currentSongReducer;
