@@ -18,7 +18,7 @@ const currentSongReducer = (state = {}, action) => {
   switch(action.type) {
     case ADD_SONG: {
       const newState = {
-        ...{...action.song}, time: {...action.time}
+        ...{...action.song}, time: action.time
       }
       return newState;
     }

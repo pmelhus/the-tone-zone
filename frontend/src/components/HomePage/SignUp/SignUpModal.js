@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import * as sessionActions from "../../../store/session";
 import "./SignUpModal.css";
 
@@ -12,25 +12,22 @@ function SignupFormPage({ signUpToggle, setSignUpToggle, setSignInToggle }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
-
-  const history = useHistory()
+  const [image, setImage] = useState(null);
 
   // if (sessionUser) return <Redirect to="/discover" />;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     let newErrors = [];
-    // console.log(password, confirmPassword);
+    console.log(password, confirmPassword);
     if (password === confirmPassword) {
-      dispatch(sessionActions.signup({ email, username, password}))
+      dispatch(sessionActions.signup({ email, username, password, image }))
         .then(() => {
           setUsername("");
           setEmail("");
           setPassword("");
-
+          setImage(null);
         })
-        .then(()=>{   history.push('/discover')} )
-        .then(() => setSignUpToggle(false))
         .catch(async (res) => {
           const data = await res.json();
           // console.log(data, "DATA")
@@ -52,13 +49,20 @@ function SignupFormPage({ signUpToggle, setSignUpToggle, setSignInToggle }) {
     setSignInToggle(true);
   };
 
+  const updateFile = (e) => {
+    const file = e.target.files[0];
+    if (file) setImage(file);
+  };
 
   const backgroundClick = () => {
     setSignUpToggle(!signUpToggle);
   };
   if (!signUpToggle) return null;
 
-
+  const updateImage = (e) => {
+    const file = e.target.files[0];
+    if (file) setImage(file);
+  };
 
   return (
     <div
@@ -103,7 +107,20 @@ function SignupFormPage({ signUpToggle, setSignUpToggle, setSignInToggle }) {
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
-
+            <label
+              style={{ marginTop: "12px", padding: "8px" }}
+              id="profile-avatar-label"
+            >
+              Upload profile avatar
+              <input
+                id="profile-avatar-upload"
+                placeholder="Upload your image"
+                type="file"
+                accept="image/*"
+                name="image-upload"
+                onChange={updateImage}
+              ></input>
+            </label>
 
             {/* <label>
             Multiple Upload
