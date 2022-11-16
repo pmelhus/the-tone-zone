@@ -56,31 +56,72 @@ const SearchResults = ({ playFunc, pauseFunc, isLoaded }) => {
           </ul>
         </div>
         <div className="search-results">
-          <div style={{color: 'gray', fontSize: "14px"}} className="number-of-results">
-            <p style={{display: "inline-flex", alignItems: "center", padding: "0", margin: "0"}}>
-              Found&nbsp;<p style={{fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${Object.keys(searchResults.users).length}`}</p>&nbsp;{Object.keys(searchResults.users).length > 1 || Object.keys(searchResults.users).length === 0  ? 'people' : 'person'},
+          <div
+            style={{ color: "gray", fontSize: "14px" }}
+            className="number-of-results"
+          >
+            <p
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                padding: "0",
+                margin: "0",
+              }}
+            >
+              Found&nbsp;
+              <p style={{ fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${
+                Object.keys(searchResults.users).length
+              }`}</p>
+              &nbsp;
+              {Object.keys(searchResults.users).length > 1 ||
+              Object.keys(searchResults.users).length === 0
+                ? "people"
+                : "person"}
+              ,
             </p>
-            <p style={{display: "inline-flex", alignItems: "center", padding: "0", margin: "0"}}>
-              &nbsp;<p style={{fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${Object.keys(searchResults.songs).length}`}</p>&nbsp;{Object.keys(searchResults.songs).length > 1 || Object.keys(searchResults.songs).length === 0 ? 'tracks' : 'track'}
+            <p
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                padding: "0",
+                margin: "0",
+              }}
+            >
+              &nbsp;
+              <p style={{ fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${
+                Object.keys(searchResults.songs).length
+              }`}</p>
+              &nbsp;
+              {Object.keys(searchResults.songs).length > 1 ||
+              Object.keys(searchResults.songs).length === 0
+                ? "tracks"
+                : "track"}
             </p>
             {/* <p style={{display: "inline-flex", alignItems: "center", padding: "0", margin: "0"}}>
               &nbsp;<p style={{fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${Object.keys(searchResults.playlists).length}`}</p>&nbsp;playlists
             </p> */}
             {/* "${Object.keys(searchResults.songs).length} tracks, playlists"</p> */}
           </div>
-          {userFilter && (
+          {Object.keys(searchResults.songs).length ||
+          Object.keys(searchResults.users).length ? (
             <>
-              <SearchUsers {...{ searchResults }} />
+              {userFilter && (
+                <>
+                  <SearchUsers {...{ searchResults }} />
+                </>
+              )}
+              {songFilter && (
+                <>
+                  <SearchSongs
+                    {...{ pauseFunc }}
+                    {...{ playFunc }}
+                    {...{ searchResults }}
+                  />
+                </>
+              )}
             </>
-          )}
-          {songFilter && (
-            <>
-              <SearchSongs
-                {...{ pauseFunc }}
-                {...{ playFunc }}
-                {...{ searchResults }}
-              />
-            </>
+          ) : (
+            <h2>Looks like your search returned no results!</h2>
           )}
         </div>
       </div>
