@@ -61,11 +61,11 @@ const SearchResults = ({ playFunc, pauseFunc, isLoaded }) => {
               Found&nbsp;<p style={{fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${Object.keys(searchResults.users).length}`}</p>&nbsp;{Object.keys(searchResults.users).length > 1 || Object.keys(searchResults.users).length === 0  ? 'people' : 'person'},
             </p>
             <p style={{display: "inline-flex", alignItems: "center", padding: "0", margin: "0"}}>
-              &nbsp;<p style={{fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${Object.keys(searchResults.songs).length}`}</p>&nbsp;{Object.keys(searchResults.songs).length > 1 || Object.keys(searchResults.songs).length === 0 ? 'tracks' : 'track'}, and
+              &nbsp;<p style={{fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${Object.keys(searchResults.songs).length}`}</p>&nbsp;{Object.keys(searchResults.songs).length > 1 || Object.keys(searchResults.songs).length === 0 ? 'tracks' : 'track'}
             </p>
-            <p style={{display: "inline-flex", alignItems: "center", padding: "0", margin: "0"}}>
+            {/* <p style={{display: "inline-flex", alignItems: "center", padding: "0", margin: "0"}}>
               &nbsp;<p style={{fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${Object.keys(searchResults.playlists).length}`}</p>&nbsp;playlists
-            </p>
+            </p> */}
             {/* "${Object.keys(searchResults.songs).length} tracks, playlists"</p> */}
           </div>
           {userFilter && (
