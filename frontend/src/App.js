@@ -92,6 +92,7 @@ function App() {
             {...{ signInToggle }}
             {...{ setSignInToggle }}
           />
+
         </Route>
         <div className="home-body-container">
           <Navigation
@@ -110,13 +111,12 @@ function App() {
               {...{ waveLoading }}
               {...{ setWaveLoading }}
               {...{wavePlayer}}
-
-
-
             />
           )}
+        </div>
+      </Switch>
           <div className="continuous-audio-playback">
-            {currentAudio.url && (
+            {currentAudio.url && currentAudio && (
               <div>
                 <AudioPlayer
                   className="audio-player"
@@ -141,8 +141,6 @@ function App() {
               </div>
             )}
           </div>
-        </div>
-      </Switch>
     </>
   );
 }
