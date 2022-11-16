@@ -115,7 +115,7 @@ function App() {
           )}
         </div>
       </Switch>
-          <div className="continuous-audio-playback">
+          <div style={{zIndex: "100"}} className="continuous-audio-playback">
             {currentAudio.url && currentAudio && (
               <div>
                 <AudioPlayer
