@@ -14,7 +14,7 @@ const SearchResults = ({ playFunc, pauseFunc, isLoaded }) => {
   const [songFilter, setSongFilter] = useState(true);
   const [everythingFilter, setEverythingFilter] = useState(true);
 
-  // console.log(searchResults, "HALLO");
+  console.log(searchResults, "HALLO");
   const dispatch = useDispatch();
   // console.log(songs)
 
@@ -42,22 +42,31 @@ const SearchResults = ({ playFunc, pauseFunc, isLoaded }) => {
         <div className="search-results-categories">
           <ul className="search-categories-list">
             <li>
-            <i className="fa-solid fa-magnifying-glass"></i>
+              <i className="fa-solid fa-magnifying-glass"></i>
               <button onClick={handleEverythingFilter}>Everything</button>
             </li>
             <li>
-            <i className="fa-solid fa-list-music"></i>
+              <i className="fa-solid fa-list-music"></i>
               <button onClick={handleSongFilter}>Tracks</button>
             </li>
             <li>
-            <i className="fa-regular fa-user"></i>
+              <i className="fa-regular fa-user"></i>
               <button onClick={handleUserFilter}>People</button>
             </li>
           </ul>
         </div>
         <div className="search-results">
-          <div className="number-of-results">
-            <p>{`Found people, tracks, playlists`}</p>
+          <div style={{color: 'gray', fontSize: "14px"}} className="number-of-results">
+            <p style={{display: "inline-flex", alignItems: "center", padding: "0", margin: "0"}}>
+              Found&nbsp;<p style={{fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${Object.keys(searchResults.users).length}`}</p>&nbsp;{Object.keys(searchResults.users).length > 1 || Object.keys(searchResults.users).length === 0  ? 'people' : 'person'},
+            </p>
+            <p style={{display: "inline-flex", alignItems: "center", padding: "0", margin: "0"}}>
+              &nbsp;<p style={{fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${Object.keys(searchResults.songs).length}`}</p>&nbsp;{Object.keys(searchResults.songs).length > 1 || Object.keys(searchResults.songs).length === 0 ? 'tracks' : 'track'}, and
+            </p>
+            <p style={{display: "inline-flex", alignItems: "center", padding: "0", margin: "0"}}>
+              &nbsp;<p style={{fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${Object.keys(searchResults.playlists).length}`}</p>&nbsp;playlists
+            </p>
+            {/* "${Object.keys(searchResults.songs).length} tracks, playlists"</p> */}
           </div>
           {userFilter && (
             <>
