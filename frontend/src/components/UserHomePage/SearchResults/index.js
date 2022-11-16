@@ -7,9 +7,9 @@ import SearchUsers from "./SearchUsers";
 import SearchSongs from "./SearchSongs";
 import SearchPlaylists from "./SearchPlaylists";
 
-const SearchResults = ({ playFunc, pauseFunc, isLoaded }) => {
+const SearchResults = ({ searchResults, playFunc, pauseFunc, isLoaded }) => {
   const { pathname } = useLocation();
-  const searchResults = useSelector((state) => state?.search);
+
   const [userFilter, setUserFilter] = useState(true);
   const [songFilter, setSongFilter] = useState(true);
   const [everythingFilter, setEverythingFilter] = useState(true);

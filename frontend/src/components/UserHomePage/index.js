@@ -21,6 +21,7 @@ const UserHomePage = ({sessionUser, pauseFunc, playFunc, waveLoading, setWaveLoa
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const searchWord = pathname.split("/")[2];
+  const searchResults = useSelector((state) => state?.search);
   console.log(sessionUser);
   useEffect(() => {
     dispatch(getAllPlaylists());
@@ -76,7 +77,7 @@ const UserHomePage = ({sessionUser, pauseFunc, playFunc, waveLoading, setWaveLoa
 
         </Route>
         <Route path="/search">
-          <SearchResults {...{pauseFunc}} {...{playFunc}} {...{ isLoaded }} />
+          <SearchResults {...{searchResults}} {...{pauseFunc}} {...{playFunc}} {...{ isLoaded }} />
         </Route>
           </>
         }
