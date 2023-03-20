@@ -4,8 +4,29 @@ import * as sessionActions from "../../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import "./LoginModal.css";
+import { createUseStyles, useTheme } from "react-jss";
 
-const LoginModal = ({ setSignInToggle, signInToggle, setSignUpToggle}) => {
+const useStyles = createUseStyles((theme) => ({
+  loginButton: {
+    backgroundColor: theme.orangeTheme,
+    color: "white",
+    borderRadius: "4px",
+  },
+  exit: {
+    position: "absolute",
+    right: "0",
+    top: "0",
+    width: "20px",
+    height: "20px",
+    padding: "10px",
+    cursor: 'pointer'
+  },
+
+}));
+
+const LoginModal = ({ setSignInToggle, signInToggle, setSignUpToggle }) => {
+  const theme = useTheme();
+  const classes = useStyles({ theme });
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [credential, setCredential] = useState("");
@@ -54,11 +75,10 @@ const LoginModal = ({ setSignInToggle, signInToggle, setSignUpToggle}) => {
 
   const backgroundClick = () => {
     setSignInToggle(!signInToggle);
-    history.replace('/', {commentAttempt: false})
+    history.replace("/", { commentAttempt: false });
     setExited(true);
   };
-  if (!signInToggle) return null
-
+  if (!signInToggle) return null;
 
   return (
     <div
@@ -69,6 +89,14 @@ const LoginModal = ({ setSignInToggle, signInToggle, setSignUpToggle}) => {
     >
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-content">
+          <div
+            onClick={(e) => {
+              backgroundClick();
+            }}
+            className={classes.exit}
+          >
+            <i className="fa-regular fa-xl fa-xmark"></i>
+          </div>
           {/* <div className="fang-buttons">
             <div className="fb-button"></div>
             <button type="button">Continue with Facebook</button>
@@ -105,12 +133,15 @@ const LoginModal = ({ setSignInToggle, signInToggle, setSignUpToggle}) => {
                 required
               />
             </div>
-            <button type="submit">Log In</button>
-            <button onClick={demo}>Demo Login</button>
+            <button className={classes.loginButton} type="submit">
+              Log In
+            </button>
+            <button className={classes.loginButton} onClick={demo}>
+              Demo Login
+            </button>
 
-              <p>Don't have an account?</p>
-              <button onClick={handleSignUp}>Sign up</button>
-        
+            <p>Don't have an account?</p>
+            <button onClick={handleSignUp}>Sign up</button>
           </form>
         </div>
       </div>

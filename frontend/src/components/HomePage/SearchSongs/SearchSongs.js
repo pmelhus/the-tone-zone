@@ -4,9 +4,20 @@ import { useState } from "react";
 import { useHistory} from "react-router-dom"
 import {useDispatch} from "react-redux"
 import {getSearchResults} from "../../../store/search"
+import { createUseStyles, useTheme } from "react-jss";
+
+const useStyles = createUseStyles((theme) => ({
+
+searchForm: {
+  paddingTop: '20px'
+}
+}));
 
 
 const SearchSongs = ({ setSignInToggle }) => {
+
+  const theme = useTheme();
+  const classes = useStyles({ theme });
 
   const [searchWord, setSearchWord] = useState(null);
   const history = useHistory()
@@ -26,7 +37,7 @@ const SearchSongs = ({ setSignInToggle }) => {
   return (
     <>
       <div className="home-search-container">
-        <form onSubmit={handleSubmit}>
+        <form className={classes.searchForm} onSubmit={handleSubmit}>
           <input
             placeholder="Search for artists, bands, or tracks"
             value={searchWord}

@@ -4,22 +4,8 @@ import { getAllSongs } from "../../../store/songs";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 // import * as sessionActions from "../../../store/session";
-import { createUseStyles, useTheme } from "react-jss";
-
-const useStyles = createUseStyles((theme) => ({
-
-songCard: {
-  width: '196.5px',
-  height: '196.5px',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center'
-}
-}));
 
 const HomePageSongs = ({ setSignInToggle }) => {
-  const theme = useTheme();
-  const classes = useStyles({ theme });
   const dispatch = useDispatch();
   const songList = useSelector((state) => Object.values(state.songs));
   const dateNow = new Date();
@@ -48,7 +34,7 @@ const HomePageSongs = ({ setSignInToggle }) => {
         {songList &&
           songList.map((song) => {
             return (
-              <div className={classes.songCard}>
+              <div className="song-card-homepage">
                 <a href={`/stream/${song.id}`} id="song-title">
                   <div className="image-content">
                     {song?.imageUrl ? (
@@ -63,7 +49,7 @@ const HomePageSongs = ({ setSignInToggle }) => {
                 </a>
 
                 <div className="title-div-homepage">
-                  <div>
+                <div>
                     <a href={`/stream/${song?.id}`} id="song-title">
                       {song.title}
                     </a>
@@ -73,6 +59,7 @@ const HomePageSongs = ({ setSignInToggle }) => {
                       {song.User?.username}
                     </a>
                   </div>
+
                 </div>
               </div>
             );

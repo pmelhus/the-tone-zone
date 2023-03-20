@@ -1,0 +1,115 @@
+.search-results-container {
+  position: fixed;
+  width: 1155px;
+  /* height: 100%; */
+  /* min-height: 100vh; */
+  /* overflow-y: scroll; */
+}
+
+.search-results-heading {
+  float: left;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  font-weight:lighter;
+  font-size: 16px;
+  text-overflow: ellipsis;
+  margin-top: 10px;
+  margin-left: 10px;
+  border-bottom: .5px solid rgb(194, 191, 191);
+  width: 100%;
+}
+
+.search-results-heading p {
+  margin: 0;
+  padding-bottom: 4px;
+}
+
+.search-results-categories {
+  position: absolute;
+  top: 49px;
+  left: -30px;
+}
+
+.search-categories-list li {
+  margin: 5px;
+  padding: 3px;
+}
+
+.search-categories-list button {
+  border: none;
+  padding: 3px 0;
+  margin: 0;
+  margin-left: 5px;
+}
+
+.search-categories-list li:hover {
+  background-color: orangered;
+  border-radius: 5px;
+}
+
+.number-of-results {
+  color:rgb(194, 191, 191);
+}
+
+.search-results {
+  margin-left: 140px;
+  margin-top: 62px;
+  height: 850px;
+  overflow-y: scroll;
+  /* min-height: 100vh; */
+}
+
+#user-image-search {
+  height: 140px;
+  width: 140px;
+
+  margin-right: 20px;
+border-radius: 100%;
+background-image: linear-gradient(rgb(211, 119, 86), rgba(113, 85, 156, 0.462), rgba(34, 47, 168, 0.886), rgb(174, 82, 82) );
+}
+
+#user-image {
+  height: 140px;
+  width: 140px;
+  object-fit: cover;
+  border-radius: 100%;
+  border:rgb(187, 187, 187) solid .01px;
+  margin-right: 20px;
+}
+
+.search-user-card {
+  margin: 30px 0;
+  display: flex;
+  align-items: center;
+}
+
+.search-song-card {
+  display: flex;
+
+}
+
+#song-image {
+  height: 140px;
+  width: 140px;
+  object-fit: cover;
+  border:rgb(187, 187, 187) solid .01px;
+  margin-right: 20px;
+}
+
+#song-no-image {
+  height: 140px;
+  width: 140px;
+  margin-right: 20px;
+  background-image: linear-gradient(rgb(211, 119, 86), rgba(113, 85, 156, 0.462), rgba(34, 47, 168, 0.886), rgb(174, 82, 82) );
+
+}
+
+.song-search-player {
+  width: 800px;
+
+}
+
+.audio-player-search {
+  height: 100px;
+}

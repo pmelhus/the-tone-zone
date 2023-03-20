@@ -5,20 +5,20 @@ import WaveSurfer from "wavesurfer.js";
 import { FaPlayCircle, FaPauseCircle } from "react-icons/fa";
 import "./Waveform.css";
 
-const WaveformContinuous = ({audio}) => {
+const WaveformContinuous = ({ audio }) => {
   const containerRef = useRef();
   const waveSurferRef = useRef({
     isPlaying: () => false,
   });
 
-  console.log(audio)
+  console.log(audio);
 
   const [isLoading, toggleIsLoading] = useState(false);
   const [isPlaying, toggleIsPlaying] = useState(false);
   // const audio = useSelector(state=> (state.currentSong.song))
 
   useEffect(() => {
-toggleIsLoading(true);
+    toggleIsLoading(true);
     const waveSurfer = WaveSurfer.create({
       container: containerRef.current,
       responsive: true,
@@ -30,12 +30,12 @@ toggleIsLoading(true);
     waveSurfer.on("ready", () => {
       waveSurferRef.current = waveSurfer;
     });
-    waveSurfer.on("ready",() => {
-      toggleIsLoading(false)
-    } )
+    waveSurfer.on("ready", () => {
+      toggleIsLoading(false);
+    });
 
     return () => {
-       waveSurfer.destroy();
+      waveSurfer.destroy();
     };
   }, [audio]);
 
@@ -56,10 +56,14 @@ toggleIsLoading(true);
             <FaPlayCircle size="3em" id="waveform-button" />
           )}
         </button>
-
       </div>
       <div className="waveform-container">
-        {isLoading && <img alt="loading" src="https://miro.medium.com/max/1400/1*CsJ05WEGfunYMLGfsT2sXA.gif"></img>}
+        {isLoading && (
+          <img
+            alt="loading"
+            src="https://miro.medium.com/max/1400/1*CsJ05WEGfunYMLGfsT2sXA.gif"
+          ></img>
+        )}
         <div ref={containerRef} />
       </div>
     </>

@@ -41,7 +41,9 @@
   z-index: 4;
 }
 .image-content {
-  margin-right: 15px;
+  /* margin-right: 15px; */
+  display: flex;
+  justify-content: center;
 }
 .song-card {
   width: 100%;

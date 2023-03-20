@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import HomePage from "./components/HomePage";
@@ -10,13 +10,25 @@ import WaveSurfer from "wavesurfer.js";
 import WaveformContinuous from "./components/Waveform/WaveformContinuous";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useRef, forwardRef } from "react";
+import { getCurrentSong } from "./store/currentSong";
 
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+  const { pathname } = useLocation();
+  const streamUrl = pathname.split("/")[1];
+  const currentSongId = parseInt(pathname.split("/")[2]);
+
+  useEffect(async () => {
+    await dispatch(sessionActions.restoreUser());
+    if (streamUrl === "stream" && currentSongId) {
+      await dispatch(getCurrentSong(currentSongId));
+    }
+
+    await setIsLoaded(true);
   }, [dispatch]);
+
+
   const sessionUser = useSelector((state) => state.session.user);
   let currentAudio = useSelector((state) => state.currentSong);
 
@@ -28,16 +40,14 @@ function App() {
   const [autoPlay, setAutoplay] = useState(false);
   // const [isPlaying, toggleIsPlaying] = useState(false);
 
-
   // let waveSurfer
 
   // console.log(currentAudio, "CURRENT AUDIO");
 
   const audioPlayer = useRef();
-  const wavePlayer = useRef()
+  const wavePlayer = useRef();
 
-
-// console.log(audioPlayer.current?.audio.current)
+  // console.log(audioPlayer.current?.audio.current)
   // console.log(wavePlayer)
   // useEffect(()=> {
   //   if (!waveLoading) {
@@ -45,6 +55,16 @@ function App() {
   //   }
   // },[waveLoading])
 
+  let h5CurrentTime = audioPlayer.current?.audio.current.currentTime;
+  let h5Duration = audioPlayer.current?.audio.current.duration;
+
+  const [currentTime, setCurrentTime] = useState(h5CurrentTime);
+
+  const getCurrentDurationPercent = () => {
+    let percentage = h5CurrentTime / h5Duration;
+    console.log(h5CurrentTime, h5Duration, "TIME AND DURATION");
+    return percentage;
+  };
 
   const playFunc = () => {
     audioPlayer.current?.audio.current.play();
@@ -64,24 +84,53 @@ function App() {
     // togglePlaying(false)
   };
 
-  const playFunc2 = () => {
-    wavePlayer.current.play()
+  const playFunc2 = (e) => {
+    wavePlayer.current.play();
 
     // wavePlayer.pause = false;
-  }
+  };
 
-  const pauseFunc2 = () => {
-    wavePlayer.current.pause()
-// wavePlayer.pause = true;
+  const pauseFunc2 = (e) => {
+    wavePlayer.current.pause();
 
+    // wavePlayer.pause = true;
+  };
 
-  }
+  //     useEffect(()=> {
 
+  // //  console.log( getCurrentDurationPercent(), 'TIME')
+  // setCurrentTime(h5CurrentTime)
 
+  //     }, [h5CurrentTime])
 
-  // console.log(audioPlayer.current?.audio.current)
-
+  const setNewTime = (player, time) => {
+    player.currentTime = time;
+  };
   // console.log(sessionUser)
+
+  const onSeek = async (e) => {
+    let seekPercentageString =
+      audioPlayer.current.progressBar.current.ariaValueNow;
+    let h5CurrentTime = audioPlayer.current?.audio.current.currentTime;
+    let h5Duration = audioPlayer.current?.audio.current.duration;
+    // Do something with the current time
+    let seekPercentage = parseFloat(seekPercentageString, 10);
+
+    const changeCurrentTimeToSeekedTime = () => {
+      let seekPercentDecimal = seekPercentage * 0.01;
+      let currentSeekedTime = seekPercentDecimal * h5Duration;
+      let h5IsPlaying = audioPlayer.current.isPlaying();
+      e.currentTime = currentSeekedTime;
+      wavePlayer.current.seekTo(seekPercentDecimal);
+      if (h5IsPlaying) {
+        e.pause();
+      }
+    };
+
+
+    await changeCurrentTimeToSeekedTime();
+  };
+
   return (
     <>
       <Switch>
@@ -92,7 +141,6 @@ function App() {
             {...{ signInToggle }}
             {...{ setSignInToggle }}
           />
-
         </Route>
         <div className="home-body-container">
           <Navigation
@@ -110,37 +158,37 @@ function App() {
               {...{ sessionUser }}
               {...{ waveLoading }}
               {...{ setWaveLoading }}
-              {...{wavePlayer}}
+              {...{ wavePlayer }}
             />
           )}
         </div>
       </Switch>
-          <div style={{zIndex: "100"}} className="continuous-audio-playback">
-            {currentAudio.url && currentAudio && (
-              <div>
-                <AudioPlayer
-                  className="audio-player"
-                  src={currentAudio.url}
-                  onPlay={playFunc2}
+      <div style={{ zIndex: "100" }} className="continuous-audio-playback">
+        {currentAudio && isLoaded && (
+          <div>
+            <AudioPlayer
+              className="audio-player"
+              src={currentAudio.url}
+              onPlay={playFunc2}
+              onPause={pauseFunc2}
+              layout="horizontal-reverse"
+              autoPlayAfterSrcChange={true}
+              // autoPlay={true}
+              ref={audioPlayer}
+              mse={{ onSeek: (e) => onSeek(e) }}
+            />
 
-                  onPause={pauseFunc2}
-                  layout="horizontal-reverse"
-                  autoPlayAfterSrcChange={true}
-                  autoPlay={true}
-                  ref={audioPlayer}
-                />
-
-                <div className="continuous-headings">
-                  <a href={`/${currentAudio?.User?.username}`} id="username">
-                    {currentAudio.User?.username}
-                  </a>
-                  <a href={`/stream/${currentAudio?.id}`} id="song-title">
-                    {currentAudio?.title}
-                  </a>
-                </div>
-              </div>
-            )}
+            <div className="continuous-headings">
+              <a href={`/${currentAudio?.User?.username}`} id="username">
+                {currentAudio.User?.username}
+              </a>
+              <a href={`/stream/${currentAudio?.id}`} id="song-title">
+                {currentAudio?.title}
+              </a>
+            </div>
           </div>
+        )}
+      </div>
     </>
   );
 }

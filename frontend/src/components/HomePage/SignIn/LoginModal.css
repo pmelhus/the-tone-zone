@@ -19,10 +19,11 @@
   border-radius: 5%;
 margin: 0 auto;
   position: absolute;
-  top: 35%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 30px;
+width: 450px;
+height: auto;
 
 }
 
@@ -79,19 +80,27 @@ button {
 input {
   width: 150px;
 }
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: -25px;
-  padding: 30px;
-}
+
 
 .username-div {
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin-bottom: 10px;
+}
+
+.username-div input {
+  width: 100%;
+  padding: 4px;
+  height: 20px;
+  height: 30px;
+  background: #fff;
+  border: 1px solid #ccc;
+}
+
+.username-div label {
+font-size: 16px;
 }
 
 .password-div {
@@ -99,7 +108,20 @@ form {
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
+align-items: center;
 }
+
+.password-div input {
+  width: 100%;
+  padding: 4px;
+  height: 30px;
+  background: #fff;
+  border: 1px solid #ccc;
+}
+
+.password-div label {
+  font-size: 16px;
+  }
 
 label {
   text-align: center;
@@ -107,8 +129,14 @@ label {
 
 .signin-form button {
   margin: 10px 0;
+  width: 100%;
 }
 
 .signin-form label {
   margin-bottom: 6px;
+}
+
+.signin-form {
+  padding: 40px;
+
 }

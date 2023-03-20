@@ -27,8 +27,6 @@ const [time, setTime] = useState(null)
 
 const [isPlaying, toggleIsPlaying] = useState()
 const [currentAudio, setCurrentAudio] = useState(null)
-console.log(waveSurferRef)
-console.log()
 
 
   // const audio = useSelector(state=> (state.currentSong.song))
@@ -44,7 +42,6 @@ console.log()
     });
 
 
-    console.log(waveSurferRef.current)
     if (audio) {
       waveSurfer.load(audio);
     }
@@ -70,7 +67,7 @@ console.log()
       }
       toggleIsPlaying(true)
       setCurrentAudio(audio)
-      setTime(waveSurfer.getCurrentTime())
+
     });
     waveSurfer.on("pause", () => {
       pauseFunc();
@@ -80,7 +77,7 @@ console.log()
         wavePlayer.current = waveSurfer;
       }
       toggleIsPlaying(false)
-      setTime(waveSurfer.getCurrentTime())
+
 
     });
 
@@ -121,7 +118,7 @@ console.log()
           onClick={() => {
             waveSurferRef.current.playPause();
             toggleIsPlaying(waveSurferRef.current.isPlaying());
-            dispatch(getCurrentSong(song.id, time));
+         
           }}
           type="button"
         >
