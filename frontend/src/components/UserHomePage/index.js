@@ -16,7 +16,7 @@ import SearchResults from "./SearchResults";
 import { getSearchResults } from "../../store/search";
 
 // howler.js range i
-const UserHomePage = ({sessionUser, pauseFunc, playFunc, waveLoading, setWaveLoading, isPlaying, toggleIsPlaying, wavePlayer }) => {
+const UserHomePage = ({sessionUser, pauseFunc, playFunc, waveLoading, setWaveLoading, isPlaying, toggleIsPlaying, wavePlayer, audioPlayer }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
@@ -39,6 +39,7 @@ const UserHomePage = ({sessionUser, pauseFunc, playFunc, waveLoading, setWaveLoa
         <Route path="/stream/:songId">
           <Song             {...{ pauseFunc }}
             {...{ playFunc }}
+            {...{audioPlayer}}
             sessionUser={sessionUser}
             {...{waveLoading}}
             {...{setWaveLoading}}
@@ -50,6 +51,7 @@ const UserHomePage = ({sessionUser, pauseFunc, playFunc, waveLoading, setWaveLoa
           <Songs
             {...{ pauseFunc }}
             {...{ playFunc }}
+            {...{audioPlayer}}
             sessionUser={sessionUser}
             {...{waveLoading}}
             {...{setWaveLoading}}
@@ -73,11 +75,11 @@ const UserHomePage = ({sessionUser, pauseFunc, playFunc, waveLoading, setWaveLoa
           <>
 
         <Route path="/:username">
-        <ProfilePage {...{pauseFunc}} {...{playFunc}}/>
+        <ProfilePage {...{audioPlayer}} {...{pauseFunc}} {...{playFunc}}/>
 
         </Route>
         <Route path="/search">
-          <SearchResults {...{searchResults}} {...{pauseFunc}} {...{playFunc}} {...{ isLoaded }} />
+          <SearchResults {...{searchResults}} {...{audioPlayer}} {...{pauseFunc}} {...{playFunc}} {...{ isLoaded }} />
         </Route>
           </>
         }

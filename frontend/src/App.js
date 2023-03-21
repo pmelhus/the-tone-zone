@@ -11,6 +11,7 @@ import WaveformContinuous from "./components/Waveform/WaveformContinuous";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useRef, forwardRef } from "react";
 import { getCurrentSong } from "./store/currentSong";
+import H5AudioPlayer from "./H5Player/index"
 
 function App() {
   const dispatch = useDispatch();
@@ -28,14 +29,12 @@ function App() {
     await setIsLoaded(true);
   }, [dispatch]);
 
-
   const sessionUser = useSelector((state) => state.session.user);
-  let currentAudio = useSelector((state) => state.currentSong);
+
 
   const [signInToggle, setSignInToggle] = useState(false);
   const [signUpToggle, setSignUpToggle] = useState(false);
-  const [play, setPlay] = useState(false);
-  const [pause, setPause] = useState(false);
+
   const [waveLoading, setWaveLoading] = useState(true);
   const [autoPlay, setAutoplay] = useState(false);
   // const [isPlaying, toggleIsPlaying] = useState(false);
@@ -43,6 +42,7 @@ function App() {
   // let waveSurfer
 
   // console.log(currentAudio, "CURRENT AUDIO");
+
 
   const audioPlayer = useRef();
   const wavePlayer = useRef();
@@ -55,46 +55,11 @@ function App() {
   //   }
   // },[waveLoading])
 
-  let h5CurrentTime = audioPlayer.current?.audio.current.currentTime;
-  let h5Duration = audioPlayer.current?.audio.current.duration;
 
-  const [currentTime, setCurrentTime] = useState(h5CurrentTime);
 
-  const getCurrentDurationPercent = () => {
-    let percentage = h5CurrentTime / h5Duration;
-    console.log(h5CurrentTime, h5Duration, "TIME AND DURATION");
-    return percentage;
-  };
 
-  const playFunc = () => {
-    audioPlayer.current?.audio.current.play();
 
-    // wavePlayer.current.play();
-    // togglePlaying(true)
-    // wavePlayer.current.play()
-    // setPlay(true)
-    // setPause(false)
-  };
 
-  const pauseFunc = () => {
-    audioPlayer.current?.audio.current.pause();
-    // setPlay(false)
-    // setPause(true)
-    // wavePlayer.current.pause();
-    // togglePlaying(false)
-  };
-
-  const playFunc2 = (e) => {
-    wavePlayer.current.play();
-
-    // wavePlayer.pause = false;
-  };
-
-  const pauseFunc2 = (e) => {
-    wavePlayer.current.pause();
-
-    // wavePlayer.pause = true;
-  };
 
   //     useEffect(()=> {
 
@@ -108,28 +73,7 @@ function App() {
   };
   // console.log(sessionUser)
 
-  const onSeek = async (e) => {
-    let seekPercentageString =
-      audioPlayer.current.progressBar.current.ariaValueNow;
-    let h5CurrentTime = audioPlayer.current?.audio.current.currentTime;
-    let h5Duration = audioPlayer.current?.audio.current.duration;
-    // Do something with the current time
-    let seekPercentage = parseFloat(seekPercentageString, 10);
 
-    const changeCurrentTimeToSeekedTime = () => {
-      let seekPercentDecimal = seekPercentage * 0.01;
-      let currentSeekedTime = seekPercentDecimal * h5Duration;
-      let h5IsPlaying = audioPlayer.current.isPlaying();
-      e.currentTime = currentSeekedTime;
-      wavePlayer.current.seekTo(seekPercentDecimal);
-      if (h5IsPlaying) {
-        e.pause();
-      }
-    };
-
-
-    await changeCurrentTimeToSeekedTime();
-  };
 
   return (
     <>
@@ -153,8 +97,8 @@ function App() {
           />
           {isLoaded && (
             <UserHomePage
-              {...{ playFunc }}
-              {...{ pauseFunc }}
+
+              {...{audioPlayer}}
               {...{ sessionUser }}
               {...{ waveLoading }}
               {...{ setWaveLoading }}
@@ -163,32 +107,7 @@ function App() {
           )}
         </div>
       </Switch>
-      <div style={{ zIndex: "100" }} className="continuous-audio-playback">
-        {currentAudio && isLoaded && (
-          <div>
-            <AudioPlayer
-              className="audio-player"
-              src={currentAudio.url}
-              onPlay={playFunc2}
-              onPause={pauseFunc2}
-              layout="horizontal-reverse"
-              autoPlayAfterSrcChange={true}
-              // autoPlay={true}
-              ref={audioPlayer}
-              mse={{ onSeek: (e) => onSeek(e) }}
-            />
-
-            <div className="continuous-headings">
-              <a href={`/${currentAudio?.User?.username}`} id="username">
-                {currentAudio.User?.username}
-              </a>
-              <a href={`/stream/${currentAudio?.id}`} id="song-title">
-                {currentAudio?.title}
-              </a>
-            </div>
-          </div>
-        )}
-      </div>
+      <H5AudioPlayer {...{waveLoading}}{...{audioPlayer}} {...{wavePlayer}} {...{isLoaded}}/>
     </>
   );
 }

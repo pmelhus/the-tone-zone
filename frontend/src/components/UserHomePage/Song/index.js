@@ -13,8 +13,22 @@ import Waveform from "../../Waveform";
 
 import "./Song.css";
 
-const Song = ({ playFunc, pauseFunc, wavePlayer, waveLoading, setWaveLoading, isPlaying, toggleIsPlaying }) => {
+import { createUseStyles, useTheme } from "react-jss";
+
+const useStyles = createUseStyles((theme) => ({
+songImage: {
+  width: '300px',
+  height: '300px',
+  objectFit: 'cover',
+  paddingRight: '20px'
+}
+
+}));
+
+const Song = ({ audioPlayer, playFunc, pauseFunc, wavePlayer, waveLoading, setWaveLoading, isPlaying, toggleIsPlaying }) => {
   const [signInToggle, setSignInToggle] = useState(false);
+  const theme = useTheme();
+  const classes = useStyles({ theme });
   const [playModal, setPlayModal] = useState(false);
   const dispatch = useDispatch();
   const { songId } = useParams();
@@ -83,13 +97,14 @@ const Song = ({ playFunc, pauseFunc, wavePlayer, waveLoading, setWaveLoading, is
                   {...{ playFunc }}
                   {...{ isPlaying }}
                   {...{ toggleIsPlaying }}
+                  {...{audioPlayer}}
                 />
               </div>
               <div className="img-div">
                 {song?.imageUrl ? (
-                  <img src={song?.imageUrl} />
+                  <img className={classes.songImage} src={song?.imageUrl} />
                 ) : (
-                  <img src="https://images.pexels.com/photos/7130560/pexels-photo-7130560.jpeg" />
+                  <img className={classes.songImage} src="https://images.pexels.com/photos/7130560/pexels-photo-7130560.jpeg" />
                 )}
               </div>
             </div>

@@ -11,29 +11,35 @@ const Waveform = ({
   setWaveLoading,
   audio,
   song,
-  playFunc,
-  pauseFunc,
-wavePlayer
 
-
-
+  wavePlayer,
+  audioPlayer,
 }) => {
   const dispatch = useDispatch();
   const containerRef = useRef();
   const waveSurferRef = useRef({
     isPlaying: () => false,
   });
-const [time, setTime] = useState(null)
+  const [time, setTime] = useState(null);
 
-const [isPlaying, toggleIsPlaying] = useState()
-const [currentAudio, setCurrentAudio] = useState(null)
+  const [isPlaying, toggleIsPlaying] = useState();
+  const [currentAudio, setCurrentAudio] = useState(null);
 
+  const h5PauseFunc = () => {
+    if (audioPlayer.current.isPlaying()) {
+      audioPlayer.current?.audio.current.pause();
+    }
+  };
 
+  const h5PlayFunc = () => {
+    if (!audioPlayer.current.isPlaying()) {
+      audioPlayer.current?.audio.current.play();
+    }
+  };
   // const audio = useSelector(state=> (state.currentSong.song))
   // console.log(universalPlay)
   useEffect(() => {
-
-     const waveSurfer = WaveSurfer.create({
+    const waveSurfer = WaveSurfer.create({
       container: containerRef.current,
       responsive: true,
       cursorWidth: 0,
@@ -41,44 +47,34 @@ const [currentAudio, setCurrentAudio] = useState(null)
       barHeight: 1,
     });
 
-
     if (audio) {
       waveSurfer.load(audio);
     }
     waveSurfer.on("ready", () => {
       waveSurferRef.current = waveSurfer;
       wavePlayer.current = waveSurfer;
-
       setWaveLoading(false);
       waveSurfer.setMute(true);
     });
 
-    if (audio !== currentAudio) {
-      waveSurfer.pause()
-    }
-
     waveSurfer.on("play", () => {
-      // console.log('play')
-      playFunc();
+      h5PlayFunc();
+
       waveSurferRef.current = waveSurfer;
       if (wavePlayer) {
-
         wavePlayer.current = waveSurfer;
       }
-      toggleIsPlaying(true)
-      setCurrentAudio(audio)
-
+      toggleIsPlaying(true);
+      setCurrentAudio(audio);
     });
+
     waveSurfer.on("pause", () => {
-      pauseFunc();
+      h5PauseFunc();
       waveSurferRef.current = waveSurfer;
       if (wavePlayer) {
-
         wavePlayer.current = waveSurfer;
       }
-      toggleIsPlaying(false)
-
-
+      toggleIsPlaying(false);
     });
 
     // setUniversalSeek(waveSurfer.getCurrentTime())
@@ -100,8 +96,6 @@ const [currentAudio, setCurrentAudio] = useState(null)
     };
   }, [audio]);
 
-
-
   // if (audio) {
   //   return (
   //     <>
@@ -118,7 +112,6 @@ const [currentAudio, setCurrentAudio] = useState(null)
           onClick={() => {
             waveSurferRef.current.playPause();
             toggleIsPlaying(waveSurferRef.current.isPlaying());
-         
           }}
           type="button"
         >
