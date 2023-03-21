@@ -17,16 +17,21 @@ const H5AudioPLayer = ({ isLoaded, audioPlayer, wavePlayer, waveLoading }) => {
   const wavePlayFunc = (e) => {
     if (!wavePlayer.current.isPlaying()) {
       wavePlayer.current.play();
+    } else {
+      return
     }
   };
 
   const wavePauseFunc = (e) => {
     if (wavePlayer.current.isPlaying()) {
       wavePlayer.current.pause();
+    } else {
+      return
     }
   };
 
   const onSeek = async (e) => {
+    await console.log(audioPlayer.current.isPlaying(), "IS PLAYING");
     let seekPercentageString =
       audioPlayer.current.progressBar.current.ariaValueNow;
     let h5CurrentTime = audioPlayer.current?.audio.current.currentTime;

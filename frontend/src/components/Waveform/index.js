@@ -28,12 +28,16 @@ const Waveform = ({
   const h5PauseFunc = () => {
     if (audioPlayer.current.isPlaying()) {
       audioPlayer.current?.audio.current.pause();
+    } else {
+      return;
     }
   };
 
   const h5PlayFunc = () => {
     if (!audioPlayer.current.isPlaying()) {
       audioPlayer.current?.audio.current.play();
+    } else {
+      return;
     }
   };
   // const audio = useSelector(state=> (state.currentSong.song))
@@ -58,7 +62,9 @@ const Waveform = ({
     });
 
     waveSurfer.on("play", () => {
-      h5PlayFunc();
+      if (!audioPlayer.current.isPlaying()) {
+        h5PlayFunc();
+      }
 
       waveSurferRef.current = waveSurfer;
       if (wavePlayer) {
@@ -69,7 +75,9 @@ const Waveform = ({
     });
 
     waveSurfer.on("pause", () => {
-      h5PauseFunc();
+      if (audioPlayer.current.isPlaying()) {
+        h5PauseFunc();
+      }
       waveSurferRef.current = waveSurfer;
       if (wavePlayer) {
         wavePlayer.current = waveSurfer;
