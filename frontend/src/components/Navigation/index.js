@@ -8,12 +8,13 @@ import LoginModal from "../HomePage/SignIn/LoginModal";
 import SignUpModal from "../HomePage/SignUp/SignUpModal";
 import SearchBarNav from "./SearchBarNav"
 
-function Navigation({ isLoaded, sessionUser }) {
+function Navigation({ isLoaded}) {
   // const sessionUser = useSelector((st ate) => state.session.user);
   const [signInToggle2, setSignInToggle2] = useState(false);
   const [signUpToggle2, setSignUpToggle2] = useState(false);
   const location = useLocation();
   const streamUrl = location.pathname.split("/")[1];
+  const sessionUser = useSelector((state) => state.session.user);
 
   const handleSignIn = (e) => {
     setSignInToggle2(true);
@@ -51,12 +52,13 @@ function Navigation({ isLoaded, sessionUser }) {
                 </li>
               </NavLink>
             )}
+
             <NavLink
-              className={streamUrl === "stream" && "nav-div-selected"}
+                  className={streamUrl === "stream" && "nav-div-selected"}
               to="/stream"
             >
-              <li className="ul-nav-items">
-                <p>Stream</p>
+              <li  className="ul-nav-items">
+                <p >Stream</p>
               </li>
             </NavLink>
             {sessionUser && (
@@ -79,7 +81,7 @@ function Navigation({ isLoaded, sessionUser }) {
           <div className={sessionUser ? "profile-button" : "signin-signup-div"}>
             {sessionUser ? (
               <NavLink to="/upload">
-                <p>Upload</p>
+                <p style={{margin:'0'}}>Upload</p>
               </NavLink>
             ) : (
               <>

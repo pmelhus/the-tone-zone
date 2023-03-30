@@ -37,21 +37,7 @@ const LoginModal = ({ setSignInToggle, signInToggle, setSignUpToggle }) => {
   let history = useHistory();
   // if (sessionUser) return <Redirect to="/discover" />;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setErrors([]);
-    return dispatch(sessionActions.login({ credential, password })).catch(
-      async (res) => {
-        const data = await res.json();
-        // console.log(data)
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
-        if (!errors) return history.push("/discover");
-      }
-    );
-    // console.log(dispatch(sessionActions.login({ credential, password })))
-  };
+
 
   const handleSignUp = (e) => {
     e.preventDefault();
@@ -89,14 +75,7 @@ const LoginModal = ({ setSignInToggle, signInToggle, setSignUpToggle }) => {
     >
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-content">
-          <div
-            onClick={(e) => {
-              backgroundClick();
-            }}
-            className={classes.exit}
-          >
-            <i className="fa-regular fa-xl fa-xmark"></i>
-          </div>
+
           {/* <div className="fang-buttons">
             <div className="fb-button"></div>
             <button type="button">Continue with Facebook</button>
@@ -111,38 +90,7 @@ const LoginModal = ({ setSignInToggle, signInToggle, setSignUpToggle }) => {
           {history.location.state?.commentAttempt && !exited && (
             <p>Please log in or sign up to comment on a song!</p>
           )}
-          <form className="signin-form" onSubmit={handleSubmit}>
-            <ul>
-              {errors && errors.map((error, idx) => <li key={idx}>{error}</li>)}
-            </ul>
-            <div className="username-div">
-              <label>Username or Email</label>
-              <input
-                type="text"
-                value={credential}
-                onChange={(e) => setCredential(e.target.value)}
-                required
-              />
-            </div>
-            <div className="password-div">
-              <label>Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            <button className={classes.loginButton} type="submit">
-              Log In
-            </button>
-            <button className={classes.loginButton} onClick={demo}>
-              Demo Login
-            </button>
 
-            <p>Don't have an account?</p>
-            <button onClick={handleSignUp}>Sign up</button>
-          </form>
         </div>
       </div>
     </div>

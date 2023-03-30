@@ -10,6 +10,7 @@ const songsRouter = require('./songs.js')
 const commentsRouter = require('./comments.js')
 const playlistsRouter = require('./playlists')
 const searchRouter = require('./search.js')
+const currentSongsRouter = require('./currentSongs.js')
 
 router.use('/session', sessionRouter);
 
@@ -18,6 +19,7 @@ router.use('/songs', songsRouter);
 router.use('/comments', commentsRouter)
 router.use('/playlists', playlistsRouter)
 router.use('/search', searchRouter)
+router.use('/currentSongs', currentSongsRouter)
 
 router.post('/test', function(req, res) {
   res.json({ requestBody: req.body });

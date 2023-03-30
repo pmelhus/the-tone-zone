@@ -9,7 +9,8 @@ import { createUseStyles, useTheme } from "react-jss";
 const useStyles = createUseStyles((theme) => ({
 
 searchForm: {
-  paddingTop: '20px'
+  paddingTop: '20px',
+  marginBottom: '30px'
 }
 }));
 

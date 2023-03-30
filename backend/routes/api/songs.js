@@ -1,4 +1,4 @@
-const songs = require("../../db/models");
+
 const csurf = require("csurf");
 const express = require("express");
 const asyncHandler = require("express-async-handler");
@@ -91,7 +91,7 @@ router.delete(
   "/:id",
   asyncHandler(async (req, res) => {
     const id = req.params.id;
-    const song = await Song.findByPk(id);
+    const song = await CurrentSong.findByPk(id);
 
     await song.destroy();
     return res.json(song);

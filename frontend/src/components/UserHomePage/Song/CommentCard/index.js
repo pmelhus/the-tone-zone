@@ -37,7 +37,7 @@ const CommentCard = ({ song }) => {
   return (
     <>
       <p className="comment-count">
-        <i class="fa-solid fa-message"></i>
+        <i className="fa-solid fa-message"></i>
         {commentListFiltered.length} comments
       </p>
       <div className="comment-content">

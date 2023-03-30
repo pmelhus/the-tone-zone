@@ -16,16 +16,26 @@ import "./Song.css";
 import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
-songImage: {
-  width: '300px',
-  height: '300px',
-  objectFit: 'cover',
-  paddingRight: '20px'
-}
-
+  songImage: {
+    width: "300px",
+    height: "300px",
+    objectFit: "cover",
+    paddingRight: "20px",
+  },
 }));
 
-const Song = ({ audioPlayer, playFunc, pauseFunc, wavePlayer, waveLoading, setWaveLoading, isPlaying, toggleIsPlaying }) => {
+const Song = ({
+  setCurrentAudio,
+  audioPlayer,
+  playFunc,
+  pauseFunc,
+  wavePlayer,
+  waveLoading,
+  setWaveLoading,
+  isPlaying,
+  currentAudio,
+  toggleIsPlaying,
+}) => {
   const [signInToggle, setSignInToggle] = useState(false);
   const theme = useTheme();
   const classes = useStyles({ theme });
@@ -88,6 +98,7 @@ const Song = ({ audioPlayer, playFunc, pauseFunc, wavePlayer, waveLoading, setWa
 
               <div className="waveform-player-single-song">
                 <Waveform
+                  {...{ setCurrentAudio }}
                   {...{ wavePlayer }}
                   audio={song.url}
                   {...{ waveLoading }}
@@ -97,14 +108,18 @@ const Song = ({ audioPlayer, playFunc, pauseFunc, wavePlayer, waveLoading, setWa
                   {...{ playFunc }}
                   {...{ isPlaying }}
                   {...{ toggleIsPlaying }}
-                  {...{audioPlayer}}
+                  {...{ audioPlayer }}
+                  {...{ currentAudio }}
                 />
               </div>
               <div className="img-div">
                 {song?.imageUrl ? (
                   <img className={classes.songImage} src={song?.imageUrl} />
                 ) : (
-                  <img className={classes.songImage} src="https://images.pexels.com/photos/7130560/pexels-photo-7130560.jpeg" />
+                  <img
+                    className={classes.songImage}
+                    src="https://images.pexels.com/photos/7130560/pexels-photo-7130560.jpeg"
+                  />
                 )}
               </div>
             </div>
@@ -121,22 +136,21 @@ const Song = ({ audioPlayer, playFunc, pauseFunc, wavePlayer, waveLoading, setWa
                     Edit
                   </button>
                   <button onClick={handleDelete}>Delete</button>
-                  </>
+                </>
               )}
-                  <div className="dropdown-more">
-                    <button onClick={(e) => openMenu(e)}>
-                      <i class="fa-solid fa-ellipsis"></i>More
-                    </button>
-                    {showMenu && (
-                      <div
-                        className="profile-dropdown"
-                        onClick={(e) => openPlaylist()}
-                      >
-                        <a>add to playlist</a>
-                      </div>
-                    )}
+              <div className="dropdown-more">
+                <button onClick={(e) => openMenu(e)}>
+                  <i class="fa-solid fa-ellipsis"></i>More
+                </button>
+                {showMenu && (
+                  <div
+                    className="profile-dropdown"
+                    onClick={(e) => openPlaylist()}
+                  >
+                    <a>add to playlist</a>
                   </div>
-
+                )}
+              </div>
             </div>
           </div>
           <div className="avatar-comment-description">

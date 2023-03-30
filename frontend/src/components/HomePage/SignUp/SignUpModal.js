@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+
 import * as sessionActions from "../../../store/session";
 import "./SignUpModal.css";
 
 function SignupFormPage({ signUpToggle, setSignUpToggle, setSignInToggle }) {
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
+
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -73,71 +73,7 @@ function SignupFormPage({ signUpToggle, setSignUpToggle, setSignInToggle }) {
     >
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-content">
-          <form className="signup-form" onSubmit={handleSubmit}>
-            <ul>
-              {errors.map((error, idx) => (
-                <li key={idx}>{error}</li>
-              ))}
-            </ul>
-            <label>Email</label>
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <label>Username</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-            <label>Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <label>Confirm Password</label>
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
-            <label
-              style={{ marginTop: "12px", padding: "8px" }}
-              id="profile-avatar-label"
-            >
-              Upload profile avatar
-              <input
-                id="profile-avatar-upload"
-                placeholder="Upload your image"
-                type="file"
-                accept="image/*"
-                name="image-upload"
-                onChange={updateImage}
-              ></input>
-            </label>
-
-            {/* <label>
-            Multiple Upload
-            <input
-              type="file"
-              multiple
-              onChange={updateFiles} />
-          </label> */}
-            <button style={{ marginTop: "12px" }} type="submit">
-              Sign Up
-            </button>
-
-            <p style={{ padding: "0" }}>Already have an account?</p>
-            <button style={{ margin: "0" }} onClick={handleSignIn}>
-              Sign in
-            </button>
-          </form>
+          
         </div>
       </div>
     </div>

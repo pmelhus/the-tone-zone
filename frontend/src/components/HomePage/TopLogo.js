@@ -6,6 +6,7 @@ const TopLogo = () => {
     <div className="logo-homepage">
 
         <img
+        className="logo-image"
           alt="site icon"
           src="https://res.cloudinary.com/dmtap2h65/image/upload/v1657853171/Tone_Zone_logo_m442ls.png"
         ></img>

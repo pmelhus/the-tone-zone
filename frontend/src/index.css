@@ -14,11 +14,8 @@ max-width: 100%;
 max-height: 100vh;
 
 margin: auto; */
-position: absolute;
-top: 0;
-bottom: 0;
-right: 0;
-left: 0;
+min-width: 100vw;
+min-height: 100vh;
 }
 
 body, html {
@@ -31,11 +28,7 @@ body, html {
   /* max-height: 100%; */
   /* overflow-y: scroll; */
   /* resize: vertical; */
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
+
 
 
 }
@@ -64,41 +57,15 @@ img {
   object-fit: cover;
 }
 
-.continuous-audio-playback {
-  position: fixed;
-  bottom: -9px;
-  width: 100%;
-  /* height:  */
-}
-.react-audio-player {
-  width: 100%;
-  /* max-width: 4000px; */
-}
-
-.rhap_progress-section {
-  padding: 0;
-  height: 50px;
-
-}
-
-.continuous-headings {
-  position: absolute;
-  /* z-index: 10; */
-  bottom: 16px;
-  display: flex;
-  flex-direction:column;
-  left: 40px;
-
-}
-
-.continuous-headings a {
-  padding: 0;
-  margin: 0;
-
-}
-
 .home-body-container {
   width:auto;
-  height: 1080px;
-  
+}
+
+h1 {
+  padding: 0;
+  margin: 0;
+}
+
+h2 {
+  font-size: 20px;
 }

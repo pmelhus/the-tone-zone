@@ -14,19 +14,34 @@ import { getAllPlaylists } from "../../store/playlists";
 import { getAllSongs } from "../../store/songs";
 import SearchResults from "./SearchResults";
 import { getSearchResults } from "../../store/search";
+import { getAllCurrentSongs } from "../../store/currentSong";
 
 // howler.js range i
-const UserHomePage = ({sessionUser, pauseFunc, playFunc, waveLoading, setWaveLoading, isPlaying, toggleIsPlaying, wavePlayer, audioPlayer }) => {
+const UserHomePage = ({
+  pauseFunc,
+  playFunc,
+  waveLoading,
+  setWaveLoading,
+  isPlaying,
+  toggleIsPlaying,
+  wavePlayer,
+  audioPlayer,
+  setCurrentAudio,
+  currentAudio
+}) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const searchWord = pathname.split("/")[2];
+  const sessionUser = useSelector((state) => state.session.user);
   const searchResults = useSelector((state) => state?.search);
-  console.log(sessionUser);
   useEffect(() => {
-    dispatch(getAllPlaylists());
-    dispatch(getAllSongs());
-    dispatch(getSearchResults(searchWord));
+    const fetchData = async () => {
+      dispatch(getAllPlaylists());
+      dispatch(getAllSongs());
+      dispatch(getSearchResults(searchWord));
+    };
+    fetchData();
     setIsLoaded(true);
   }, [dispatch, pathname]);
 
@@ -37,27 +52,32 @@ const UserHomePage = ({sessionUser, pauseFunc, playFunc, waveLoading, setWaveLoa
           <Discover {...{ isLoaded }} />
         </Route>
         <Route path="/stream/:songId">
-          <Song             {...{ pauseFunc }}
+          <Song
+            {...{ pauseFunc }}
             {...{ playFunc }}
-            {...{audioPlayer}}
+            {...{ audioPlayer }}
             sessionUser={sessionUser}
-            {...{waveLoading}}
-            {...{setWaveLoading}}
-            {...{wavePlayer}}
-            {...{ isPlaying}}
-            {...{ toggleIsPlaying }}/>
+            {...{ waveLoading }}
+            {...{ setWaveLoading }}
+            {...{ wavePlayer }}
+            {...{ isPlaying }}
+            {...{ toggleIsPlaying }}
+            {...{ setCurrentAudio }}
+            {...{ currentAudio }}
+          />
         </Route>
         <Route exact path="/stream">
           <Songs
             {...{ pauseFunc }}
             {...{ playFunc }}
-            {...{audioPlayer}}
+            {...{ audioPlayer }}
             sessionUser={sessionUser}
-            {...{waveLoading}}
-            {...{setWaveLoading}}
-            {...{wavePlayer}}
-            {...{ isPlaying}}
+            {...{ waveLoading }}
+            {...{ setWaveLoading }}
+            {...{ wavePlayer }}
+            {...{ isPlaying }}
             {...{ toggleIsPlaying }}
+            {...{ currentAudio }}
           />
         </Route>
         <Route path="/you/library">
@@ -71,18 +91,26 @@ const UserHomePage = ({sessionUser, pauseFunc, playFunc, waveLoading, setWaveLoa
         <Route path="/upload">
           <Upload sessionUser={sessionUser} />
         </Route>
-          {isLoaded &&
+        {isLoaded && (
           <>
-
-        <Route path="/:username">
-        <ProfilePage {...{audioPlayer}} {...{pauseFunc}} {...{playFunc}}/>
-
-        </Route>
-        <Route path="/search">
-          <SearchResults {...{searchResults}} {...{audioPlayer}} {...{pauseFunc}} {...{playFunc}} {...{ isLoaded }} />
-        </Route>
+            <Route path="/:username">
+              <ProfilePage
+                {...{ audioPlayer }}
+                {...{ pauseFunc }}
+                {...{ playFunc }}
+              />
+            </Route>
+            <Route path="/search">
+              <SearchResults
+                {...{ searchResults }}
+                {...{ audioPlayer }}
+                {...{ pauseFunc }}
+                {...{ playFunc }}
+                {...{ isLoaded }}
+              />
+            </Route>
           </>
-        }
+        )}
         {/* <Route path={`/:username/playlists/:id`}>
           <p>HALLO</p>
           <ProfilePlaylist {...{}}/>

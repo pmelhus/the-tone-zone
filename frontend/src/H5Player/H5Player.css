@@ -1,0 +1,116 @@
+
+.continuous-audio-playback {
+box-sizing: border-box;
+position: fixed;
+  bottom: 0;
+width: 100%;
+padding: 0;
+margin: 0 auto;
+display: flex;
+justify-content: center;
+background-color: rgb(242, 242, 242);
+z-index: 100;
+border-top: 1px solid #cecece;
+}
+
+.rhap_container {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  height: 60px;
+  box-shadow: none;
+}
+
+.rhap_main {
+width: 100%;
+display: flex;
+justify-content: space-between;
+ /* margin: 0 auto; */
+ height: 100%;
+ margin: 0;
+ flex: none;
+
+}
+
+.rhap_current-time {
+  margin: 0;
+}
+.rhap_total-time {
+  margin: 0;
+}
+
+.rhap_controls-section {
+ display: flex;
+ justify-content: center;
+ width: 20%;
+ flex: none;
+}
+
+.audio-player-div {
+  width: 1180px;
+  display: flex;
+}
+
+.continuous-headings{
+display: flex;
+align-items: center;
+
+}
+.rhap_progress-section {
+  flex: none;
+  width: 70%;
+  margin-right: 20px;
+}
+
+.continuous-audio-image {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.continuous-name-title {
+display: flex;
+flex-direction: column;
+}
+
+.rhap_play-pause-button {
+  background-color: black;
+  border-radius: 100%;
+  color:rgb(242, 242, 242);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.rhap_play-pause-button svg {
+  zoom: 1.5;
+}
+
+.rhap_repeat-button {
+  color: black;
+
+}
+
+.rhap_controls-section {
+  margin: 0;
+}
+.rhap_additional-controls {
+  flex: none;
+
+}
+.rhap_repeat-button  {
+display: flex;
+align-items: center;
+justify-content: center;
+margin-right: 20px;
+}
+.rhap_repeat-button svg{
+  width: 25px;
+  height: 25px;
+}
+.rhap_horizontal-reverse {
+
+}

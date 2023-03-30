@@ -10,40 +10,27 @@ import WaveSurfer from "wavesurfer.js";
 import WaveformContinuous from "./components/Waveform/WaveformContinuous";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useRef, forwardRef } from "react";
-import { getCurrentSong } from "./store/currentSong";
-import H5AudioPlayer from "./H5Player/index"
+import H5AudioPlayer from "./H5Player/index";
+import { getAllCurrentSongs } from "./store/currentSong";
 
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   const { pathname } = useLocation();
-  const streamUrl = pathname.split("/")[1];
-  const currentSongId = parseInt(pathname.split("/")[2]);
-
-  useEffect(async () => {
-    await dispatch(sessionActions.restoreUser());
-    if (streamUrl === "stream" && currentSongId) {
-      await dispatch(getCurrentSong(currentSongId));
-    }
-
-    await setIsLoaded(true);
-  }, [dispatch]);
-
-  const sessionUser = useSelector((state) => state.session.user);
-
 
   const [signInToggle, setSignInToggle] = useState(false);
   const [signUpToggle, setSignUpToggle] = useState(false);
 
+  const [currentAudio, setCurrentAudio] = useState(null);
+
   const [waveLoading, setWaveLoading] = useState(true);
   const [autoPlay, setAutoplay] = useState(false);
+  const sessionUser = useSelector((state) => state.session.user);
   // const [isPlaying, toggleIsPlaying] = useState(false);
 
   // let waveSurfer
 
   // console.log(currentAudio, "CURRENT AUDIO");
-
-
   const audioPlayer = useRef();
   const wavePlayer = useRef();
 
@@ -55,41 +42,73 @@ function App() {
   //   }
   // },[waveLoading])
 
-
-
-
-
-
-
   //     useEffect(()=> {
 
   // //  console.log( getCurrentDurationPercent(), 'TIME')
   // setCurrentTime(h5CurrentTime)
 
   //     }, [h5CurrentTime])
+  const [user, setUser] = useState("");
 
   const setNewTime = (player, time) => {
     player.currentTime = time;
   };
-  // console.log(sessionUser)
 
 
+  useEffect(() => {
+    const getUser = async () => {
+      const sessionUser = await dispatch(sessionActions.restoreUser());
+
+      if (sessionUser) {
+        const currentSongs = await dispatch(
+          getAllCurrentSongs(sessionUser?.id)
+        );
+
+        if (currentSongs.length) {
+          await setCurrentAudio(currentSongs[0]);
+        }
+        await setIsLoaded(true);
+      } else {
+        await setIsLoaded(true);
+      }
+      getUser();
+    };
+    //  dispatch(getAllCurrentSongs(sessionUser.id));
+  }, [dispatch]);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const sessionUser = await dispatch(sessionActions.restoreUser());
+      if (sessionUser) {
+      const currentSongs = await dispatch(getAllCurrentSongs(sessionUser?.id));
+
+      if (currentSongs.length) {
+        await setCurrentAudio(currentSongs[0]);
+      }
+      await setIsLoaded(true);
+    } else {
+      await setIsLoaded(true)
+    }
+  }
+    getUser();
+  }, [pathname]);
 
   return (
     <>
       <Switch>
         <Route exact path="/">
-          <HomePage
-            {...{ signUpToggle }}
-            {...{ setSignUpToggle }}
-            {...{ signInToggle }}
-            {...{ setSignInToggle }}
-          />
+          {isLoaded && (
+            <HomePage
+              {...{ signUpToggle }}
+              {...{ setSignUpToggle }}
+              {...{ signInToggle }}
+              {...{ setSignInToggle }}
+            />
+          )}
         </Route>
         <div className="home-body-container">
           <Navigation
             isLoaded={isLoaded}
-            sessionUser={sessionUser}
             {...{ signUpToggle }}
             {...{ setSignUpToggle }}
             {...{ signInToggle }}
@@ -97,17 +116,28 @@ function App() {
           />
           {isLoaded && (
             <UserHomePage
-
-              {...{audioPlayer}}
-              {...{ sessionUser }}
+              {...{ audioPlayer }}
               {...{ waveLoading }}
               {...{ setWaveLoading }}
               {...{ wavePlayer }}
+              {...{ setCurrentAudio }}
+              {...{ currentAudio }}
             />
           )}
         </div>
       </Switch>
-      <H5AudioPlayer {...{waveLoading}}{...{audioPlayer}} {...{wavePlayer}} {...{isLoaded}}/>
+      {isLoaded && (
+        <>
+          <H5AudioPlayer
+            {...{ waveLoading }}
+            {...{ audioPlayer }}
+            {...{ wavePlayer }}
+            {...{ isLoaded }}
+            {...{ setCurrentAudio }}
+            {...{ currentAudio }}
+          />
+        </>
+      )}
     </>
   );
 }

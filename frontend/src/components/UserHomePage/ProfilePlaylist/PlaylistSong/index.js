@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import {useDispatch} from "react-redux"
 import "./PlaylistSong.css";
 import EditPlaylistModal from "./EditPlaylistModal";
-import { getCurrentSong } from "../../../../store/currentSong";
+import { createCurrentSong } from "../../../../store/currentSong";
 
 const PlaylistSong = ({playFunc, setSongId, songId, song, user, setUrl, setTitle, url, key}) => {
   const [editModal, setEditModal] = useState(false);
@@ -14,7 +14,7 @@ const PlaylistSong = ({playFunc, setSongId, songId, song, user, setUrl, setTitle
 
     setSongId(song)
     // console.log(songId, "==============")
-    dispatch(getCurrentSong(song.id))
+    dispatch(createCurrentSong(song.id))
     setUrl(song.url);
     playFunc()
   };

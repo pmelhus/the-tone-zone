@@ -1,18 +1,15 @@
 import { useState, useEffect } from "react";
-import { useHistory, useLocation} from "react-router-dom"
-import {useDispatch} from "react-redux"
-import {getSearchResults} from "../../../store/search"
-import "./SearchBarNav.css"
-
+import { useHistory, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getSearchResults } from "../../../store/search";
+import "./SearchBarNav.css";
 
 const SearchBarNav = () => {
-
-  const [searchWord, setSearchWord] = useState(null);
-  const history = useHistory()
-  const dispatch = useDispatch()
-  const location = useLocation()
+  const [searchWord, setSearchWord] = useState('');
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const location = useLocation();
   // console.log(location)
-
 
   const handleSearchWord = (e) => {
     e.preventDefault();
@@ -21,28 +18,27 @@ const SearchBarNav = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(getSearchResults(searchWord))
-    return history.push(`/search/${searchWord}`)
-  }
+    dispatch(getSearchResults(searchWord));
+    return history.push(`/search/${searchWord}`);
+  };
 
-useEffect(() => {
-  dispatch(getSearchResults(searchWord))
-}, [])
+  useEffect(() => {
+    dispatch(getSearchResults(searchWord));
+  }, []);
 
   return (
     <>
-        <form className='search-form'onSubmit={handleSubmit}>
-          <input
+      <form className="search-form" onSubmit={handleSubmit}>
+        <input
           className="search-bar-input"
-            placeholder="Search for artists, bands, or tracks"
-            value={searchWord}
-            onChange={handleSearchWord}
-          ></input>
-          <button style={{display:'none'}} type="submit"></button>
-        </form>
-
+          placeholder="Search for artists, bands, or tracks"
+          value={searchWord}
+          onChange={handleSearchWord}
+        ></input>
+        <button style={{ display: "none" }} type="submit"></button>
+      </form>
     </>
   );
 };
 
-export default SearchBarNav
+export default SearchBarNav;

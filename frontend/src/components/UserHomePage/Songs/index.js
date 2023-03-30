@@ -6,7 +6,7 @@ import AudioPlayer from "react-h5-audio-player";
 import { Link } from "react-router-dom";
 // import CommentCard from "./CommentCard";
 import "./Songs.css";
-import { getCurrentSong } from "../../../store/currentSong";
+import { createCurrentSong } from "../../../store/currentSong";
 import Waveform from "../../Waveform";
 
 const Songs = ({
@@ -15,11 +15,10 @@ const Songs = ({
   pauseFunc,
   waveLoading,
   setWaveLoading,
-wavePlayer,
-
+  wavePlayer,
+  currentAudio,
   isPlaying,
-  toggleIsPlaying
-
+  toggleIsPlaying,
 }) => {
   const dispatch = useDispatch();
   const songList = useSelector((state) => Object.values(state.songs));
@@ -29,7 +28,7 @@ wavePlayer,
     return new Date(date);
   };
 
-// console.log(wavePlayer)
+  // console.log(wavePlayer)
   const songListSorted = songList.sort((a, b) => {
     const dateA = new Date(a.createdAt);
     const dateB = new Date(b.createdAt);
@@ -45,11 +44,6 @@ wavePlayer,
     await dispatch(deleteOneSong(song));
   };
 
-  const getCurrent = (e, song) => {
-    // e.preventDefault()
-    // console.log(song);
-    dispatch(getCurrentSong(song));
-  };
   return (
     <div className="songs-content">
       <p id="hear-latest">Hear the latest posts in the community:</p>
@@ -114,19 +108,16 @@ wavePlayer,
                   </div> */}
                   <div className="waveform-player">
                     <Waveform
-  {...{wavePlayer}}
+                      {...{ wavePlayer }}
                       audio={song.url}
                       {...{ waveLoading }}
                       {...{ setWaveLoading }}
                       song={song}
                       {...{ pauseFunc }}
                       {...{ playFunc }}
-                      {...{ isPlaying}}
+                      {...{ currentAudio }}
+                      {...{ isPlaying }}
                       {...{ toggleIsPlaying }}
-
-
-
-
                     />
                   </div>
                   <div className="buttons">

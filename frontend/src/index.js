@@ -1,11 +1,14 @@
 import React from "react";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import "./index.css";
 
-import ReactDOM from "react-dom";
+import * as ReactDOMClient from "react-dom/client";
+import App from "./App";
+// import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import App from "./App";
 
 import configureStore from "./store";
 
@@ -14,6 +17,7 @@ import { restoreCSRF, csrfFetch } from "./store/csrf";
 import * as sessionActions from "./store/session";
 
 import { ThemeProvider } from "react-jss";
+
 
 const store = configureStore();
 
@@ -30,24 +34,21 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const theme = {
-  orangeTheme: 'rgb(255, 85, 0)'
+  orangeTheme: "rgb(255, 85, 0)",
 };
 
-function Root() {
-  return (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </ThemeProvider>
-    </Provider>
-  );
-}
+const container = document.getElementById("root");
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Root />
-  </React.StrictMode>,
-  document.getElementById("root")
+const root = ReactDOMClient.createRoot(container);
+
+root.render(
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      </BrowserRouter>
+    </ThemeProvider>
+  </Provider>
 );

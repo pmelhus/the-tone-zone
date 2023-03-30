@@ -4,16 +4,21 @@ import { useSelector, useDispatch } from "react-redux";
 import WaveSurfer from "wavesurfer.js";
 import { FaPlayCircle, FaPauseCircle } from "react-icons/fa";
 import "./Waveform.css";
-import { getCurrentSong } from "../../store/currentSong";
+import {
+  createCurrentSong,
+  getCurrentSong,
+  deleteCurrentSong,
+} from "../../store/currentSong";
 
 const Waveform = ({
   waveLoading,
   setWaveLoading,
   audio,
   song,
-
   wavePlayer,
+  currentAudio,
   audioPlayer,
+  setCurrentAudio,
 }) => {
   const dispatch = useDispatch();
   const containerRef = useRef();
@@ -22,26 +27,30 @@ const Waveform = ({
   });
   const [time, setTime] = useState(null);
 
-  const [isPlaying, toggleIsPlaying] = useState();
-  const [currentAudio, setCurrentAudio] = useState(null);
+  const [isPlaying, toggleIsPlaying] = useState(false);
+  const user = useSelector((state) => state.session.user);
+  const songs = useSelector((state) => state.songs);
 
-  const h5PauseFunc = () => {
-    if (audioPlayer.current.isPlaying()) {
-      audioPlayer.current?.audio.current.pause();
-    } else {
-      return;
-    }
-  };
+  // const h5AudioPlayer = audioPlayer.current?.audio.current;
 
-  const h5PlayFunc = () => {
-    if (!audioPlayer.current.isPlaying()) {
-      audioPlayer.current?.audio.current.play();
-    } else {
-      return;
-    }
-  };
+  // const h5PauseFunc = () => {
+  //   if (audioPlayer.current.isPlaying()) {
+  //     audioPlayer.current?.audio.current.pause();
+  //   } else {
+  //     return;
+  //   }
+  // };
+
+  // const h5PlayFunc = () => {
+  //   if (!audioPlayer.current.isPlaying()) {
+  //     audioPlayer.current?.audio.current.play();
+  //   } else {
+  //     return;
+  //   }
+  // };
   // const audio = useSelector(state=> (state.currentSong.song))
   // console.log(universalPlay)
+
   useEffect(() => {
     const waveSurfer = WaveSurfer.create({
       container: containerRef.current,
@@ -57,32 +66,51 @@ const Waveform = ({
     waveSurfer.on("ready", () => {
       waveSurferRef.current = waveSurfer;
       wavePlayer.current = waveSurfer;
-      setWaveLoading(false);
       waveSurfer.setMute(true);
+      setWaveLoading(false);
+      let seekPercentageString =
+        audioPlayer.current.progressBar.current.ariaValueNow;
+      let h5CurrentTime = audioPlayer.current?.audio.current.currentTime;
+      let h5Duration = audioPlayer.current?.audio.current.duration;
+      // Do something with the current time
+      let seekPercentage = parseFloat(seekPercentageString, 10);
+
+      const changeCurrentTimeToSeekedTime = () => {
+        let seekPercentDecimal = seekPercentage * 0.01;
+        wavePlayer.current.seekTo(seekPercentDecimal);
+        if (audioPlayer.current.isPlaying()) {
+          wavePlayer.current.play();
+        }
+      };
+      changeCurrentTimeToSeekedTime();
     });
 
     waveSurfer.on("play", () => {
-      if (!audioPlayer.current.isPlaying()) {
-        h5PlayFunc();
-      }
-
       waveSurferRef.current = waveSurfer;
       if (wavePlayer) {
         wavePlayer.current = waveSurfer;
       }
       toggleIsPlaying(true);
-      setCurrentAudio(audio);
     });
 
     waveSurfer.on("pause", () => {
-      if (audioPlayer.current.isPlaying()) {
-        h5PauseFunc();
-      }
       waveSurferRef.current = waveSurfer;
       if (wavePlayer) {
         wavePlayer.current = waveSurfer;
       }
       toggleIsPlaying(false);
+    });
+
+    waveSurfer.on("seek", (e) => {
+      let h5Duration = audioPlayer.current?.audio.current.duration;
+      let progressBarValue = e;
+      let h5CurrentTime = audioPlayer.current?.audio.current.currentTime;
+
+      let newSeekedValue = e * h5Duration;
+      const seek = () => {
+        audioPlayer.current.audio.current.currentTime = newSeekedValue;
+      };
+      seek();
     });
 
     // setUniversalSeek(waveSurfer.getCurrentTime())
@@ -112,15 +140,52 @@ const Waveform = ({
   //   );
   // }
 
+  const fetchNewData = async () => {
+    const payload = { user, song };
+    // first check if currentSong exists
+    const getCurrent = await dispatch(getCurrentSong(song.id));
+    await console.log(getCurrent, "getCurrent");
+    if (getCurrent) {
+      // if it does exist, check to see if currentSong matches with song and if it does, play h5 player
+      if (song.id === getCurrent.id) {
+        if (audioPlayer.current.isPlaying()) {
+          await audioPlayer.current.audio.current.pause();
+          await toggleIsPlaying(false);
+        } else {
+          await audioPlayer.current.audio.current.play();
+          await toggleIsPlaying(true);
+        }
+
+        return false;
+      } else {
+        // if it doesn't match, delete old currentSong and create new currentSong
+        await dispatch(deleteCurrentSong());
+        const newCurrentSong = await dispatch(createCurrentSong(payload));
+        return newCurrentSong;
+      }
+    } else {
+      // if currentSong doesn't exist, createCurrentSong and then set currentAudio state to new currentSong
+      await dispatch(deleteCurrentSong());
+      const newCurrentSong = await dispatch(createCurrentSong(payload));
+
+      return newCurrentSong.song;
+    }
+  };
+
+  const handlePlayButton = () => {
+    const result = fetchNewData();
+    if (result) {
+      setCurrentAudio(result);
+    }
+    console.log(currentAudio, "CURRENT ADUIO");
+  };
+
   return (
     <>
       <div className="waveform-button-title">
         <button
           className="waveform-button-all"
-          onClick={() => {
-            waveSurferRef.current.playPause();
-            toggleIsPlaying(waveSurferRef.current.isPlaying());
-          }}
+          onClick={handlePlayButton}
           type="button"
         >
           {isPlaying ? (

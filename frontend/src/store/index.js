@@ -1,11 +1,12 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-import sessionReducer from './session';
-import songReducer from './songs'
-import commentReducer from './comments'
-import playlistReducer from './playlists'
-import searchReducer from "./search"
-import currentSongReducer from "./currentSong"
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
+import sessionReducer from "./session";
+import songReducer from "./songs";
+import commentReducer from "./comments";
+import playlistReducer from "./playlists";
+import searchReducer from "./search";
+import currentSongReducer from "./currentSong";
+import queueSongReducer from "./queueSong";
 
 // import songsPlaylistReducer from './songsplaylist'
 
@@ -15,16 +16,17 @@ const rootReducer = combineReducers({
   comments: commentReducer,
   playlists: playlistReducer,
   search: searchReducer,
-  currentSong: currentSongReducer
+  currentSong: currentSongReducer,
+  queueSong: queueSongReducer,
   // songsPlaylist: songsPlaylistReducer
 });
 
 let enhancer;
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
   enhancer = applyMiddleware(thunk);
 } else {
-  const logger = require('redux-logger').default;
+  const logger = require("redux-logger").default;
   const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   enhancer = composeEnhancers(applyMiddleware(thunk, logger));

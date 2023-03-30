@@ -32,39 +32,7 @@ height: 100%;
   padding: 30px 20px 20px 30px;
 }
 
-.rhap_main {
-  padding: 0;
-  margin: -10px -15px;
 
-  backdrop-filter: blur(30px);
-}
-
-.rhap_container {
-  backdrop-filter: blur(50px);
-  /* margin-left: -100px; */
-}
-
-.rhap_volume-controls {
-  padding-right: 10px;
-}
-.rhap_controls-section svg {
-color: white;
-background-color: black;
-
-}
-
-.rhap_current-time {
-  color: white;
-  background-color: black;
-  padding: 0;
-  margin-top: 88px;
-}
-.rhap_time {
-  padding: 0;
-  margin-top: 88px;
-  color: white;
-  background-color: black;
-}
 
 .relative-positioning {
   position: relative;

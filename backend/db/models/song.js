@@ -36,13 +36,18 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: "playlistId",
       foreignKey: "songId",
     };
+
     Song.belongsTo(models.User, { foreignKey: "userId" });
     Song.belongsToMany(models.Playlist, columnMapping);
+
     Song.hasMany(models.Comment, {
       foreignKey: "songId",
       onDelete: "CASCADE",
       hooks: true,
     });
+    Song.hasMany(models.CurrentSong, {
+      foreignKey:'songId'
+    })
   };
 
   Song.upload = async function ({ userId, title, description, url, imageUrl }) {
@@ -52,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
       title,
       description,
       url,
-      imageUrl
+      imageUrl,
     });
     return Song.findByPk(song.id);
   };
