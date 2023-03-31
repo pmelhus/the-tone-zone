@@ -26,6 +26,7 @@ function App() {
   const [waveLoading, setWaveLoading] = useState(true);
   const [autoPlay, setAutoplay] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
+  const songs = useSelector((state) => state.songs);
   // const [isPlaying, toggleIsPlaying] = useState(false);
 
   // let waveSurfer
@@ -54,7 +55,6 @@ function App() {
     player.currentTime = time;
   };
 
-
   useEffect(() => {
     const getUser = async () => {
       const sessionUser = await dispatch(sessionActions.restoreUser());
@@ -63,16 +63,10 @@ function App() {
         const currentSongs = await dispatch(
           getAllCurrentSongs(sessionUser?.id)
         );
-
-        if (currentSongs.length) {
-          await setCurrentAudio(currentSongs[0]);
-        }
-        await setIsLoaded(true);
-      } else {
-        await setIsLoaded(true);
       }
-      getUser();
     };
+    getUser();
+    setIsLoaded(true);
     //  dispatch(getAllCurrentSongs(sessionUser.id));
   }, [dispatch]);
 
@@ -80,17 +74,15 @@ function App() {
     const getUser = async () => {
       const sessionUser = await dispatch(sessionActions.restoreUser());
       if (sessionUser) {
-      const currentSongs = await dispatch(getAllCurrentSongs(sessionUser?.id));
+        const currentSongs = await dispatch(
+          await getAllCurrentSongs(sessionUser?.id)
+        );
 
-      if (currentSongs.length) {
-        await setCurrentAudio(currentSongs[0]);
+
       }
-      await setIsLoaded(true);
-    } else {
-      await setIsLoaded(true)
-    }
-  }
+    };
     getUser();
+    setIsLoaded(true);
   }, [pathname]);
 
   return (
@@ -126,7 +118,7 @@ function App() {
           )}
         </div>
       </Switch>
-      {isLoaded && (
+
         <>
           <H5AudioPlayer
             {...{ waveLoading }}
@@ -137,7 +129,7 @@ function App() {
             {...{ currentAudio }}
           />
         </>
-      )}
+
     </>
   );
 }

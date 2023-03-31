@@ -50,7 +50,7 @@ const Waveform = ({
   // };
   // const audio = useSelector(state=> (state.currentSong.song))
   // console.log(universalPlay)
-
+console.log(audio)
   useEffect(() => {
     const waveSurfer = WaveSurfer.create({
       container: containerRef.current,
@@ -66,8 +66,8 @@ const Waveform = ({
     waveSurfer.on("ready", () => {
       waveSurferRef.current = waveSurfer;
       wavePlayer.current = waveSurfer;
-      waveSurfer.setMute(true);
       setWaveLoading(false);
+      waveSurfer.setMute(true);
       let seekPercentageString =
         audioPlayer.current.progressBar.current.ariaValueNow;
       let h5CurrentTime = audioPlayer.current?.audio.current.currentTime;
@@ -147,11 +147,16 @@ const Waveform = ({
     await console.log(getCurrent, "getCurrent");
     if (getCurrent) {
       // if it does exist, check to see if currentSong matches with song and if it does, play h5 player
+      console.log(song, getCurrent, 'SONGS')
       if (song.id === getCurrent.id) {
+        if (!currentAudio) {
+          setCurrentAudio(getCurrent)
+        }
         if (audioPlayer.current.isPlaying()) {
           await audioPlayer.current.audio.current.pause();
           await toggleIsPlaying(false);
         } else {
+
           await audioPlayer.current.audio.current.play();
           await toggleIsPlaying(true);
         }
@@ -172,12 +177,12 @@ const Waveform = ({
     }
   };
 
-  const handlePlayButton = () => {
-    const result = fetchNewData();
+  const handlePlayButton = async () => {
+    const result = await fetchNewData();
+    await console.log(result, "RESULT");
     if (result) {
-      setCurrentAudio(result);
+      await setCurrentAudio(result);
     }
-    console.log(currentAudio, "CURRENT ADUIO");
   };
 
   return (

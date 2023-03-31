@@ -80,6 +80,7 @@ const Song = ({
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
+
   return (
     <div className="song-content">
       {song && (

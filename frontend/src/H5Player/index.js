@@ -14,6 +14,7 @@ const H5AudioPLayer = ({
   waveLoading,
   currentAudio,
   setCurrentAudio,
+  isLoaded,
 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
@@ -22,11 +23,10 @@ const H5AudioPLayer = ({
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const allSongs = useSelector((state) => state.songs);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const currentSong = useSelector((state) => Object.values(state.currentSong));
 
   const wavePlayFunc = (e) => {
-
-    if (!wavePlayer.current.isPlaying()) {
+    if (!wavePlayer.current?.isPlaying()) {
       wavePlayer.current.play();
     } else {
       return;
@@ -34,12 +34,13 @@ const H5AudioPLayer = ({
   };
 
   const wavePauseFunc = (e) => {
-    if (wavePlayer.current.isPlaying()) {
+    if (wavePlayer.current?.isPlaying()) {
       wavePlayer.current.pause();
     } else {
       return;
     }
   };
+  console.log(waveLoading, 'WAVE')
 
   const onSeek = async (e) => {
     let seekPercentageString =
@@ -59,14 +60,6 @@ const H5AudioPLayer = ({
     await changeCurrentTimeToSeekedTime();
   };
 
-  const handleAutoPlay = () => {
-    if (currentAudio) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   // useEffect(() => {
   //   let h5IsPlaying = audioPlayer.current?.isPlaying();
   //   if (h5IsPlaying) {
@@ -75,8 +68,6 @@ const H5AudioPLayer = ({
   //     wavePlayer.current.pause();
   //   }
   // }, [[audioPlayer]]);
-
-  const [loadedRefresh, setLoadedRefresh] = useState(false);
 
   // useEffect(() => {
   //   const getSongs = async () => {
@@ -95,20 +86,19 @@ const H5AudioPLayer = ({
   //   getSongs();
   // }, []);
 
-  const updatedAudio = allSongs[currentAudio?.songId];
-  console.log(updatedAudio, "updated audio")
 
+    setCurrentAudio(allSongs[currentSong[0]?.songId]);
 
 
   return (
     <div style={{ zIndex: "100" }} className="continuous-audio-playback">
-      {pathname !== "/" && (
+      {pathname !== "/" && isLoaded && (
         <div className="audio-player-div">
           <AudioPlayer
             className="audio-player"
             showSkipControls={false}
             showJumpControls={false}
-            src={updatedAudio?.url}
+            src={currentAudio?.url}
             layout="horizontal-reverse"
             autoPlayAfterSrcChange={false}
             autoPlay={false}
@@ -121,14 +111,14 @@ const H5AudioPLayer = ({
           <div className="continuous-headings">
             <img
               className="continuous-audio-image"
-              src={updatedAudio?.imageUrl}
+              src={currentAudio?.imageUrl}
             ></img>
             <div className="continuous-name-title">
-              <a href={`/${updatedAudio?.User?.username}`} id="username">
-                {updatedAudio?.User?.username}
+              <a href={`/${currentAudio?.User?.username}`} id="username">
+                {currentAudio?.User?.username}
               </a>
-              <a href={`/stream/${updatedAudio?.id}`} id="song-title">
-                {updatedAudio?.title}
+              <a href={`/stream/${currentAudio?.id}`} id="song-title">
+                {currentAudio?.title}
               </a>
             </div>
           </div>
