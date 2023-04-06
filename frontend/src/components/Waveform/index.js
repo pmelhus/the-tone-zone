@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import WaveSurfer from "wavesurfer.js";
@@ -30,7 +31,11 @@ const Waveform = ({
   const [isPlaying, toggleIsPlaying] = useState(false);
   const user = useSelector((state) => state.session.user);
   const songs = useSelector((state) => state.songs);
-
+  const { pathname } = useLocation();
+  const songId = parseInt(pathname.split("/")[2]);
+  const currentSong = useSelector((state) =>
+    Object.values(state.currentSong)
+  )[0];
   // const h5AudioPlayer = audioPlayer.current?.audio.current;
 
   // const h5PauseFunc = () => {
@@ -50,7 +55,9 @@ const Waveform = ({
   // };
   // const audio = useSelector(state=> (state.currentSong.song))
   // console.log(universalPlay)
-console.log(audio)
+
+  const [updatedSong, setUpdatedSong] = useState(false);
+
   useEffect(() => {
     const waveSurfer = WaveSurfer.create({
       container: containerRef.current,
@@ -82,7 +89,9 @@ console.log(audio)
           wavePlayer.current.play();
         }
       };
-      changeCurrentTimeToSeekedTime();
+      if (currentSong.songId === song.id) {
+        changeCurrentTimeToSeekedTime();
+      }
     });
 
     waveSurfer.on("play", () => {
@@ -129,8 +138,9 @@ console.log(audio)
 
     return () => {
       waveSurfer.destroy();
+      setWaveLoading(true);
     };
-  }, [audio]);
+  }, [audio, pathname]);
 
   // if (audio) {
   //   return (
@@ -140,65 +150,96 @@ console.log(audio)
   //   );
   // }
 
-  const fetchNewData = async () => {
+  // const handlePlayButton = async () => {
+  //   const payload = { user, song };
+  //   // first check if currentSong exists
+  //   const getCurrent = await dispatch(getCurrentSong(song.id));
+  //   await console.log(getCurrent, "getCurrent");
+  //   if (getCurrent) {
+  //     // if it does exist, check to see if currentSong matches with song and if it does, play h5 player
+  //     console.log(song, getCurrent, "SONGS");
+  //     if (song.id === getCurrent.id) {
+  //       console.log(currentAudio, 'CURR')
+  //       if (!currentAudio) {
+  //         setCurrentAudio(getCurrent);
+  //       }
+  //       if (audioPlayer.current.isPlaying()) {
+  //         await audioPlayer.current.audio.current.pause();
+  //         await toggleIsPlaying(false);
+  //       } else {
+  //         await audioPlayer.current.audio.current.play();
+  //         await toggleIsPlaying(true);
+  //       }
+
+  //       return false;
+  //     } else {
+  //       // if it doesn't match, delete old currentSong and create new currentSong
+  //       await dispatch(deleteCurrentSong());
+  //       const newCurrentSong = await dispatch(createCurrentSong(payload));
+  //       await setCurrentAudio(newCurrentSong)
+  //       await console.log(currentAudio, 'CURRENT AUDIO')
+
+  //     }
+  //   } else {
+  //     // if currentSong doesn't exist, createCurrentSong and then set currentAudio state to new currentSong
+  //     await dispatch(deleteCurrentSong());
+  //     const newCurrentSong = await dispatch(createCurrentSong(payload));
+  //     console.log(newCurrentSong, 'NEWCURRENTSONG')
+  //     await console.log(currentAudio, 'CURRENT AUDIO')
+
+  //     return newCurrentSong.song;
+  //   }
+  // };
+
+  const handlePlayButton = () => {
+    // if there is a currentSong in DB, then play/pause h5 audio player
     const payload = { user, song };
-    // first check if currentSong exists
-    const getCurrent = await dispatch(getCurrentSong(song.id));
-    await console.log(getCurrent, "getCurrent");
-    if (getCurrent) {
-      // if it does exist, check to see if currentSong matches with song and if it does, play h5 player
-      console.log(song, getCurrent, 'SONGS')
-      if (song.id === getCurrent.id) {
-        if (!currentAudio) {
-          setCurrentAudio(getCurrent)
-        }
-        if (audioPlayer.current.isPlaying()) {
-          await audioPlayer.current.audio.current.pause();
-          await toggleIsPlaying(false);
-        } else {
 
-          await audioPlayer.current.audio.current.play();
-          await toggleIsPlaying(true);
-        }
-
-        return false;
+    if (currentSong.id === song.id) {
+      if (audioPlayer.current.isPlaying()) {
+        audioPlayer.current.audio.current.pause();
+        toggleIsPlaying(false);
       } else {
-        // if it doesn't match, delete old currentSong and create new currentSong
-        await dispatch(deleteCurrentSong());
-        const newCurrentSong = await dispatch(createCurrentSong(payload));
-        return newCurrentSong;
+        audioPlayer.current.audio.current.play();
+        toggleIsPlaying(true);
       }
     } else {
-      // if currentSong doesn't exist, createCurrentSong and then set currentAudio state to new currentSong
-      await dispatch(deleteCurrentSong());
-      const newCurrentSong = await dispatch(createCurrentSong(payload));
+      // replace the currentsong in DB with the new song.
+      const replaceCurrentSong = async () => {
+        await dispatch(deleteCurrentSong());
+        await dispatch(createCurrentSong(payload));
+      };
+      replaceCurrentSong();
+      setCurrentAudio((currentAudio) => (currentAudio = song));
 
-      return newCurrentSong.song;
-    }
-  };
-
-  const handlePlayButton = async () => {
-    const result = await fetchNewData();
-    await console.log(result, "RESULT");
-    if (result) {
-      await setCurrentAudio(result);
+      if (audioPlayer.current.isPlaying()) {
+        audioPlayer.current.audio.current.pause();
+        toggleIsPlaying(false);
+      } else {
+        audioPlayer.current.audio.current.play();
+        toggleIsPlaying(true);
+      }
     }
   };
 
   return (
     <>
       <div className="waveform-button-title">
-        <button
-          className="waveform-button-all"
-          onClick={handlePlayButton}
-          type="button"
-        >
-          {isPlaying ? (
-            <FaPauseCircle size="3em" id="waveform-button" />
-          ) : (
-            <FaPlayCircle size="3em" id="waveform-button" />
-          )}
-        </button>
+        {waveLoading ? (
+          <FaPlayCircle size="3em" disabled id="waveform-button-disabled" />
+        ) : (
+          <button
+            className={"waveform-button-all"}
+            onClick={handlePlayButton}
+            type="button"
+          >
+            {isPlaying ? (
+              <FaPauseCircle size="3em" id="waveform-button" />
+            ) : (
+              <FaPlayCircle size="3em" id="waveform-button" />
+            )}
+          </button>
+        )}
         <div className="waveform-headings">
           <div>
             <a href={`/${song?.User?.username}`} id="username">

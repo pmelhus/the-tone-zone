@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { Route, Switch, useLocation } from "react-router-dom";
 import { useRef, useEffect, forwardRef, useState } from "react";
-import { getAllCurrentSongs } from "../store/currentSong";
+import { getAllCurrentSongs } from "../../store/currentSong";
 import "./H5Player.css";
 
 const useStyles = createUseStyles((theme) => ({}));
@@ -15,6 +15,7 @@ const H5AudioPLayer = ({
   currentAudio,
   setCurrentAudio,
   isLoaded,
+  setIsLoaded,
 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
@@ -24,6 +25,7 @@ const H5AudioPLayer = ({
   const { pathname } = useLocation();
   const allSongs = useSelector((state) => state.songs);
   const currentSong = useSelector((state) => Object.values(state.currentSong));
+  const songId = parseInt(pathname.split("/")[2]);
 
   const wavePlayFunc = (e) => {
     if (!wavePlayer.current?.isPlaying()) {
@@ -40,7 +42,6 @@ const H5AudioPLayer = ({
       return;
     }
   };
-  console.log(waveLoading, 'WAVE')
 
   const onSeek = async (e) => {
     let seekPercentageString =
@@ -49,6 +50,7 @@ const H5AudioPLayer = ({
     let h5Duration = audioPlayer.current?.audio.current.duration;
     // Do something with the current time
     let seekPercentage = parseFloat(seekPercentageString, 10);
+    console.log(audioPlayer.current);
 
     const changeCurrentTimeToSeekedTime = () => {
       let seekPercentDecimal = seekPercentage * 0.01;
@@ -86,9 +88,13 @@ const H5AudioPLayer = ({
   //   getSongs();
   // }, []);
 
-
+  useEffect(() => {
     setCurrentAudio(allSongs[currentSong[0]?.songId]);
+  }, [currentSong]);
 
+  useEffect(() => {
+    setCurrentAudio(allSongs[currentSong[0]?.songId]);
+  }, []);
 
   return (
     <div style={{ zIndex: "100" }} className="continuous-audio-playback">

@@ -10,7 +10,7 @@ import WaveSurfer from "wavesurfer.js";
 import WaveformContinuous from "./components/Waveform/WaveformContinuous";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useRef, forwardRef } from "react";
-import H5AudioPlayer from "./H5Player/index";
+import H5AudioPlayer from "./components/H5Player/index";
 import { getAllCurrentSongs } from "./store/currentSong";
 
 function App() {
@@ -21,14 +21,13 @@ function App() {
   const [signInToggle, setSignInToggle] = useState(false);
   const [signUpToggle, setSignUpToggle] = useState(false);
 
-  const [currentAudio, setCurrentAudio] = useState(null);
+  const [currentAudio, setCurrentAudio] = useState();
 
   const [waveLoading, setWaveLoading] = useState(true);
   const [autoPlay, setAutoplay] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
   const songs = useSelector((state) => state.songs);
   // const [isPlaying, toggleIsPlaying] = useState(false);
-
   // let waveSurfer
 
   // console.log(currentAudio, "CURRENT AUDIO");
@@ -63,6 +62,7 @@ function App() {
         const currentSongs = await dispatch(
           getAllCurrentSongs(sessionUser?.id)
         );
+        await setCurrentAudio(songs[currentSongs[0].songId])
       }
     };
     getUser();
@@ -77,8 +77,8 @@ function App() {
         const currentSongs = await dispatch(
           await getAllCurrentSongs(sessionUser?.id)
         );
-
-
+        await console.log(currentSongs[0].songId)
+        await setCurrentAudio(songs[currentSongs[0].songId])
       }
     };
     getUser();
@@ -116,20 +116,17 @@ function App() {
               {...{ currentAudio }}
             />
           )}
-        </div>
-      </Switch>
-
-        <>
           <H5AudioPlayer
             {...{ waveLoading }}
             {...{ audioPlayer }}
             {...{ wavePlayer }}
             {...{ isLoaded }}
+            {...{setIsLoaded}}
             {...{ setCurrentAudio }}
             {...{ currentAudio }}
           />
-        </>
-
+        </div>
+      </Switch>
     </>
   );
 }

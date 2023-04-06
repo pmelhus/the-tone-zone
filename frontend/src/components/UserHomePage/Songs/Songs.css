@@ -144,6 +144,10 @@ a {
 
   }
 
+  .waveform-button-disabled {
+    color: rgb(253, 77, 1);
+  }
+
   .waveform-button-all {
     border: none;
     padding: 0;
