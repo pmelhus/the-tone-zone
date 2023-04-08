@@ -3,7 +3,11 @@ import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import WaveSurfer from "wavesurfer.js";
-import { FaPlayCircle, FaPauseCircle } from "react-icons/fa";
+import {
+  FaPlayCircle,
+  FaPauseCircle,
+  FaRegArrowAltCircleLeft,
+} from "react-icons/fa";
 import "./Waveform.css";
 import {
   createCurrentSong,
@@ -193,6 +197,7 @@ const Waveform = ({
 
   const handlePlayButton = () => {
     // if there is a currentSong in DB, then play/pause h5 audio player
+
     const payload = { user, song };
 
     if (currentSong.id === song.id) {
@@ -210,7 +215,7 @@ const Waveform = ({
         await dispatch(createCurrentSong(payload));
       };
       replaceCurrentSong();
-      setCurrentAudio((currentAudio) => (currentAudio = song));
+      setCurrentAudio(song)
 
       if (audioPlayer.current.isPlaying()) {
         audioPlayer.current.audio.current.pause();

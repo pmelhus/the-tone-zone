@@ -89,12 +89,19 @@ const H5AudioPLayer = ({
   // }, []);
 
   useEffect(() => {
-    setCurrentAudio(allSongs[currentSong[0]?.songId]);
+    if (currentSong?.id === currentAudio?.id) {
+
+      setCurrentAudio(allSongs[currentSong[0]?.songId]);
+    }
   }, [currentSong]);
 
-  useEffect(() => {
-    setCurrentAudio(allSongs[currentSong[0]?.songId]);
-  }, []);
+  // useEffect(() => {
+  //   setCurrentAudio(allSongs[currentSong[0]?.songId]);
+  // }, []);
+
+  useEffect(()=> {
+console.log(currentAudio, 'CURRENT AUDIO IN H5 PLAYER')
+  }, [currentAudio])
 
   return (
     <div style={{ zIndex: "100" }} className="continuous-audio-playback">
@@ -106,7 +113,7 @@ const H5AudioPLayer = ({
             showJumpControls={false}
             src={currentAudio?.url}
             layout="horizontal-reverse"
-            autoPlayAfterSrcChange={false}
+            autoPlayAfterSrcChange={true}
             autoPlay={false}
             onPlay={wavePlayFunc}
             onPause={wavePauseFunc}

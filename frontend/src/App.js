@@ -21,6 +21,7 @@ function App() {
   const [signInToggle, setSignInToggle] = useState(false);
   const [signUpToggle, setSignUpToggle] = useState(false);
 
+
   const [currentAudio, setCurrentAudio] = useState();
 
   const [waveLoading, setWaveLoading] = useState(true);
@@ -62,7 +63,7 @@ function App() {
         const currentSongs = await dispatch(
           getAllCurrentSongs(sessionUser?.id)
         );
-        await setCurrentAudio(songs[currentSongs[0].songId])
+
       }
     };
     getUser();
@@ -77,8 +78,6 @@ function App() {
         const currentSongs = await dispatch(
           await getAllCurrentSongs(sessionUser?.id)
         );
-        await console.log(currentSongs[0].songId)
-        await setCurrentAudio(songs[currentSongs[0].songId])
       }
     };
     getUser();
