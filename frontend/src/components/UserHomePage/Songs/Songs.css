@@ -155,3 +155,7 @@ a {
     margin-right: 4px;
     display: flex;
   }
+
+  .waveform-player {
+    width: 100%;
+  }

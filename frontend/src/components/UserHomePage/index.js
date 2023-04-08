@@ -77,6 +77,7 @@ const UserHomePage = ({
             {...{ wavePlayer }}
             {...{ isPlaying }}
             {...{ toggleIsPlaying }}
+            {...{ setCurrentAudio }}
             {...{ currentAudio }}
           />
         </Route>

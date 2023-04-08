@@ -40,6 +40,7 @@ const Waveform = ({
   const currentSong = useSelector((state) =>
     Object.values(state.currentSong)
   )[0];
+
   // const h5AudioPlayer = audioPlayer.current?.audio.current;
 
   // const h5PauseFunc = () => {
@@ -75,10 +76,12 @@ const Waveform = ({
       waveSurfer.load(audio);
     }
     waveSurfer.on("ready", () => {
-      waveSurferRef.current = waveSurfer;
-      wavePlayer.current = waveSurfer;
       setWaveLoading(false);
       waveSurfer.setMute(true);
+      if (song.id === currentSong.songId) {
+        wavePlayer.current = waveSurfer;
+        waveSurferRef.current = waveSurfer;
+      }
       let seekPercentageString =
         audioPlayer.current.progressBar.current.ariaValueNow;
       let h5CurrentTime = audioPlayer.current?.audio.current.currentTime;
@@ -96,31 +99,37 @@ const Waveform = ({
       if (currentSong.songId === song.id) {
         changeCurrentTimeToSeekedTime();
       }
+      // if (song?.id !== currentSong?.songId) {
+      //   toggleIsPlaying(false);
+      //   wavePlayer?.current?.seekTo(0);
+      // }
     });
 
     waveSurfer.on("play", () => {
-      waveSurferRef.current = waveSurfer;
-      if (wavePlayer) {
+      if (song?.id === currentSong?.songId) {
+        waveSurferRef.current = waveSurfer;
         wavePlayer.current = waveSurfer;
+        toggleIsPlaying(true);
       }
-      toggleIsPlaying(true);
     });
 
     waveSurfer.on("pause", () => {
-      waveSurferRef.current = waveSurfer;
-      if (wavePlayer) {
+      if (song?.id === currentSong?.songId) {
+        waveSurferRef.current = waveSurfer;
         wavePlayer.current = waveSurfer;
+
+        toggleIsPlaying(false);
       }
-      toggleIsPlaying(false);
     });
 
     waveSurfer.on("seek", (e) => {
-      let h5Duration = audioPlayer.current?.audio.current.duration;
-      let progressBarValue = e;
-      let h5CurrentTime = audioPlayer.current?.audio.current.currentTime;
 
+
+      let h5Duration = audioPlayer.current?.audio.current.duration;
       let newSeekedValue = e * h5Duration;
       const seek = () => {
+        waveSurferRef.current = waveSurfer;
+        wavePlayer.current = waveSurfer;
         audioPlayer.current.audio.current.currentTime = newSeekedValue;
       };
       seek();
@@ -200,7 +209,7 @@ const Waveform = ({
 
     const payload = { user, song };
 
-    if (currentSong.id === song.id) {
+    if (currentSong.songId === song.id) {
       if (audioPlayer.current.isPlaying()) {
         audioPlayer.current.audio.current.pause();
         toggleIsPlaying(false);
@@ -215,7 +224,7 @@ const Waveform = ({
         await dispatch(createCurrentSong(payload));
       };
       replaceCurrentSong();
-      setCurrentAudio(song)
+      setCurrentAudio(song);
 
       if (audioPlayer.current.isPlaying()) {
         audioPlayer.current.audio.current.pause();
@@ -267,6 +276,7 @@ const Waveform = ({
             ></img>
           )}
         </div>
+
         <div ref={containerRef} />
       </div>
     </>

@@ -36,6 +36,7 @@ const H5AudioPLayer = ({
   };
 
   const wavePauseFunc = (e) => {
+    console.log(wavePlayer.current)
     if (wavePlayer.current?.isPlaying()) {
       wavePlayer.current.pause();
     } else {

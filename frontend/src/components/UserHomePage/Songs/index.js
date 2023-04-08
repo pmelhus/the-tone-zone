@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect, useRef } from "react";
 import { getAllSongs, deleteOneSong } from "../../../store/songs";
 import AudioPlayer from "react-h5-audio-player";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 // import CommentCard from "./CommentCard";
 import "./Songs.css";
 import { createCurrentSong } from "../../../store/currentSong";
@@ -11,18 +11,20 @@ import Waveform from "../../Waveform";
 
 const Songs = ({
   sessionUser,
-  playFunc,
-  pauseFunc,
   waveLoading,
   setWaveLoading,
   wavePlayer,
+  audioPlayer,
   currentAudio,
   isPlaying,
   toggleIsPlaying,
+  setCurrentAudio,
 }) => {
   const dispatch = useDispatch();
   const songList = useSelector((state) => Object.values(state.songs));
   const dateNow = new Date();
+
+  const history = useHistory();
 
   const songDate = (date) => {
     return new Date(date);
@@ -42,6 +44,10 @@ const Songs = ({
   const handleSubmit = async (e, song) => {
     e.preventDefault();
     await dispatch(deleteOneSong(song));
+  };
+
+  const handleImageClick = (song) => {
+    history.push(`/stream/${song.id}`);
   };
 
   return (
@@ -84,13 +90,19 @@ const Songs = ({
               <div className="audio-content">
                 <div className="image-content">
                   {song?.imageUrl ? (
-                    <a className="image-content" href={`/stream/${song.id}`}>
+                    <div
+                      className="image-content"
+                      onClick={() => handleImageClick(song)}
+                    >
                       <img src={song?.imageUrl} />
-                    </a>
+                    </div>
                   ) : (
-                    <a className="image-content" href={`/stream/${song.id}`}>
+                    <div
+                      className="image-content"
+                      onClick={() => handleImageClick(song)}
+                    >
                       <img src="https://images.pexels.com/photos/7130560/pexels-photo-7130560.jpeg" />
-                    </a>
+                    </div>
                   )}
                 </div>
                 <div className="audio-player-div">
@@ -109,15 +121,15 @@ const Songs = ({
                   <div className="waveform-player">
                     <Waveform
                       {...{ wavePlayer }}
+                      {...{ setCurrentAudio }}
                       audio={song.url}
                       {...{ waveLoading }}
                       {...{ setWaveLoading }}
                       song={song}
-                      {...{ pauseFunc }}
-                      {...{ playFunc }}
                       {...{ currentAudio }}
                       {...{ isPlaying }}
                       {...{ toggleIsPlaying }}
+                      {...{ audioPlayer }}
                     />
                   </div>
                   <div className="buttons">
