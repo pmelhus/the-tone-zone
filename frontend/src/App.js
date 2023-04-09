@@ -27,6 +27,7 @@ function App() {
   const [autoPlay, setAutoplay] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
   const songs = useSelector((state) => state.songs);
+  const [sourceChangeSwitch, setSourceChangeSwitch] = useState(false)
 
 
   const audioPlayer = useRef();
@@ -97,11 +98,13 @@ function App() {
               {...{ wavePlayer }}
               {...{ setCurrentAudio }}
               {...{ currentAudio }}
+              {...{setSourceChangeSwitch}}
             />
           )}
           <H5AudioPlayer
             {...{ waveLoading }}
             {...{ audioPlayer }}
+            {...{sourceChangeSwitch}}
             {...{ wavePlayer }}
             {...{ isLoaded }}
             {...{setIsLoaded}}

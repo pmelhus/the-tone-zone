@@ -35,6 +35,7 @@ const Song = ({
   isPlaying,
   currentAudio,
   toggleIsPlaying,
+  setSourceChangeSwitch
 }) => {
   const [signInToggle, setSignInToggle] = useState(false);
   const theme = useTheme();
@@ -111,6 +112,7 @@ const Song = ({
                   {...{ toggleIsPlaying }}
                   {...{ audioPlayer }}
                   {...{ currentAudio }}
+                  {...{setSourceChangeSwitch}}
                 />
               </div>
               <div className="img-div">

@@ -11,6 +11,7 @@ const useStyles = createUseStyles((theme) => ({}));
 const H5AudioPLayer = ({
   audioPlayer,
   wavePlayer,
+  sourceChangeSwitch,
   waveLoading,
   currentAudio,
   setCurrentAudio,
@@ -27,30 +28,25 @@ const H5AudioPLayer = ({
   const currentSong = useSelector((state) => Object.values(state.currentSong));
   const songId = parseInt(pathname.split("/")[2]);
 
-  const wavePlayFunc = (e) => {
-if (!waveLoading) {
 
-  if (!wavePlayer.current?.isPlaying()) {
-    wavePlayer.current.play();
-  } else {
-    return;
-  }
-} else {
-  return
-}
+  const wavePlayFunc = (e) => {
+
+      if (!wavePlayer.current?.isPlaying()) {
+        wavePlayer.current.play();
+      } else {
+        return;
+      }
+
   };
 
   const wavePauseFunc = (e) => {
-if (!waveLoading) {
 
-  if (wavePlayer.current?.isPlaying()) {
-    wavePlayer.current.pause();
-  } else {
-    return;
-  }
-} else {
-  return
-}
+      if (wavePlayer.current?.isPlaying()) {
+        wavePlayer.current.pause();
+      } else {
+        return;
+      }
+
   };
 
   const onSeek = async (e) => {
@@ -61,7 +57,6 @@ if (!waveLoading) {
     // Do something with the current time
     let seekPercentage = parseFloat(seekPercentageString, 10);
 
-
     const changeCurrentTimeToSeekedTime = () => {
       let seekPercentDecimal = seekPercentage * 0.01;
       let currentSeekedTime = seekPercentDecimal * h5Duration;
@@ -71,17 +66,15 @@ if (!waveLoading) {
     await changeCurrentTimeToSeekedTime();
   };
 
-
   useEffect(() => {
     if (currentSong?.id === currentAudio?.id) {
-
       setCurrentAudio(allSongs[currentSong[0]?.songId]);
     }
   }, [currentSong]);
 
-  useEffect(()=> {
-console.log(currentAudio, 'CURRENT AUDIO IN H5 PLAYER')
-  }, [currentAudio])
+  useEffect(() => {
+    console.log(currentAudio, "CURRENT AUDIO IN H5 PLAYER");
+  }, [currentAudio]);
 
   return (
     <div style={{ zIndex: "100" }} className="continuous-audio-playback">
@@ -93,7 +86,7 @@ console.log(currentAudio, 'CURRENT AUDIO IN H5 PLAYER')
             showJumpControls={false}
             src={currentAudio?.url}
             layout="horizontal-reverse"
-            autoPlayAfterSrcChange={true}
+            autoPlayAfterSrcChange={sourceChangeSwitch}
             autoPlay={false}
             onPlay={wavePlayFunc}
             onPause={wavePauseFunc}

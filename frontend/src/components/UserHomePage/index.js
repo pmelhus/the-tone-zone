@@ -21,6 +21,7 @@ const UserHomePage = ({
   pauseFunc,
   playFunc,
   waveLoading,
+  setSourceChangeSwitch,
   setWaveLoading,
   isPlaying,
   toggleIsPlaying,
@@ -64,6 +65,7 @@ const UserHomePage = ({
             {...{ toggleIsPlaying }}
             {...{ setCurrentAudio }}
             {...{ currentAudio }}
+            {...{setSourceChangeSwitch}}
           />
         </Route>
         <Route exact path="/stream">

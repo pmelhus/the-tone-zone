@@ -24,7 +24,7 @@ const Waveform = ({
   currentAudio,
   audioPlayer,
   setCurrentAudio,
-
+  setSourceChangeSwitch
 }) => {
   const dispatch = useDispatch();
   const containerRef = useRef();
@@ -37,12 +37,8 @@ const Waveform = ({
   const { pathname } = useLocation();
   const songId = parseInt(pathname.split("/")[2]);
   const currentSong = useSelector((state) =>
-  Object.values(state.currentSong)
-)[0];
-
-
-
-
+    Object.values(state.currentSong)
+  )[0];
 
   useEffect(() => {
     const waveSurfer = WaveSurfer.create({
@@ -76,7 +72,7 @@ const Waveform = ({
           wavePlayer.current.play();
         }
       };
-      console.log(currentSong, song)
+      console.log(currentSong, song);
       changeCurrentTimeToSeekedTime();
     });
 
@@ -98,8 +94,7 @@ const Waveform = ({
         audioPlayer.current.audio.current.currentTime = newSeekedValue;
       };
 
-        seek();
-
+      seek();
     });
 
     return () => {
@@ -112,14 +107,16 @@ const Waveform = ({
     // if there is a currentSong in DB, then play/pause h5 audio player
 
     const payload = { user, song };
-
+    console.log(audioPlayer.current);
     if (currentAudio?.id === song?.id) {
       if (audioPlayer.current.isPlaying()) {
         audioPlayer.current.audio.current.pause();
         toggleIsPlaying(false);
+        setSourceChangeSwitch(false)
       } else {
         audioPlayer.current.audio.current.play();
         toggleIsPlaying(true);
+        setSourceChangeSwitch(false)
       }
     } else {
       // replace the currentsong in DB with the new song.
@@ -127,15 +124,13 @@ const Waveform = ({
         await dispatch(deleteCurrentSong());
         await dispatch(createCurrentSong(payload));
       };
+      setSourceChangeSwitch(true)
       replaceCurrentSong();
       setCurrentAudio(song);
-      if (audioPlayer.current.isPlaying()) {
-        audioPlayer.current.audio.current.pause();
-        toggleIsPlaying(false);
-      } else {
-        audioPlayer.current.audio.current.play();
-        toggleIsPlaying(true);
-      }
+
+      audioPlayer.current.audio.current.play();
+      toggleIsPlaying(true);
+
     }
   };
 
