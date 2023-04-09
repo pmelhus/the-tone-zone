@@ -24,12 +24,11 @@ const Waveform = ({
   currentAudio,
   audioPlayer,
   setCurrentAudio,
+
 }) => {
   const dispatch = useDispatch();
   const containerRef = useRef();
-  const waveSurferRef = useRef({
-    isPlaying: () => false,
-  });
+
   const [time, setTime] = useState(null);
 
   const [isPlaying, toggleIsPlaying] = useState(false);
@@ -38,30 +37,12 @@ const Waveform = ({
   const { pathname } = useLocation();
   const songId = parseInt(pathname.split("/")[2]);
   const currentSong = useSelector((state) =>
-    Object.values(state.currentSong)
-  )[0];
+  Object.values(state.currentSong)
+)[0];
 
-  // const h5AudioPlayer = audioPlayer.current?.audio.current;
 
-  // const h5PauseFunc = () => {
-  //   if (audioPlayer.current.isPlaying()) {
-  //     audioPlayer.current?.audio.current.pause();
-  //   } else {
-  //     return;
-  //   }
-  // };
 
-  // const h5PlayFunc = () => {
-  //   if (!audioPlayer.current.isPlaying()) {
-  //     audioPlayer.current?.audio.current.play();
-  //   } else {
-  //     return;
-  //   }
-  // };
-  // const audio = useSelector(state=> (state.currentSong.song))
-  // console.log(universalPlay)
 
-  const [updatedSong, setUpdatedSong] = useState(false);
 
   useEffect(() => {
     const waveSurfer = WaveSurfer.create({
@@ -75,13 +56,12 @@ const Waveform = ({
     if (audio) {
       waveSurfer.load(audio);
     }
+
     waveSurfer.on("ready", () => {
+      wavePlayer.current = waveSurfer;
       setWaveLoading(false);
       waveSurfer.setMute(true);
-      if (song.id === currentSong.songId) {
-        wavePlayer.current = waveSurfer;
-        waveSurferRef.current = waveSurfer;
-      }
+
       let seekPercentageString =
         audioPlayer.current.progressBar.current.ariaValueNow;
       let h5CurrentTime = audioPlayer.current?.audio.current.currentTime;
@@ -96,58 +76,31 @@ const Waveform = ({
           wavePlayer.current.play();
         }
       };
-      if (currentSong.songId === song.id) {
-        changeCurrentTimeToSeekedTime();
-      }
-      // if (song?.id !== currentSong?.songId) {
-      //   toggleIsPlaying(false);
-      //   wavePlayer?.current?.seekTo(0);
-      // }
+      console.log(currentSong, song)
+      changeCurrentTimeToSeekedTime();
     });
 
     waveSurfer.on("play", () => {
-      if (song?.id === currentSong?.songId) {
-        waveSurferRef.current = waveSurfer;
-        wavePlayer.current = waveSurfer;
-        toggleIsPlaying(true);
-      }
+      wavePlayer.current = waveSurfer;
+      toggleIsPlaying(true);
     });
 
     waveSurfer.on("pause", () => {
-      if (song?.id === currentSong?.songId) {
-        waveSurferRef.current = waveSurfer;
-        wavePlayer.current = waveSurfer;
-
-        toggleIsPlaying(false);
-      }
+      wavePlayer.current = waveSurfer;
+      toggleIsPlaying(false);
     });
 
     waveSurfer.on("seek", (e) => {
-
-
+      wavePlayer.current = waveSurfer;
       let h5Duration = audioPlayer.current?.audio.current.duration;
       let newSeekedValue = e * h5Duration;
       const seek = () => {
-        waveSurferRef.current = waveSurfer;
-        wavePlayer.current = waveSurfer;
         audioPlayer.current.audio.current.currentTime = newSeekedValue;
       };
-      seek();
+
+        seek();
+
     });
-
-    // setUniversalSeek(waveSurfer.getCurrentTime())
-    // console.log(universalSeek, 'UNIVERSAL SEEK')
-
-    // waveSurfer.on("audioprocess", () => {
-    //   setUniversalSeek(waveSurfer.getCurrentTime())
-    //   console.log(universalSeek, 'UNIVERSAL SEEK')
-    // })
-
-    // if (universalPlay) {
-    //   waveSurfer.play()
-    // }
-
-    // if (universalPause) waveSurfer.pause()
 
     return () => {
       waveSurfer.destroy();
@@ -155,61 +108,12 @@ const Waveform = ({
     };
   }, [audio, pathname]);
 
-  // if (audio) {
-  //   return (
-  //     <>
-  //       <p>No audio file!</p>
-  //     </>
-  //   );
-  // }
-
-  // const handlePlayButton = async () => {
-  //   const payload = { user, song };
-  //   // first check if currentSong exists
-  //   const getCurrent = await dispatch(getCurrentSong(song.id));
-  //   await console.log(getCurrent, "getCurrent");
-  //   if (getCurrent) {
-  //     // if it does exist, check to see if currentSong matches with song and if it does, play h5 player
-  //     console.log(song, getCurrent, "SONGS");
-  //     if (song.id === getCurrent.id) {
-  //       console.log(currentAudio, 'CURR')
-  //       if (!currentAudio) {
-  //         setCurrentAudio(getCurrent);
-  //       }
-  //       if (audioPlayer.current.isPlaying()) {
-  //         await audioPlayer.current.audio.current.pause();
-  //         await toggleIsPlaying(false);
-  //       } else {
-  //         await audioPlayer.current.audio.current.play();
-  //         await toggleIsPlaying(true);
-  //       }
-
-  //       return false;
-  //     } else {
-  //       // if it doesn't match, delete old currentSong and create new currentSong
-  //       await dispatch(deleteCurrentSong());
-  //       const newCurrentSong = await dispatch(createCurrentSong(payload));
-  //       await setCurrentAudio(newCurrentSong)
-  //       await console.log(currentAudio, 'CURRENT AUDIO')
-
-  //     }
-  //   } else {
-  //     // if currentSong doesn't exist, createCurrentSong and then set currentAudio state to new currentSong
-  //     await dispatch(deleteCurrentSong());
-  //     const newCurrentSong = await dispatch(createCurrentSong(payload));
-  //     console.log(newCurrentSong, 'NEWCURRENTSONG')
-  //     await console.log(currentAudio, 'CURRENT AUDIO')
-
-  //     return newCurrentSong.song;
-  //   }
-  // };
-
   const handlePlayButton = () => {
     // if there is a currentSong in DB, then play/pause h5 audio player
 
     const payload = { user, song };
 
-    if (currentSong.songId === song.id) {
+    if (currentAudio?.id === song?.id) {
       if (audioPlayer.current.isPlaying()) {
         audioPlayer.current.audio.current.pause();
         toggleIsPlaying(false);
@@ -225,7 +129,6 @@ const Waveform = ({
       };
       replaceCurrentSong();
       setCurrentAudio(song);
-
       if (audioPlayer.current.isPlaying()) {
         audioPlayer.current.audio.current.pause();
         toggleIsPlaying(false);

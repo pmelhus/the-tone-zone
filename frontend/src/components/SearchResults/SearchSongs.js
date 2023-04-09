@@ -7,7 +7,7 @@ const SearchSongs = ({ searchResults, playFunc, pauseFunc }) => {
     <>
       {searchResults.songs &&
         Object.values(searchResults.songs).map((song) => {
-          console.log(song.url);
+
           return (
             <ul>
               <li className="search-song-card">

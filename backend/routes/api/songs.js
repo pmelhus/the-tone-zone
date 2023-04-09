@@ -20,8 +20,7 @@ router.get(
     const allSongs = await Song.findAll({
       include: [User, Comment]
     });
-    // const comments = await Comment.findAll({ where: { songId: id } });
-    // console.log(allSongs);
+
     return res.json(allSongs);
   })
 );
@@ -45,15 +44,14 @@ router.post(
   asyncHandler(async (req, res) => {
     const { userId, title, description } = req.body;
 
-    // console.log(req.body);
+
     const files = await multiplePublicFileUpload(req.files);
 
     const url = files[0];
     const imageUrl = files[1];
-    // console.log(image, "======================")
-    // const imageUrl = await singlePublicFileUpload(req.)
+
     const user = await User.findByPk(userId);
-    // console.log(url)
+
     const song = await Song.upload({
       userId,
       title,
@@ -71,13 +69,12 @@ router.post(
 router.put(
   "/:id",
   asyncHandler(async function (req, res) {
-    // console.log(req.body)
+
     const id = req.body.songId;
     const reqTitle = req.body.title;
     const reqDescription = req.body.description;
     const song = await Song.findByPk(id);
-    // console.log(song)
-    // delete id;
+
     const editedSong = await song.update({
       title: reqTitle,
       description: reqDescription,
@@ -111,7 +108,7 @@ router.get(
 
   const fetchResponse = fetch('https://soundcloud-scraper.p.rapidapi.com/v1/track/metadata?track=https%3A%2F%2Fsoundcloud.com%2Fedsheeran%2Fphotograph', options)
       .then(response => response.json())
-      // .then(response => console.log(response))
+
       .catch(err => console.error(err));
   })
 )

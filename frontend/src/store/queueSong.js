@@ -43,7 +43,7 @@ export const addSongToQueue = (payload) => async (dispatch) => {
     dispatch(addOne(queueSong));
     return queueSong
   } catch (error) {
-    // console.log(error, '=-=================')
+
     throw error;
   }
 };

@@ -44,40 +44,36 @@ const ProfilePlaylist = ({
   const [songId, setSongId] = useState(null);
   const selectedSong = useSelector((state) => state.songs[songId]);
 
-  // console.log(id, 'ID HERE')
 
-  // console.log(playlist?.Songs, "==================");
-  // const songs = Object.values(pSongs)
-  // console.log(pSongs.Songs, "===========?!?!?!?!?");
   useEffect(() => {
     setProPlayLoaded(true);
-    // dispatch(getAllPlaylists());
+
     dispatch(getOnePlaylist(id));
-    // setTitle(playlist?.Songs?.title);
+
     setIsLoaded(true);
-    // dispatch(getAllSongsPlaylist(id));
+
   }, [dispatch]);
   if (!playlist) return null;
 
   const handlePlaylistDelete = () => {
-    // console.log(playlist)
+
     dispatch(deleteOnePlaylist(playlist));
     history.push(`/you/library/playlists`);
   };
 
   const openPlaylist = (e) => {
-    // console.log("==============");
-    // if (playModal) return
+
+
     setEditModal(!editModal);
-    // console.log(playModal);
+
   };
 
   const openMenu = (e) => {
-    // e.stopPropagation();
+
     setShowMenu(!showMenu);
     if (!showMenu) return;
   };
-  // console.log(url, 'URL')
+
 
   return (
     <>
@@ -91,7 +87,7 @@ const ProfilePlaylist = ({
             <div className="playlist-waveform">
               <Waveform
 
-             
+
                 {...{ pauseFunc }}
                 {...{ playFunc }}
                 audio={url}
@@ -99,12 +95,6 @@ const ProfilePlaylist = ({
             </div>
           </div>
 
-          {/* <AudioPlayer
-            className="audio-player"
-            src={url}
-            onPlay={(e) => console.log("onPlay")}
-            style={{ backgroundImage: `url("${playlist.imageUrl}")` }}
-          /> */}
 
           <div className="img-div">
             <img src={playlist?.imageUrl}></img>
@@ -118,39 +108,7 @@ const ProfilePlaylist = ({
           </button>
         )}
       </div>
-      {/* <div className="song-content">
-        <div className="song-player">
-          <div className="relative">
-            <div className="playlist-title-username-song">
-              <p>{playlist && playlist?.title}</p>
-              <p>{playlist && playlist?.User?.username}</p>
-            </div>
-          </div>
 
-          <AudioPlayer
-            className="audio-player"
-            id="playlist-player"
-            src={url}
-            onPlay={(e) => console.log("onPlay")}
-            style={{ backgroundImage: `url("${playlist.imageUrl}")` }}
-            // other props here
-          />
-          <div className="img-div" >
-            <img id='playlist-img' src={playlist?.imageUrl}></img>
-          </div>
-        </div>
-        <button onClick={(e) => openMenu()}>More</button>
-        {showMenu && (
-          <ul className="profile-dropdown">
-            <li>
-              <button onClick={(e) => handlePlaylistDelete()}>
-                Delete Playlist
-              </button>
-            </li>
-          </ul>
-        )}
-      </div>
-      <div> */}
 
       {isLoaded &&
         playlist?.Songs?.map((song) => {

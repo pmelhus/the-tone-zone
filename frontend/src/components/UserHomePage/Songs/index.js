@@ -30,7 +30,6 @@ const Songs = ({
     return new Date(date);
   };
 
-  // console.log(wavePlayer)
   const songListSorted = songList.sort((a, b) => {
     const dateA = new Date(a.createdAt);
     const dateB = new Date(b.createdAt);
@@ -55,7 +54,7 @@ const Songs = ({
       <p id="hear-latest">Hear the latest posts in the community:</p>
       {songList &&
         songList.map((song) => {
-          // console.log(song);
+
           return (
             <div className="song-card">
               <div className="text-content">
@@ -129,6 +128,7 @@ const Songs = ({
                       {...{ currentAudio }}
                       {...{ isPlaying }}
                       {...{ toggleIsPlaying }}
+         
                       {...{ audioPlayer }}
                     />
                   </div>

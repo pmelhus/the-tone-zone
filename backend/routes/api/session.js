@@ -26,7 +26,7 @@ router.post(
   asyncHandler(async (req, res, next) => {
     const { credential, password } = req.body;
 
-    // console.log(credential, password,'USER HERE===========')
+
     const user = await User.login({ credential, password });
 
     if (!user) {
@@ -34,7 +34,7 @@ router.post(
       error.status = 401;
       error.title = "Login failed";
       error.errors = ["The provided credentials were invalid."];
-      // console.log('==============',error)
+
       return next(error);
     }
 
@@ -53,7 +53,7 @@ router.post(
   router.get("/", restoreUser, (req, res) => {
     const { user } = req;
     if (user) {
-      // console.log(user)
+
       return res.json({
         user: user.toSafeObject(),
       });

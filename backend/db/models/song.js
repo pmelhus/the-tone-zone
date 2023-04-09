@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Song.upload = async function ({ userId, title, description, url, imageUrl }) {
-    // console.log(imageUrl)
+
     const song = await Song.create({
       userId,
       title,

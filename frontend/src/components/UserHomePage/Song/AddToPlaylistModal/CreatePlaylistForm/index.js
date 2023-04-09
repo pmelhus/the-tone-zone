@@ -32,7 +32,7 @@ const CreatePlaylistForm = ({ setShowForm, showForm, showPlaylist }) => {
       );
     } catch (error) {
       if (error instanceof ValidationError) {
-        // console.log('===================')
+
         setErrorMessages(error.errors);
       }
 
@@ -47,9 +47,6 @@ const CreatePlaylistForm = ({ setShowForm, showForm, showPlaylist }) => {
       //!!END
       setTitle("");
 
-      // return dispatch(createComment(payload)).then(() => {
-      //   dispatch(getAllComments());
-      // });
     }
   };
 

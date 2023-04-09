@@ -7,13 +7,13 @@ import { createCurrentSong } from "../../../../store/currentSong";
 const PlaylistSong = ({playFunc, setSongId, songId, song, user, setUrl, setTitle, url, key}) => {
   const [editModal, setEditModal] = useState(false);
   const dispatch = useDispatch()
-  // console.log(song)
+
   const handleClick = (e) => {
 
     e.preventDefault();
 
     setSongId(song)
-    // console.log(songId, "==============")
+
     dispatch(createCurrentSong(song.id))
     setUrl(song.url);
     playFunc()

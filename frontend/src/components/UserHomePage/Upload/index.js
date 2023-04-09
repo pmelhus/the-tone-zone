@@ -22,7 +22,7 @@ const Upload = (sessionUser) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    // console.log(sessionUser.sessionUser.sessionUser.id)
+
 
     const payload = {
       userId,
@@ -32,7 +32,7 @@ const Upload = (sessionUser) => {
       image,
       files: [audio, image],
     };
-    // console.log(files)
+
     let createdSong;
     try {
       createdSong = await dispatch(songActions.createSong(payload))
@@ -41,14 +41,14 @@ const Upload = (sessionUser) => {
     } catch (error) {
 
       if (error instanceof ValidationError) {
-        // console.log('===================')
+
         setErrorMessages(error.errors);
       }
 
       // If error is not a ValidationError, add slice at the end to remove extra
       // "Error: "
       else {
-        console.log(error)
+
         setErrorMessages({ overall:"Please upload a valid audio file"});
       }
     }
@@ -76,7 +76,7 @@ const Upload = (sessionUser) => {
   const updateImage = (e) => {
     const file = e.target.files[0];
     if (file) setImage(file);
-    // console.log(e.target.files, "FILE HEREEEE");
+
   };
 
   const handleCancelClick = (e) => {

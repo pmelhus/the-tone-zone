@@ -38,7 +38,7 @@ const HomePageSongs = ({ setSignInToggle }) => {
     if (history.location.state?.commentAttempt && !sessionUser) {
       setSignInToggle(true);
     }
-    // console.log(history.location.state?.from)
+
   }, [history]);
 
   return (

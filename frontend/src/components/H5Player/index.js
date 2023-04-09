@@ -28,20 +28,29 @@ const H5AudioPLayer = ({
   const songId = parseInt(pathname.split("/")[2]);
 
   const wavePlayFunc = (e) => {
-    if (!wavePlayer.current?.isPlaying()) {
-      wavePlayer.current.play();
-    } else {
-      return;
-    }
+if (!waveLoading) {
+
+  if (!wavePlayer.current?.isPlaying()) {
+    wavePlayer.current.play();
+  } else {
+    return;
+  }
+} else {
+  return
+}
   };
 
   const wavePauseFunc = (e) => {
-    console.log(wavePlayer.current)
-    if (wavePlayer.current?.isPlaying()) {
-      wavePlayer.current.pause();
-    } else {
-      return;
-    }
+if (!waveLoading) {
+
+  if (wavePlayer.current?.isPlaying()) {
+    wavePlayer.current.pause();
+  } else {
+    return;
+  }
+} else {
+  return
+}
   };
 
   const onSeek = async (e) => {
@@ -51,7 +60,7 @@ const H5AudioPLayer = ({
     let h5Duration = audioPlayer.current?.audio.current.duration;
     // Do something with the current time
     let seekPercentage = parseFloat(seekPercentageString, 10);
-    console.log(audioPlayer.current);
+
 
     const changeCurrentTimeToSeekedTime = () => {
       let seekPercentDecimal = seekPercentage * 0.01;
@@ -59,35 +68,9 @@ const H5AudioPLayer = ({
       e.currentTime = currentSeekedTime;
       wavePlayer.current.seekTo(seekPercentDecimal);
     };
-
     await changeCurrentTimeToSeekedTime();
   };
 
-  // useEffect(() => {
-  //   let h5IsPlaying = audioPlayer.current?.isPlaying();
-  //   if (h5IsPlaying) {
-  //     wavePlayer.current.play();
-  //   } else {
-  //     wavePlayer.current.pause();
-  //   }
-  // }, [[audioPlayer]]);
-
-  // useEffect(() => {
-  //   const getSongs = async () => {
-  //     const currentSong = await dispatch(getAllCurrentSongs(sessionUser?.id));
-  //     const currentSongId = currentSong[0].songId;
-  //     await setCurrentAudio(allSongs[currentSongId]);
-  //     await setIsLoaded(true);
-  //   };
-  //   getSongs();
-  // }, [dispatch, pathname]);
-  // useEffect(() => {
-  //   const getSongs = async () => {
-  //     await setCurrentAudio(allSongs[currentSongId]);
-  //     await setLoadedRefresh(true);
-  //   };
-  //   getSongs();
-  // }, []);
 
   useEffect(() => {
     if (currentSong?.id === currentAudio?.id) {
@@ -95,10 +78,6 @@ const H5AudioPLayer = ({
       setCurrentAudio(allSongs[currentSong[0]?.songId]);
     }
   }, [currentSong]);
-
-  // useEffect(() => {
-  //   setCurrentAudio(allSongs[currentSong[0]?.songId]);
-  // }, []);
 
   useEffect(()=> {
 console.log(currentAudio, 'CURRENT AUDIO IN H5 PLAYER')

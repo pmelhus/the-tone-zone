@@ -45,7 +45,7 @@ router.get(
       include: User,
     });
 
-    // console.log(usersRes);
+
     return res.json({
       songs: songsRes,
       users: usersRes,

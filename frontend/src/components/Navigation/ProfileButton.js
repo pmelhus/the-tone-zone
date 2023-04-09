@@ -27,7 +27,7 @@ function ProfileButton({ setSignInToggle2 }) {
   let history = useHistory();
   const user = useSelector((state) => state.session.user);
   const [isLoaded, setIsLoaded] = useState(false);
-  // console.log(user)
+
 
   useEffect(() => {
     if (!showMenu) return;

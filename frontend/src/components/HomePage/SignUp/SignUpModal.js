@@ -19,7 +19,7 @@ function SignupFormPage({ signUpToggle, setSignUpToggle, setSignInToggle }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     let newErrors = [];
-    console.log(password, confirmPassword);
+
     if (password === confirmPassword) {
       dispatch(sessionActions.signup({ email, username, password, image }))
         .then(() => {
@@ -30,7 +30,7 @@ function SignupFormPage({ signUpToggle, setSignUpToggle, setSignInToggle }) {
         })
         .catch(async (res) => {
           const data = await res.json();
-          // console.log(data, "DATA")
+
           if (data && data.errors) {
             newErrors = data.errors;
             setErrors(newErrors);
@@ -73,7 +73,7 @@ function SignupFormPage({ signUpToggle, setSignUpToggle, setSignInToggle }) {
     >
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-content">
-          
+
         </div>
       </div>
     </div>

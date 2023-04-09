@@ -14,9 +14,9 @@ const SearchResults = ({ searchResults, playFunc, pauseFunc, isLoaded }) => {
   const [songFilter, setSongFilter] = useState(true);
   const [everythingFilter, setEverythingFilter] = useState(true);
 
-  console.log(searchResults, "HALLO");
+
   const dispatch = useDispatch();
-  // console.log(songs)
+
 
   const handleSongFilter = () => {
     setUserFilter(false);

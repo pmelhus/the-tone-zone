@@ -19,7 +19,7 @@ const AddToPlaylist = ({
 
   const [addedToPlaylist, setAddedToPlaylist] = useState(false);
 
-  // console.log(song, '=============')
+
 
   useEffect(() => {
     dispatch(getAllPlaylists());
@@ -29,7 +29,7 @@ const AddToPlaylist = ({
     return playlist.userId === sessionUser.id;
   });
 
-  console.log(myPlaylists);
+
 
   const [noPlaylists, setNoPlaylists] = useState(false);
 

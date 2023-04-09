@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 
 const SearchUsers = ({ searchResults }) => {
-  // if (!users.length) return null;
-  // console.log(Object.values(searchResults.users)[0].profileImageUrl)
+
   return (
     <>
       {searchResults.users &&

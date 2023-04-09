@@ -46,7 +46,7 @@ const SignUp = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     let newErrors = [];
-    console.log(password, confirmPassword);
+
     if (password === confirmPassword) {
       dispatch(sessionActions.signup({ email, username, password, image }))
         .then(() => {
@@ -57,7 +57,7 @@ const SignUp = ({
         })
         .catch(async (res) => {
           const data = await res.json();
-          // console.log(data, "DATA")
+
           if (data && data.errors) {
             newErrors = data.errors;
             setErrors(newErrors);

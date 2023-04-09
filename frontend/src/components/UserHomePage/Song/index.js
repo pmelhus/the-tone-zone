@@ -46,7 +46,7 @@ const Song = ({
   const [showMenu, setShowMenu] = useState(false);
   const song = useSelector((state) => state.songs[songId]);
   const user = useSelector((state) => state.session.user);
-  // console.log(song);
+
   useEffect(() => {
     dispatch(getOneSong(songId));
   }, [dispatch]);
@@ -56,10 +56,10 @@ const Song = ({
   };
 
   const openPlaylist = (e) => {
-    // console.log("==============");
+
     // if (playModal) return
     setPlayModal(!playModal);
-    // console.log(playModal);
+
   };
 
   const openMenu = (e) => {
