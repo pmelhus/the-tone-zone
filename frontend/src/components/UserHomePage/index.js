@@ -74,6 +74,7 @@ const UserHomePage = ({
             {...{ playFunc }}
             {...{ audioPlayer }}
             sessionUser={sessionUser}
+            {...{setSourceChangeSwitch}}
             {...{ waveLoading }}
             {...{ setWaveLoading }}
             {...{ wavePlayer }}

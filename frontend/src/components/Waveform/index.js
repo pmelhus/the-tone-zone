@@ -24,21 +24,18 @@ const Waveform = ({
   currentAudio,
   audioPlayer,
   setCurrentAudio,
-  setSourceChangeSwitch
+  setSourceChangeSwitch,
 }) => {
   const dispatch = useDispatch();
   const containerRef = useRef();
 
-  const [time, setTime] = useState(null);
+
 
   const [isPlaying, toggleIsPlaying] = useState(false);
   const user = useSelector((state) => state.session.user);
-  const songs = useSelector((state) => state.songs);
+
   const { pathname } = useLocation();
-  const songId = parseInt(pathname.split("/")[2]);
-  const currentSong = useSelector((state) =>
-    Object.values(state.currentSong)
-  )[0];
+
 
   useEffect(() => {
     const waveSurfer = WaveSurfer.create({
@@ -49,88 +46,100 @@ const Waveform = ({
       barHeight: 1,
     });
 
+    let seekPercentageString =
+      audioPlayer.current.progressBar.current.ariaValueNow;
+    let h5CurrentTime = audioPlayer.current?.audio.current.currentTime;
+    let h5Duration = audioPlayer.current?.audio.current.duration;
+    // Do something with the current time
+    let seekPercentage = parseFloat(seekPercentageString, 10);
+    let seekPercentDecimal = seekPercentage * 0.01;
+
+    const changeCurrentTimeToSeekedTime = (seekPercent) => {
+      wavePlayer?.current?.seekTo(seekPercent);
+      if (audioPlayer.current?.isPlaying()) {
+        wavePlayer.current?.play();
+      }
+    };
+
     if (audio) {
       waveSurfer.load(audio);
     }
 
+    // if  (audioPlayer.current.audio.current.src === audio) {
+    //   wavePlayer.current = waveSurfer
+    // }
+
     waveSurfer.on("ready", () => {
-      wavePlayer.current = waveSurfer;
+      if (audioPlayer.current.audio.current.src === audio) {
+        wavePlayer.current = waveSurfer;
+        changeCurrentTimeToSeekedTime(seekPercentDecimal);
+      }
       setWaveLoading(false);
       waveSurfer.setMute(true);
-
-      let seekPercentageString =
-        audioPlayer.current.progressBar.current.ariaValueNow;
-      let h5CurrentTime = audioPlayer.current?.audio.current.currentTime;
-      let h5Duration = audioPlayer.current?.audio.current.duration;
-      // Do something with the current time
-      let seekPercentage = parseFloat(seekPercentageString, 10);
-
-      const changeCurrentTimeToSeekedTime = () => {
-        let seekPercentDecimal = seekPercentage * 0.01;
-        wavePlayer.current.seekTo(seekPercentDecimal);
-        if (audioPlayer.current.isPlaying()) {
-          wavePlayer.current.play();
-        }
-      };
-      console.log(currentSong, song);
-      changeCurrentTimeToSeekedTime();
     });
 
     waveSurfer.on("play", () => {
       wavePlayer.current = waveSurfer;
-      toggleIsPlaying(true);
+      if (audioPlayer.current.audio.current.src === audio) {
+        toggleIsPlaying(true);
+      }
     });
 
     waveSurfer.on("pause", () => {
       wavePlayer.current = waveSurfer;
-      toggleIsPlaying(false);
+      if (audioPlayer.current.audio.current.src === audio) {
+        toggleIsPlaying(false);
+      }
     });
 
     waveSurfer.on("seek", (e) => {
-      wavePlayer.current = waveSurfer;
       let h5Duration = audioPlayer.current?.audio.current.duration;
       let newSeekedValue = e * h5Duration;
       const seek = () => {
         audioPlayer.current.audio.current.currentTime = newSeekedValue;
       };
 
-      seek();
+      if (audioPlayer.current.audio.current.src === audio) {
+        wavePlayer.current = waveSurfer;
+        seek();
+      }
     });
 
     return () => {
       waveSurfer.destroy();
-      setWaveLoading(true);
+      setSourceChangeSwitch(false);
     };
   }, [audio, pathname]);
+
 
   const handlePlayButton = () => {
     // if there is a currentSong in DB, then play/pause h5 audio player
 
     const payload = { user, song };
-    console.log(audioPlayer.current);
-    if (currentAudio?.id === song?.id) {
+
+    if (audioPlayer.current.audio.current.src === audio) {
       if (audioPlayer.current.isPlaying()) {
         audioPlayer.current.audio.current.pause();
         toggleIsPlaying(false);
-        setSourceChangeSwitch(false)
+        setSourceChangeSwitch(false);
       } else {
         audioPlayer.current.audio.current.play();
         toggleIsPlaying(true);
-        setSourceChangeSwitch(false)
+        setSourceChangeSwitch(false);
       }
     } else {
       // replace the currentsong in DB with the new song.
+
       const replaceCurrentSong = async () => {
         await dispatch(deleteCurrentSong());
         await dispatch(createCurrentSong(payload));
       };
-      setSourceChangeSwitch(true)
+      setSourceChangeSwitch(true);
       replaceCurrentSong();
       setCurrentAudio(song);
 
       audioPlayer.current.audio.current.play();
       toggleIsPlaying(true);
-
     }
   };
 

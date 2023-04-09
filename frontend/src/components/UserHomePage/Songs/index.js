@@ -18,6 +18,7 @@ const Songs = ({
   currentAudio,
   isPlaying,
   toggleIsPlaying,
+  setSourceChangeSwitch,
   setCurrentAudio,
 }) => {
   const dispatch = useDispatch();
@@ -128,7 +129,7 @@ const Songs = ({
                       {...{ currentAudio }}
                       {...{ isPlaying }}
                       {...{ toggleIsPlaying }}
-         
+                      {...{setSourceChangeSwitch}}
                       {...{ audioPlayer }}
                     />
                   </div>
