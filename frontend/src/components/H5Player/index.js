@@ -28,25 +28,20 @@ const H5AudioPLayer = ({
   const currentSong = useSelector((state) => Object.values(state.currentSong));
   const songId = parseInt(pathname.split("/")[2]);
 
-
   const wavePlayFunc = (e) => {
-
-      if (!wavePlayer.current?.isPlaying()) {
-        wavePlayer.current.play();
-      } else {
-        return;
-      }
-
+    if (!wavePlayer.current?.isPlaying()) {
+      wavePlayer.current.play();
+    } else {
+      return;
+    }
   };
 
   const wavePauseFunc = (e) => {
-
-      if (wavePlayer.current?.isPlaying()) {
-        wavePlayer.current.pause();
-      } else {
-        return;
-      }
-
+    if (wavePlayer.current?.isPlaying()) {
+      wavePlayer.current.pause();
+    } else {
+      return;
+    }
   };
 
   const onSeek = async (e) => {
