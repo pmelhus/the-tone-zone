@@ -24,13 +24,17 @@ const Waveform = ({
   currentAudio,
   audioPlayer,
   setCurrentAudio,
+  h5CanPlay,
   setSourceChangeSwitch,
 }) => {
   const dispatch = useDispatch();
   const containerRef = useRef();
 
+  const [waveHover, setWaveHover] = useState(false);
+
   const [isPlaying, toggleIsPlaying] = useState(false);
   const user = useSelector((state) => state.session.user);
+  const [currentlyPlayingRef, setCurrentlyPlayingRef] = useState(null);
 
   const { pathname } = useLocation();
 
@@ -50,6 +54,7 @@ const Waveform = ({
   };
 
   const [currentWavePlayer, setCurrentWavePlayer] = useState(null);
+  const [indieWaveLoading, setIndieWaveLoading] = useState(true);
 
   const handlePlayButton = async () => {
     // if there is a currentSong in DB, then play/pause h5 audio player
@@ -79,6 +84,7 @@ const Waveform = ({
       await setSourceChangeSwitch(true);
       await replaceCurrentSong();
       await setCurrentAudio(song);
+
       wavePlayer.current = currentWavePlayer;
       await audioPlayer?.current?.audio.current.play();
       await toggleIsPlaying(true);
@@ -89,9 +95,11 @@ const Waveform = ({
     const waveSurfer = WaveSurfer.create({
       container: containerRef.current,
       responsive: true,
-      cursorWidth: 0,
+      cursorWidth: 1,
       barWidth: 2,
       barHeight: 1,
+      waveColor: "rgba(51, 51, 51, .4)",
+      progressColor: "rgb(253, 77, 1)",
     });
     setCurrentWavePlayer(waveSurfer);
 
@@ -109,27 +117,27 @@ const Waveform = ({
         changeCurrentTimeToSeekedTime(seekPercentDecimal);
       }
       waveSurfer.setMute(true);
+      setIndieWaveLoading(false);
       setWaveLoading(false);
     });
 
     waveSurfer.on("play", () => {
+      waveSurfer.setWaveColor("rgba(51, 51, 51, .5)");
       if (audioPlayer.current.audio.current.src === audio) {
         wavePlayer.current = waveSurfer;
         toggleIsPlaying(true);
-      }
-      if (audioPlayer.current.audio.current.src !== audio) {
-        console.log(song, "HALLO");
       }
     });
 
     waveSurfer.on("pause", () => {
       toggleIsPlaying(false);
+      waveSurfer.setWaveColor("rgba(51, 51, 51, .4)");
     });
 
     waveSurfer.on("seek", (e) => {
-      wavePlayer.current = waveSurfer;
       let h5Duration = audioPlayer.current?.audio.current.duration;
       let newSeekedValue = e * h5Duration;
+      audioPlayer.current.audio.current.currentTime = newSeekedValue;
       const seek = () => {
         audioPlayer.current.audio.current.currentTime = newSeekedValue;
       };
@@ -142,14 +150,21 @@ const Waveform = ({
           await dispatch(deleteCurrentSong());
           await dispatch(createCurrentSong(payload));
         };
-
         setSourceChangeSwitch(true);
         replaceCurrentSong();
         setCurrentAudio(song);
-        seek();
-        audioPlayer.current.audio.current.play();
+
+        waveSurfer.play(0);
+        toggleIsPlaying(true);
       }
+
+      if (wavePlayer.current.isPlaying() && audioPlayer.current.audio.current.src !== audio ) {
+        wavePlayer.current.stop();
+      }
+      wavePlayer.current = waveSurfer;
     });
+
+
 
     return () => {
       waveSurfer.destroy();
@@ -157,10 +172,22 @@ const Waveform = ({
     };
   }, [audio, pathname]);
 
+  const handleWaveHover = () => {
+    if (!currentWavePlayer.isPlaying()) {
+      currentWavePlayer.setWaveColor("rgba(51, 51, 51, .5)");
+    }
+  };
+
+  const handleWaveHoverLeave = () => {
+    if (!currentWavePlayer.isPlaying()) {
+      currentWavePlayer.setWaveColor("rgb(51, 51, 51, .4)");
+    }
+  };
+
   return (
     <>
       <div className="waveform-button-title">
-        {waveLoading ? (
+        {indieWaveLoading && h5CanPlay ? (
           <FaPlayCircle size="3em" disabled id="waveform-button-disabled" />
         ) : (
           <button
@@ -190,15 +217,20 @@ const Waveform = ({
       </div>
       <div className="waveform-container">
         <div className="waveform-image-container">
-          {waveLoading && (
+          {indieWaveLoading && h5CanPlay && (
             <img
               alt="loading"
               src="https://miro.medium.com/max/1400/1*CsJ05WEGfunYMLGfsT2sXA.gif"
             ></img>
           )}
         </div>
-
-        <div ref={containerRef} />
+        <div
+          className="container-ref-div"
+          onMouseOver={handleWaveHover}
+          onMouseLeave={handleWaveHoverLeave}
+        >
+          <div ref={containerRef} />
+        </div>
       </div>
     </>
   );

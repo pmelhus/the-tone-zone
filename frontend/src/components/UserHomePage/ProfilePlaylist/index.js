@@ -20,8 +20,7 @@ import "./ProfilePlaylist.css";
 import Waveform from "../../Waveform";
 
 const ProfilePlaylist = ({
-  pauseFunc,
-  playFunc,
+
   proPlayLoaded,
   setProPlayLoaded,
 
@@ -88,8 +87,6 @@ const ProfilePlaylist = ({
               <Waveform
 
 
-                {...{ pauseFunc }}
-                {...{ playFunc }}
                 audio={url}
               />
             </div>
@@ -115,8 +112,7 @@ const ProfilePlaylist = ({
           return (
             <>
               <PlaylistSong
-              {...{playFunc}}
-              {...{pauseFunc}}
+
               {...{songId}}
                 key={id}
                 {...{ setSongId }}

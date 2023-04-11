@@ -7,7 +7,7 @@ import SearchUsers from "./SearchUsers";
 import SearchSongs from "./SearchSongs";
 import SearchPlaylists from "./SearchPlaylists";
 
-const SearchResults = ({ searchResults, playFunc, pauseFunc, isLoaded }) => {
+const SearchResults = ({ searchResults,  isLoaded }) => {
   const { pathname } = useLocation();
 
   const [userFilter, setUserFilter] = useState(true);
@@ -113,8 +113,7 @@ const SearchResults = ({ searchResults, playFunc, pauseFunc, isLoaded }) => {
               {songFilter && (
                 <>
                   <SearchSongs
-                    {...{ pauseFunc }}
-                    {...{ playFunc }}
+     
                     {...{ searchResults }}
                   />
                 </>

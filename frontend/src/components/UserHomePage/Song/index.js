@@ -27,8 +27,6 @@ const useStyles = createUseStyles((theme) => ({
 const Song = ({
   setCurrentAudio,
   audioPlayer,
-  playFunc,
-  pauseFunc,
   wavePlayer,
   waveLoading,
   setWaveLoading,
@@ -106,8 +104,6 @@ const Song = ({
                   {...{ waveLoading }}
                   {...{ setWaveLoading }}
                   song={song}
-                  {...{ pauseFunc }}
-                  {...{ playFunc }}
                   {...{ isPlaying }}
                   {...{ toggleIsPlaying }}
                   {...{ audioPlayer }}

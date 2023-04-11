@@ -20,19 +20,17 @@ function App() {
   const [signInToggle, setSignInToggle] = useState(false);
   const [signUpToggle, setSignUpToggle] = useState(false);
 
-
   const [currentAudio, setCurrentAudio] = useState();
+  const [h5CanPlay, setH5CanPlay] = useState(false);
 
   const [waveLoading, setWaveLoading] = useState(true);
   const [autoPlay, setAutoplay] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
   const songs = useSelector((state) => state.songs);
-  const [sourceChangeSwitch, setSourceChangeSwitch] = useState(false)
-
+  const [sourceChangeSwitch, setSourceChangeSwitch] = useState(false);
 
   const audioPlayer = useRef();
   const wavePlayer = useRef();
-
 
   const [user, setUser] = useState("");
 
@@ -48,12 +46,10 @@ function App() {
         const currentSongs = await dispatch(
           getAllCurrentSongs(sessionUser?.id)
         );
-
       }
     };
     getUser();
     setIsLoaded(true);
-
   }, [dispatch]);
 
   useEffect(() => {
@@ -98,18 +94,21 @@ function App() {
               {...{ wavePlayer }}
               {...{ setCurrentAudio }}
               {...{ currentAudio }}
-              {...{setSourceChangeSwitch}}
+              {...{ setSourceChangeSwitch }}
+              {...{ h5CanPlay }}
             />
           )}
           <H5AudioPlayer
             {...{ waveLoading }}
             {...{ audioPlayer }}
-            {...{sourceChangeSwitch}}
+            {...{ sourceChangeSwitch }}
             {...{ wavePlayer }}
             {...{ isLoaded }}
-            {...{setIsLoaded}}
+            {...{ setIsLoaded }}
             {...{ setCurrentAudio }}
             {...{ currentAudio }}
+            {...{ h5CanPlay }}
+            {...{ setH5CanPlay }}
           />
         </div>
       </Switch>

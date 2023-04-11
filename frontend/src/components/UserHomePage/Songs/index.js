@@ -20,6 +20,7 @@ const Songs = ({
   toggleIsPlaying,
   setSourceChangeSwitch,
   setCurrentAudio,
+  h5CanPlay,
 }) => {
   const dispatch = useDispatch();
   const songList = useSelector((state) => Object.values(state.songs));
@@ -55,7 +56,6 @@ const Songs = ({
       <p id="hear-latest">Hear the latest posts in the community:</p>
       {songList &&
         songList.map((song) => {
-
           return (
             <div className="song-card">
               <div className="text-content">
@@ -120,6 +120,7 @@ const Songs = ({
                   </div> */}
                   <div className="waveform-player">
                     <Waveform
+                      {...{ h5CanPlay }}
                       {...{ wavePlayer }}
                       {...{ setCurrentAudio }}
                       audio={song.url}
@@ -129,7 +130,7 @@ const Songs = ({
                       {...{ currentAudio }}
                       {...{ isPlaying }}
                       {...{ toggleIsPlaying }}
-                      {...{setSourceChangeSwitch}}
+                      {...{ setSourceChangeSwitch }}
                       {...{ audioPlayer }}
                     />
                   </div>

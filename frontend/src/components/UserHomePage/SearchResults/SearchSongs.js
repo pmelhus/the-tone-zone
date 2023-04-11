@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Waveform from "../../Waveform";
 import "./SearchResults.css"
 
-const SearchSongs = ({ searchResults, playFunc, pauseFunc }) => {
+const SearchSongs = ({ searchResults}) => {
   return (
     <>
       {searchResults.songs &&
@@ -21,8 +21,6 @@ const SearchSongs = ({ searchResults, playFunc, pauseFunc }) => {
                 </div>
                 <div className="song-search-player">
                   <Waveform
-                    {...{ pauseFunc }}
-                    {...{ playFunc }}
                     {...{ song }}
                     audio={song.url}
                   />

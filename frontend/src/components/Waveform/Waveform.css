@@ -9,3 +9,8 @@
 .waveform-image-container {
   position: relative;
 }
+
+
+.container-ref-div {
+  cursor: pointer;
+}
