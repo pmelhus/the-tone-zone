@@ -11,6 +11,7 @@ justify-content: center;
 background-color: rgb(242, 242, 242);
 z-index: 100;
 border-top: 1px solid #cecece;
+
 }
 
 .rhap_container {
@@ -111,4 +112,3 @@ margin-right: 20px;
   width: 25px;
   height: 25px;
 }
-

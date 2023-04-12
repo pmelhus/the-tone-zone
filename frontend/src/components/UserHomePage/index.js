@@ -47,17 +47,6 @@ const UserHomePage = ({
     setIsLoaded(true);
   }, [dispatch, pathname]);
 
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(getAllPlaylists());
-      await dispatch(getAllSongs());
-      await dispatch(getSearchResults(searchWord));
-    };
-    fetchData();
-    setIsLoaded(true);
-  }, []);
-
   return (
     <div className="user-home-body">
       <Switch>
@@ -115,6 +104,16 @@ const UserHomePage = ({
               <SearchResults
                 {...{ audioPlayer }}
                 {...{ isLoaded }}
+                sessionUser={sessionUser}
+                {...{ setSourceChangeSwitch }}
+                {...{ waveLoading }}
+                {...{ setWaveLoading }}
+                {...{ wavePlayer }}
+                {...{ isPlaying }}
+                {...{ toggleIsPlaying }}
+                {...{ setCurrentAudio }}
+                {...{ currentAudio }}
+                {...{ h5CanPlay }}
               />
             </Route>
           </>

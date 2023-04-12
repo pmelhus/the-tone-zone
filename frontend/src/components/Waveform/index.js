@@ -16,12 +16,10 @@ import {
 } from "../../store/currentSong";
 
 const Waveform = ({
-  waveLoading,
   setWaveLoading,
   audio,
   song,
   wavePlayer,
-  currentAudio,
   audioPlayer,
   setCurrentAudio,
   h5CanPlay,
