@@ -18,7 +18,6 @@ import { getAllCurrentSongs } from "../../store/currentSong";
 
 // howler.js range i
 const UserHomePage = ({
-
   waveLoading,
   setSourceChangeSwitch,
   setWaveLoading,
@@ -28,23 +27,36 @@ const UserHomePage = ({
   audioPlayer,
   setCurrentAudio,
   currentAudio,
-  h5CanPlay
+  h5CanPlay,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const searchWord = pathname.split("/")[2];
   const sessionUser = useSelector((state) => state.session.user);
-  const searchResults = useSelector((state) => state?.search);
+
+
+  console.log(searchWord, "SEARCH WORD");
   useEffect(() => {
     const fetchData = async () => {
-      dispatch(getAllPlaylists());
-      dispatch(getAllSongs());
-      dispatch(getSearchResults(searchWord));
+      await dispatch(getAllPlaylists());
+      await dispatch(getAllSongs());
+      await dispatch(getSearchResults(searchWord));
     };
     fetchData();
     setIsLoaded(true);
   }, [dispatch, pathname]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(getAllPlaylists());
+      await dispatch(getAllSongs());
+      await dispatch(getSearchResults(searchWord));
+    };
+    fetchData();
+    setIsLoaded(true);
+  }, []);
 
   return (
     <div className="user-home-body">
@@ -54,8 +66,7 @@ const UserHomePage = ({
         </Route>
         <Route path="/stream/:songId">
           <Song
-                   {...{h5CanPlay}}
-
+            {...{ h5CanPlay }}
             {...{ audioPlayer }}
             sessionUser={sessionUser}
             {...{ waveLoading }}
@@ -65,16 +76,15 @@ const UserHomePage = ({
             {...{ toggleIsPlaying }}
             {...{ setCurrentAudio }}
             {...{ currentAudio }}
-            {...{setSourceChangeSwitch}}
-            {...{h5CanPlay}}
+            {...{ setSourceChangeSwitch }}
+            {...{ h5CanPlay }}
           />
         </Route>
         <Route exact path="/stream">
           <Songs
-
             {...{ audioPlayer }}
             sessionUser={sessionUser}
-            {...{setSourceChangeSwitch}}
+            {...{ setSourceChangeSwitch }}
             {...{ waveLoading }}
             {...{ setWaveLoading }}
             {...{ wavePlayer }}
@@ -82,7 +92,7 @@ const UserHomePage = ({
             {...{ toggleIsPlaying }}
             {...{ setCurrentAudio }}
             {...{ currentAudio }}
-            {...{h5CanPlay}}
+            {...{ h5CanPlay }}
           />
         </Route>
         <Route path="/you/library">
@@ -99,16 +109,11 @@ const UserHomePage = ({
         {isLoaded && (
           <>
             <Route path="/:username">
-              <ProfilePage
-                {...{ audioPlayer }}
-
-              />
+              <ProfilePage {...{ audioPlayer }} />
             </Route>
             <Route path="/search">
               <SearchResults
-                {...{ searchResults }}
                 {...{ audioPlayer }}
-
                 {...{ isLoaded }}
               />
             </Route>

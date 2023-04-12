@@ -112,13 +112,13 @@ const Waveform = ({
     // }
 
     waveSurfer.on("ready", () => {
+      setIndieWaveLoading(false);
+      waveSurfer.setMute(true);
+      setWaveLoading(false);
       if (audioPlayer.current.audio.current.src === audio) {
         wavePlayer.current = waveSurfer;
         changeCurrentTimeToSeekedTime(seekPercentDecimal);
       }
-      waveSurfer.setMute(true);
-      setIndieWaveLoading(false);
-      setWaveLoading(false);
     });
 
     waveSurfer.on("play", () => {
@@ -158,13 +158,14 @@ const Waveform = ({
         toggleIsPlaying(true);
       }
 
-      if (wavePlayer.current.isPlaying() && audioPlayer.current.audio.current.src !== audio ) {
+      if (
+        wavePlayer.current.isPlaying() &&
+        audioPlayer.current.audio.current.src !== audio
+      ) {
         wavePlayer.current.stop();
       }
       wavePlayer.current = waveSurfer;
     });
-
-
 
     return () => {
       waveSurfer.destroy();

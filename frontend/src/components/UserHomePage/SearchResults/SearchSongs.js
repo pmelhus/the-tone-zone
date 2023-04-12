@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
 import Waveform from "../../Waveform";
-import "./SearchResults.css"
+import "./SearchResults.css";
 
-const SearchSongs = ({ searchResults}) => {
+const SearchSongs = ({ searchResults, playFunc, pauseFunc }) => {
   return (
     <>
       {searchResults.songs &&
         Object.values(searchResults.songs).map((song) => {
-
           return (
             <ul>
               <li className="search-song-card">
@@ -20,10 +19,12 @@ const SearchSongs = ({ searchResults}) => {
                   </Link>
                 </div>
                 <div className="song-search-player">
-                  <Waveform
+                  {/* <Waveform
+                    {...{ pauseFunc }}
+                    {...{ playFunc }}
                     {...{ song }}
                     audio={song.url}
-                  />
+                  /> */}
                 </div>
               </li>
             </ul>

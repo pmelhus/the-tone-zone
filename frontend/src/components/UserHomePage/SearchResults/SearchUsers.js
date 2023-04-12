@@ -5,7 +5,7 @@ const SearchUsers = ({ searchResults }) => {
   return (
     <>
       {searchResults.users &&
-        Object.values(searchResults.users).map((user) => {
+        Object.values(searchResults?.users).map((user) => {
           return (
             <ul>
               <li  className="search-user-card">

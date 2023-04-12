@@ -7,16 +7,16 @@ import SearchUsers from "./SearchUsers";
 import SearchSongs from "./SearchSongs";
 import SearchPlaylists from "./SearchPlaylists";
 
-const SearchResults = ({ searchResults,  isLoaded }) => {
+const SearchResults = ({ playFunc, pauseFunc, isLoaded }) => {
   const { pathname } = useLocation();
 
   const [userFilter, setUserFilter] = useState(true);
   const [songFilter, setSongFilter] = useState(true);
   const [everythingFilter, setEverythingFilter] = useState(true);
-
-
+  const searchResults = useSelector((state) => state.search);
+  const searchKeys = Object.keys(searchResults);
+  console.log(searchKeys);
   const dispatch = useDispatch();
-
 
   const handleSongFilter = () => {
     setUserFilter(false);
@@ -60,7 +60,7 @@ const SearchResults = ({ searchResults,  isLoaded }) => {
             style={{ color: "gray", fontSize: "14px" }}
             className="number-of-results"
           >
-            <p
+            <div
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -69,17 +69,16 @@ const SearchResults = ({ searchResults,  isLoaded }) => {
               }}
             >
               Found&nbsp;
-              <p style={{ fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${
-                Object.keys(searchResults.users).length
-              }`}</p>
+              <p
+                style={{ fontWeight: "bold", color: "rgb(253, 77, 1)" }}
+              >{`${searchKeys.length}`}</p>
               &nbsp;
-              {Object.keys(searchResults.users).length > 1 ||
-              Object.keys(searchResults.users).length === 0
+              {searchKeys.length > 1 || searchKeys.length === 0
                 ? "people"
                 : "person"}
               ,
-            </p>
-            <p
+            </div>
+            <div
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -88,22 +87,20 @@ const SearchResults = ({ searchResults,  isLoaded }) => {
               }}
             >
               &nbsp;
-              <p style={{ fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${
-                Object.keys(searchResults.songs).length
-              }`}</p>
+              <p
+                style={{ fontWeight: "bold", color: "rgb(253, 77, 1)" }}
+              >{`${searchKeys.length}`}</p>
               &nbsp;
-              {Object.keys(searchResults.songs).length > 1 ||
-              Object.keys(searchResults.songs).length === 0
+              {searchKeys.length > 1 || searchKeys.length === 0
                 ? "tracks"
                 : "track"}
-            </p>
+            </div>
             {/* <p style={{display: "inline-flex", alignItems: "center", padding: "0", margin: "0"}}>
               &nbsp;<p style={{fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${Object.keys(searchResults.playlists).length}`}</p>&nbsp;playlists
             </p> */}
             {/* "${Object.keys(searchResults.songs).length} tracks, playlists"</p> */}
           </div>
-          {Object.keys(searchResults.songs).length ||
-          Object.keys(searchResults.users).length ? (
+          {searchKeys.length || searchKeys.length ? (
             <>
               {userFilter && (
                 <>
@@ -113,7 +110,8 @@ const SearchResults = ({ searchResults,  isLoaded }) => {
               {songFilter && (
                 <>
                   <SearchSongs
-     
+                    {...{ pauseFunc }}
+                    {...{ playFunc }}
                     {...{ searchResults }}
                   />
                 </>
