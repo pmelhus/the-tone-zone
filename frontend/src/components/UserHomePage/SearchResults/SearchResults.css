@@ -36,13 +36,11 @@ position: fixed;
 .search-results-categories {
 position: fixed;
 top: 130px;
-left: 220px;
+left: 225px;
+width: 175px;
 }
 
-.search-categories-list li {
-  margin: 5px;
-  padding: 3px;
-}
+
 
 .search-categories-list button {
   border: none;
@@ -51,13 +49,39 @@ left: 220px;
   margin-left: 5px;
 }
 
-.search-categories-list li:hover {
+
+.everything-selected {
   background-color: orangered;
-  border-radius: 5px;
+  border-radius: 1px;
+  color: white;
+  display: flex;
+  align-items: center;
+  width: 100%;
+padding: 8px;
+cursor: pointer;
+}
+
+.everything-unselected {
+  border-radius: 1px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+padding: 8px;
+cursor: pointer;
+
+}
+
+.search-categories-list {
+  width: 100%;
+  padding: 0;
 }
 
 .number-of-results {
   color:rgb(194, 191, 191);
+}
+
+.catagories-text {
+  margin-left: 10px;
 }
 
 .search-results {
@@ -91,8 +115,16 @@ background-image: linear-gradient(rgb(211, 119, 86), rgba(113, 85, 156, 0.462), 
 .search-user-card {
   margin: 30px 0;
   display: flex;
-  align-items: center;
+  align-items: top;
 }
+
+.search-user-username {
+padding-top: 30px;
+}
+
+.search-user-username h2 {
+font-size: 14px;
+  }
 
 .search-song-card {
   display: flex;

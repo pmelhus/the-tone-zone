@@ -57,17 +57,33 @@ const SearchResults = ({
         <div className="search-results-cats-results">
           <div className="search-results-categories">
             <ul className="search-categories-list">
-              <li>
-                <i className="fa-solid fa-magnifying-glass"></i>
-                <button onClick={handleEverythingFilter}>Everything</button>
+              <li
+                className={
+                  userFilter && songFilter
+                    ? "everything-selected"
+                    : "everything-unselected"
+                }
+              >
+                <i className="fa-solid fa-lg fa-magnifying-glass"></i>
+                <div className="catagories-text" onClick={handleEverythingFilter}>Everything</div>
               </li>
-              <li>
+              <li
+                className={
+                  songFilter && !userFilter
+                    ? "everything-selected"
+                    : "everything-unselected"
+                }
+              >
                 <i className="fa-solid fa-list-music"></i>
-                <button onClick={handleSongFilter}>Tracks</button>
+                <div className="catagories-text" onClick={handleSongFilter}>Tracks</div>
               </li>
-              <li>
+              <li                 className={
+                  !songFilter && userFilter
+                    ? "everything-selected"
+                    : "everything-unselected"
+                }>
                 <i className="fa-regular fa-user"></i>
-                <button onClick={handleUserFilter}>People</button>
+                <div className="catagories-text" onClick={handleUserFilter}>People</div>
               </li>
             </ul>
           </div>
