@@ -16,23 +16,25 @@ border-top: 1px solid #cecece;
 
 .rhap_container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   margin: 0;
   padding: 0;
   height: 60px;
   box-shadow: none;
+  width: 90%;
 }
 
 .rhap_main {
 width: 100%;
 display: flex;
-justify-content: space-between;
+justify-content: space-evenly;
  /* margin: 0 auto; */
  height: 100%;
  margin: 0;
  flex: none;
 
 }
+
 
 .rhap_current-time {
   margin: 0;
@@ -56,11 +58,14 @@ justify-content: space-between;
 .continuous-headings{
 display: flex;
 align-items: center;
+background-color: white;
+padding-right: 10px;
+width: 40%;
 
 }
 .rhap_progress-section {
   flex: none;
-  width: 70%;
+  width: 65%;
   margin-right: 20px;
 }
 

@@ -182,7 +182,7 @@ z-index: 50000;
 }
 
 .comment-body-description {
-  position: absolute;
+  /* position: absolute; */
   margin-top: -30px;
   padding-left: 150px;
   width: 100%;
@@ -193,7 +193,7 @@ z-index: 50000;
   position: relative;
   margin-top: 60px;
   width: 87.7%;
-  height: 50%;
+  /* height: 50%; */
 }
 
 

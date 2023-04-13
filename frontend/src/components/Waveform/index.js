@@ -93,7 +93,7 @@ const Waveform = ({
     const waveSurfer = WaveSurfer.create({
       container: containerRef.current,
       responsive: true,
-      cursorWidth: 1,
+      cursorWidth: 0,
       barWidth: 2,
       barHeight: 1,
       waveColor: "rgba(51, 51, 51, .4)",
