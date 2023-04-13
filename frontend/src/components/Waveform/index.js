@@ -24,6 +24,7 @@ const Waveform = ({
   setCurrentAudio,
   h5CanPlay,
   setSourceChangeSwitch,
+  songPage,
 }) => {
   const dispatch = useDispatch();
   const containerRef = useRef();
@@ -187,7 +188,11 @@ const Waveform = ({
     <>
       <div className="waveform-button-title">
         {indieWaveLoading && h5CanPlay ? (
-          <FaPlayCircle size="3em" disabled id="waveform-button-disabled" />
+          <FaPlayCircle
+            size="4em"
+            disabled
+            id={songPage ? "waveform-button-disabled-songPage" : "waveform-button-disabled"}
+          />
         ) : (
           <button
             className={"waveform-button-all"}
@@ -195,32 +200,48 @@ const Waveform = ({
             type="button"
           >
             {isPlaying ? (
-              <FaPauseCircle size="3em" id="waveform-button" />
+              <FaPauseCircle
+                size='4em'
+                id={songPage ? "waveform-button-songPage" : "waveform-button"}
+              />
             ) : (
-              <FaPlayCircle size="3em" id="waveform-button" />
+              <FaPlayCircle
+                size="4em"
+                id={songPage ? "waveform-button-songPage" : "waveform-button"}
+              />
             )}
           </button>
         )}
-        <div className="waveform-headings">
-          <div>
-            <a href={`/${song?.User?.username}`} id="username">
-              {song?.User?.username}
-            </a>
+        {songPage ? (
+          <div className="title-song-player">
+            <p id="title-p">{song?.title}</p>
+            <p id="username-p">{song?.User?.username}</p>
           </div>
-          <div>
-            <a href={`/stream/${song?.id}`} id="song-title">
-              {song?.title}
-            </a>
+        ) : (
+          <div className="waveform-headings">
+            <div>
+              <a href={`/${song?.User?.username}`} id="username">
+                {song?.User?.username}
+              </a>
+            </div>
+            <div>
+              <a href={`/stream/${song?.id}`} id="song-title">
+                {song?.title}
+              </a>
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div className="waveform-container">
         <div className="waveform-image-container">
           {indieWaveLoading && h5CanPlay && (
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '60px'}}>
             <img
+            className='loading-image-gif'
               alt="loading"
-              src="https://miro.medium.com/max/1400/1*CsJ05WEGfunYMLGfsT2sXA.gif"
+              src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif"
             ></img>
+            </div>
           )}
         </div>
         <div

@@ -85,7 +85,7 @@ const H5AudioPLayer = ({
   return (
     <div style={{ zIndex: "100" }} className="continuous-audio-playback">
       {pathname !== "/" && isLoaded && (
-        <div className="audio-player-div">
+        <div className="h5-audio-player-div">
           <AudioPlayer
             className="audio-player"
             showSkipControls={false}

@@ -20,7 +20,6 @@ const useStyles = createUseStyles((theme) => ({
     width: "300px",
     height: "300px",
     objectFit: "cover",
-    paddingRight: "20px",
   },
 }));
 
@@ -33,7 +32,9 @@ const Song = ({
   isPlaying,
   currentAudio,
   toggleIsPlaying,
-  setSourceChangeSwitch
+  setSourceChangeSwitch,
+  h5CanPlay
+
 }) => {
   const [signInToggle, setSignInToggle] = useState(false);
   const theme = useTheme();
@@ -86,15 +87,14 @@ const Song = ({
         <>
           <div
             className="audio-and-image"
-            // style={{ backgroundImage: `url("${song.imageUrl}")` }}
+            // style={{backgroundImage: `${song.imageUrl}`}}
           >
+            <div className="image-relative-container">
+
+            <img src={song?.imageUrl} className="background-image-song"/>
+            </div>
             <div className="song-player">
-              <div className="title-song-player-rel">
-                <div className="title-song-player">
-                  <p id="title-p">{song?.title}</p>
-                  <p id="username-p">{song?.User?.username}</p>
-                </div>
-              </div>
+
 
               <div className="waveform-player-single-song">
                 <Waveform
@@ -109,6 +109,8 @@ const Song = ({
                   {...{ audioPlayer }}
                   {...{ currentAudio }}
                   {...{setSourceChangeSwitch}}
+                  songPage={true}
+                  {...{ h5CanPlay }}
                 />
               </div>
               <div className="img-div">
