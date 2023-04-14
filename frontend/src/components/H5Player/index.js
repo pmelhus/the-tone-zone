@@ -33,7 +33,9 @@ const H5AudioPLayer = ({
 
   const wavePlayFunc = (e) => {
     if (!wavePlayer.current?.isPlaying()) {
+
       wavePlayer.current.play();
+
     } else {
       return;
     }

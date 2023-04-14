@@ -252,4 +252,5 @@ object-fit: cover;
 .loading-image-gif {
   width: 140px;
   height: 140px;
+  position: absolute;
 }

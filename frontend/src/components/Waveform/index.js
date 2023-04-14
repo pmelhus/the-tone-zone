@@ -39,6 +39,7 @@ const Waveform = ({
   const [currentlyPlayingRef, setCurrentlyPlayingRef] = useState(null);
 
   const { pathname } = useLocation();
+  const songId = pathname.split("/")[2];
 
   const changeCurrentTimeToSeekedTime = (seekPercent) => {
     wavePlayer.current?.seekTo(seekPercent);
@@ -71,21 +72,29 @@ const Waveform = ({
         await dispatch(deleteCurrentSong());
         await dispatch(createCurrentSong(payload));
       };
-      if (audioPlayer.current.isPlaying()) {
-        await audioPlayer.current.audio.current.pause();
+
+      await audioPlayer?.current?.audio?.current?.pause();
+
+      console.log(wavePlayer.current, "EHRE");
+      if (!wavePlayer.current?.isPlaying()) {
+        await wavePlayer.current?.seekTo(0);
       }
-      if (!wavePlayer.current) {
-        await changeCurrentTimeToSeekedTime(0);
+      if (wavePlayer.current?.isPlaying()) {
+        await wavePlayer.current?.stop();
       }
 
-
+      // if (wavePlayer.current) {
+      //   wavePlayer.current.seekTo(0);
+      // }
 
       await setSourceChangeSwitch(true);
       await replaceCurrentSong();
       await setCurrentAudio(song);
 
       wavePlayer.current = currentWavePlayer;
-      await audioPlayer?.current?.audio.current.play();
+      // await audioPlayer?.current?.audio.current.play();
+
+      await wavePlayer.current.play(0);
       await toggleIsPlaying(true);
     }
   };
@@ -114,12 +123,13 @@ const Waveform = ({
       setIndieWaveLoading(false);
       waveSurfer.setMute(true);
       setWaveLoading(false);
+
       if (audioPlayer.current.audio.current.src === audio) {
         let seekPercentageString =
           audioPlayer.current.progressBar.current.ariaValueNow;
         // Do something with the current time
         let seekPercentage = parseFloat(seekPercentageString, 10);
-        let seekPercentDecimal = seekPercentage * 0.01;
+        let seekPercentDecimal = seekPercentage * 0.0104;
         wavePlayer.current = waveSurfer;
         changeCurrentTimeToSeekedTime(seekPercentDecimal);
       }
@@ -147,12 +157,10 @@ const Waveform = ({
       };
 
       if (audioPlayer.current.audio.current.src === audio) {
-        if (audioPlayer.current.isPlaying()) {
-          console.log('HITTING')
-          return
-        }
+        // if (audioPlayer.current.isPlaying()) {
+        //   return;
+        // }
         seek();
-
       } else {
         const payload = { user, song };
         const replaceCurrentSong = async () => {
@@ -177,7 +185,9 @@ const Waveform = ({
     });
 
     return () => {
-      waveSurfer.destroy();
+      if (wavePlayer.current !== waveSurfer) {
+        waveSurfer.destroy();
+      }
       setSourceChangeSwitch(false);
     };
   }, [audio, pathname]);
@@ -253,10 +263,12 @@ const Waveform = ({
           {indieWaveLoading && h5CanPlay && (
             <div
               style={{
+                position: "absolute",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 paddingTop: "60px",
+                right: "50%",
               }}
             >
               <img
