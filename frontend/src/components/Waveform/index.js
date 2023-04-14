@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import WaveSurfer from "wavesurfer.js";
@@ -33,20 +33,15 @@ const Waveform = ({
 
   const [isPlaying, toggleIsPlaying] = useState(false);
   const user = useSelector((state) => state.session.user);
+
+  const history = useHistory();
+
   const [currentlyPlayingRef, setCurrentlyPlayingRef] = useState(null);
 
   const { pathname } = useLocation();
 
-  let seekPercentageString =
-    audioPlayer.current.progressBar.current.ariaValueNow;
-  let h5CurrentTime = audioPlayer.current?.audio.current.currentTime;
-  let h5Duration = audioPlayer.current?.audio.current.duration;
-  // Do something with the current time
-  let seekPercentage = parseFloat(seekPercentageString, 10);
-  let seekPercentDecimal = seekPercentage * 0.01;
-
   const changeCurrentTimeToSeekedTime = (seekPercent) => {
-    wavePlayer?.current?.seekTo(seekPercent);
+    wavePlayer.current?.seekTo(seekPercent);
     if (audioPlayer.current?.isPlaying()) {
       wavePlayer.current?.play();
     }
@@ -76,10 +71,15 @@ const Waveform = ({
         await dispatch(deleteCurrentSong());
         await dispatch(createCurrentSong(payload));
       };
+      if (audioPlayer.current.isPlaying()) {
+        await audioPlayer.current.audio.current.pause();
+      }
+      if (!wavePlayer.current) {
+        await changeCurrentTimeToSeekedTime(0);
+      }
 
-      await audioPlayer.current.audio.current.pause();
 
-      await changeCurrentTimeToSeekedTime(0);
+
       await setSourceChangeSwitch(true);
       await replaceCurrentSong();
       await setCurrentAudio(song);
@@ -115,6 +115,11 @@ const Waveform = ({
       waveSurfer.setMute(true);
       setWaveLoading(false);
       if (audioPlayer.current.audio.current.src === audio) {
+        let seekPercentageString =
+          audioPlayer.current.progressBar.current.ariaValueNow;
+        // Do something with the current time
+        let seekPercentage = parseFloat(seekPercentageString, 10);
+        let seekPercentDecimal = seekPercentage * 0.01;
         wavePlayer.current = waveSurfer;
         changeCurrentTimeToSeekedTime(seekPercentDecimal);
       }
@@ -142,7 +147,12 @@ const Waveform = ({
       };
 
       if (audioPlayer.current.audio.current.src === audio) {
+        if (audioPlayer.current.isPlaying()) {
+          console.log('HITTING')
+          return
+        }
         seek();
+
       } else {
         const payload = { user, song };
         const replaceCurrentSong = async () => {
@@ -184,6 +194,10 @@ const Waveform = ({
     }
   };
 
+  const handleSongTitle = () => {
+    history.push(`/stream/${song.id}`);
+  };
+
   return (
     <>
       <div className="waveform-button-title">
@@ -191,7 +205,11 @@ const Waveform = ({
           <FaPlayCircle
             size="4em"
             disabled
-            id={songPage ? "waveform-button-disabled-songPage" : "waveform-button-disabled"}
+            id={
+              songPage
+                ? "waveform-button-disabled-songPage"
+                : "waveform-button-disabled"
+            }
           />
         ) : (
           <button
@@ -201,7 +219,7 @@ const Waveform = ({
           >
             {isPlaying ? (
               <FaPauseCircle
-                size='4em'
+                size="4em"
                 id={songPage ? "waveform-button-songPage" : "waveform-button"}
               />
             ) : (
@@ -220,14 +238,12 @@ const Waveform = ({
         ) : (
           <div className="waveform-headings">
             <div>
-              <a href={`/${song?.User?.username}`} id="username">
-                {song?.User?.username}
-              </a>
+              <div id="username">{song?.User?.username}</div>
             </div>
             <div>
-              <a href={`/stream/${song?.id}`} id="song-title">
+              <div onClick={handleSongTitle} id="song-title">
                 {song?.title}
-              </a>
+              </div>
             </div>
           </div>
         )}
@@ -235,12 +251,19 @@ const Waveform = ({
       <div className="waveform-container">
         <div className="waveform-image-container">
           {indieWaveLoading && h5CanPlay && (
-            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '60px'}}>
-            <img
-            className='loading-image-gif'
-              alt="loading"
-              src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif"
-            ></img>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                paddingTop: "60px",
+              }}
+            >
+              <img
+                className="loading-image-gif"
+                alt="loading"
+                src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif"
+              ></img>
             </div>
           )}
         </div>

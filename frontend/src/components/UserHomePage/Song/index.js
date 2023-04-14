@@ -10,6 +10,7 @@ import WriteComment from "./WriteComment";
 import AddToPlaylistModal from "./AddToPlaylistModal";
 import { ValidationError } from "../../../utils/validationError";
 import Waveform from "../../Waveform";
+import Modal from "react-bootstrap/Modal";
 
 import "./Song.css";
 
@@ -33,8 +34,7 @@ const Song = ({
   currentAudio,
   toggleIsPlaying,
   setSourceChangeSwitch,
-  h5CanPlay
-
+  h5CanPlay,
 }) => {
   const [signInToggle, setSignInToggle] = useState(false);
   const theme = useTheme();
@@ -56,10 +56,12 @@ const Song = ({
   };
 
   const openPlaylist = (e) => {
-
     // if (playModal) return
-    setPlayModal(!playModal);
+    setPlayModal(true);
+  };
 
+  const handleClose = () => {
+    setPlayModal(false);
   };
 
   const openMenu = (e) => {
@@ -80,7 +82,6 @@ const Song = ({
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
-
   return (
     <div className="song-content">
       {song && (
@@ -90,12 +91,9 @@ const Song = ({
             // style={{backgroundImage: `${song.imageUrl}`}}
           >
             <div className="image-relative-container">
-
-            <img src={song?.imageUrl} className="background-image-song"/>
+              <img src={song?.imageUrl} className="background-image-song" />
             </div>
             <div className="song-player">
-
-
               <div className="waveform-player-single-song">
                 <Waveform
                   {...{ setCurrentAudio }}
@@ -108,7 +106,7 @@ const Song = ({
                   {...{ toggleIsPlaying }}
                   {...{ audioPlayer }}
                   {...{ currentAudio }}
-                  {...{setSourceChangeSwitch}}
+                  {...{ setSourceChangeSwitch }}
                   songPage={true}
                   {...{ h5CanPlay }}
                 />
@@ -187,12 +185,12 @@ const Song = ({
                   setVisible={setSignInToggle}
                 />
               </div>
-              <div>
+              <Modal backdrop="static" show={playModal} onHide={handleClose}>
                 <AddToPlaylistModal
                   playModal={playModal}
                   setPlayModal={setPlayModal}
                 />
-              </div>
+              </Modal>
             </div>
           </div>
         </>

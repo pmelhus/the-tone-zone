@@ -225,9 +225,13 @@ z-index: 50000;
 
 .waveform-player-single-song .waveform-headings {
   display: none;
+   /* margin-left: 10px; */
 }
 .image-relative-container {
   position: relative;
+
+}
+.waveform-headings {
 
 }
 .background-image-song {

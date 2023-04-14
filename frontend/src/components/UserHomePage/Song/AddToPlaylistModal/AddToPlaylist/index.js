@@ -5,35 +5,52 @@ import {
   addSongToPlaylist,
 } from "../../../../../store/playlists";
 import PlaylistButton from "./PlaylistButton";
+import { createUseStyles, useTheme } from "react-jss";
+
+const useStyles = createUseStyles((theme) => ({
+
+
+
+}));
+
 
 const AddToPlaylist = ({
   showPlaylist,
   setShowForm,
   setShowPlaylist,
+  setShowTooltip,
+  showTooltip,
   showForm,
   setSelected,
 }) => {
+  const theme = useTheme();
+  const classes = useStyles({ theme });
   const playlists = useSelector((state) => Object.values(state.playlists));
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
 
   const [addedToPlaylist, setAddedToPlaylist] = useState(false);
 
-
-
   useEffect(() => {
     dispatch(getAllPlaylists());
   }, [dispatch]);
+
 
   const myPlaylists = playlists.filter((playlist) => {
     return playlist.userId === sessionUser.id;
   });
 
+  useEffect(()=> {
+if (!myPlaylists.length) {
+  setShowTooltip(true)
+}
 
+  },[myPlaylists])
 
   const [noPlaylists, setNoPlaylists] = useState(false);
 
   if (!showPlaylist && showForm) return null;
+
 
   return (
     <>
@@ -49,16 +66,7 @@ const AddToPlaylist = ({
       <div>
         {!myPlaylists.length && (
           <>
-            <h3>No playlists</h3>
-            <button
-              onClick={(e) => {
-                setShowForm(!showForm);
-                setShowPlaylist(!showPlaylist);
-                setSelected(true);
-              }}
-            >
-              Create playlist
-            </button>
+            <p>No playlists</p>
           </>
         )}
       </div>

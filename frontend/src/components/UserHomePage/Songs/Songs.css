@@ -160,6 +160,7 @@ a {
   #waveform-button-disabled {
     /* color: rgb(253, 77, 1); */
     width: 42px;
+    margin-right: 6px;
     height: 42px;
     background-color: white;
     border-radius: 100%;

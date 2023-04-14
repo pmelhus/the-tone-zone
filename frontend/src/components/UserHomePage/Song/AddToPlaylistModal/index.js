@@ -1,13 +1,22 @@
 import "./AddToPlaylistModal.css";
 import { Link, useHistory } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getAllPlaylists } from "../../../../store/playlists";
 import CreatePlaylistForm from "./CreatePlaylistForm";
 import AddToPlaylist from "./AddToPlaylist";
 import { createUseStyles, useTheme } from "react-jss";
 import Modal from "react-bootstrap/Modal";
+import Tooltip from "react-bootstrap/Tooltip";
+import Overlay from 'react-bootstrap/Overlay';
 
-const useStyles = createUseStyles((theme) => ({}));
+const useStyles = createUseStyles((theme) => ({
+  playlistNav: {
+    display: "flex",
+    borderRadius: '8px'
+  },
+
+
+}));
 
 const AddToPlaylistModal = ({ playModal, setPlayModal }) => {
   const theme = useTheme();
@@ -17,55 +26,47 @@ const AddToPlaylistModal = ({ playModal, setPlayModal }) => {
   const [showPlaylist, setShowPlaylist] = useState(true);
   const history = useHistory();
   const [selected, setSelected] = useState(false);
-
-  if (!playModal) return null;
-  const backgroundClick = () => {
-    setPlayModal(!playModal);
-  };
+  const [showTooltip, setShowTooltip] = useState(false)
+  const tooltipTarget = useRef(null)
 
   const goToPlaylist = () => {
     history.push("/you/library/playlists");
   };
 
   return (
-    <div
-      className="modal"
-      id="playlist-modal"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <nav>
-        <h3>
-          <button
-            onClick={(e) => {
-              setShowPlaylist(!showPlaylist);
-              setShowForm(!showForm);
-              setSelected(false);
-            }}
-            disabled={showPlaylist}
-            className={!selected ? "playlist-nav-selected" : ""}
-          >
-            Add to playlist
-          </button>
-        </h3>
-        <h3>
-          <button
-            onClick={(e) => {
-              setShowForm(!showForm);
-              setShowPlaylist(!showPlaylist);
-              setSelected(true);
-            }}
-            disabled={showForm}
-            className={selected ? "playlist-nav-selected" : ""}
-          >
-            Create a playlist
-          </button>
-        </h3>
+    <>
+      <nav className={classes.playlistNav}>
+        <div
+          onClick={(e) => {
+            setShowPlaylist(!showPlaylist);
+            setShowForm(!showForm);
+            setSelected(false);
+          }}
+          disabled={showPlaylist}
+          className={!selected ? "playlist-nav-selected" : "playlist-nav-unselected"}
+        >
+          <h4 className={classes.addToPlaylist}>Add to playlist</h4>
+        </div>
+
+        <div
+          onClick={(e) => {
+            setShowForm(!showForm);
+            setShowPlaylist(!showPlaylist);
+            setSelected(true);
+          }}
+          disabled={showForm}
+          className={selected ? "playlist-nav-selected" : "playlist-nav-unselected"}
+        >
+          <h4 ref={tooltipTarget}>Create a playlist</h4>
+        </div>
       </nav>
       <AddToPlaylist
         setShowPlaylist={setShowPlaylist}
         showPlaylist={showPlaylist}
         showForm={showForm}
         setShowForm={setShowForm}
+        {...{setShowTooltip}}
+        {...{showTooltip}}
       />
       <CreatePlaylistForm
         showForm={showForm}
@@ -73,7 +74,7 @@ const AddToPlaylistModal = ({ playModal, setPlayModal }) => {
         setShowPlaylist={setShowPlaylist}
         showPlaylist={showPlaylist}
       />
-    </div>
+    </>
   );
 };
 
