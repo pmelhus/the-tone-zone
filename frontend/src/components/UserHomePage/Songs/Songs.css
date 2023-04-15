@@ -18,14 +18,16 @@
 }
 
 .image-content > img {
-  width: 160px;
-  height: 160px;
+  width: 180px;
+  height: 180px;
 }
 
 #hear-latest {
   color: #999;
-  font-size: 14px;
-  font-weight: 100;
+  font-size: 15px;
+  font-weight: 200;
+  margin: 0;
+  padding-top: 20px;
 
 }
 
@@ -44,10 +46,12 @@
   /* margin-right: 15px; */
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .song-card {
   width: 100%;
   height: auto;
+  margin: 30px 0;
   /* box-shadow: 2px 2px 3px 1px rgb(104, 45, 7); */
 }
 
@@ -62,6 +66,7 @@
 
 .audio-player-div {
   width: 100%;
+  margin-left: 20px;
 }
 
 
@@ -134,24 +139,61 @@ a {
 
   .waveform-button-title {
     display: flex;
-    align-items: center;
+
+    padding-top: 10px;
+    padding-left: 10px;
     /* width: 100%; */
+
 
   }
 
   #waveform-button {
     color: rgb(253, 77, 1);
+    margin-right: 6px;
+    width: 42px;
+    height: 42px;
+    background-color: white;
+    border-radius: 100%;
+  box-sizing: border-box;
 
   }
 
-  .waveform-button-disabled {
+  #waveform-button-disabled {
+    /* color: rgb(253, 77, 1); */
+    width: 42px;
+    margin-right: 6px;
+    height: 42px;
+    background-color: white;
+    border-radius: 100%;
+  box-sizing: border-box;
+
+  }
+
+  #waveform-button-songPage {
     color: rgb(253, 77, 1);
+
+    width: 52px;
+    height: 52px;
+    background-color: white;
+    border-radius: 100%;
+  box-sizing: border-box;
+
+  }
+
+  #waveform-button-disabled-songPage {
+    /* color: rgb(253, 77, 1); */
+    width: 52px;
+    height: 52px;
+    background-color: white;
   }
 
   .waveform-button-all {
     border: none;
     padding: 0;
     margin: 0;
-    margin-right: 4px;
-    display: flex;
+    /* display: flex; */
+  }
+
+  .waveform-player {
+    width: 100%;
   }

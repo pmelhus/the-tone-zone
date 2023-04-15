@@ -10,6 +10,7 @@ import WriteComment from "./WriteComment";
 import AddToPlaylistModal from "./AddToPlaylistModal";
 import { ValidationError } from "../../../utils/validationError";
 import Waveform from "../../Waveform";
+import Modal from "react-bootstrap/Modal";
 
 import "./Song.css";
 
@@ -20,21 +21,20 @@ const useStyles = createUseStyles((theme) => ({
     width: "300px",
     height: "300px",
     objectFit: "cover",
-    paddingRight: "20px",
   },
 }));
 
 const Song = ({
   setCurrentAudio,
   audioPlayer,
-  playFunc,
-  pauseFunc,
   wavePlayer,
   waveLoading,
   setWaveLoading,
   isPlaying,
   currentAudio,
   toggleIsPlaying,
+  setSourceChangeSwitch,
+  h5CanPlay,
 }) => {
   const [signInToggle, setSignInToggle] = useState(false);
   const theme = useTheme();
@@ -46,7 +46,7 @@ const Song = ({
   const [showMenu, setShowMenu] = useState(false);
   const song = useSelector((state) => state.songs[songId]);
   const user = useSelector((state) => state.session.user);
-  // console.log(song);
+
   useEffect(() => {
     dispatch(getOneSong(songId));
   }, [dispatch]);
@@ -56,10 +56,12 @@ const Song = ({
   };
 
   const openPlaylist = (e) => {
-    // console.log("==============");
     // if (playModal) return
-    setPlayModal(!playModal);
-    // console.log(playModal);
+    setPlayModal(true);
+  };
+
+  const handleClose = () => {
+    setPlayModal(false);
   };
 
   const openMenu = (e) => {
@@ -80,23 +82,18 @@ const Song = ({
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
-
   return (
     <div className="song-content">
       {song && (
         <>
           <div
             className="audio-and-image"
-            // style={{ backgroundImage: `url("${song.imageUrl}")` }}
+            // style={{backgroundImage: `${song.imageUrl}`}}
           >
+            <div className="image-relative-container">
+              <img src={song?.imageUrl} className="background-image-song" />
+            </div>
             <div className="song-player">
-              <div className="title-song-player-rel">
-                <div className="title-song-player">
-                  <p id="title-p">{song?.title}</p>
-                  <p id="username-p">{song?.User?.username}</p>
-                </div>
-              </div>
-
               <div className="waveform-player-single-song">
                 <Waveform
                   {...{ setCurrentAudio }}
@@ -105,12 +102,13 @@ const Song = ({
                   {...{ waveLoading }}
                   {...{ setWaveLoading }}
                   song={song}
-                  {...{ pauseFunc }}
-                  {...{ playFunc }}
                   {...{ isPlaying }}
                   {...{ toggleIsPlaying }}
                   {...{ audioPlayer }}
                   {...{ currentAudio }}
+                  {...{ setSourceChangeSwitch }}
+                  songPage={true}
+                  {...{ h5CanPlay }}
                 />
               </div>
               <div className="img-div">
@@ -187,12 +185,12 @@ const Song = ({
                   setVisible={setSignInToggle}
                 />
               </div>
-              <div>
+              <Modal backdrop="static" show={playModal} onHide={handleClose}>
                 <AddToPlaylistModal
                   playModal={playModal}
                   setPlayModal={setPlayModal}
                 />
-              </div>
+              </Modal>
             </div>
           </div>
         </>

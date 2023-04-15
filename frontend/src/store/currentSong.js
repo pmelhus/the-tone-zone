@@ -26,12 +26,11 @@ const getSongs = (songs) => ({
 });
 
 export const getAllCurrentSongs = (id) => async (dispatch) => {
-  console.log("================");
+
   const res = await fetch(`/api/currentSongs/all/${id}`);
   if (res.ok) {
     const songs = await res.json();
-    // console.log(list)
-    // console.log(songs, "===========");
+
     dispatch(getSongs(songs));
     return songs;
   } else {
@@ -73,7 +72,7 @@ export const createCurrentSong = (payload) => async (dispatch) => {
     dispatch(addSong(song));
     return song;
   } catch (error) {
-    // console.log(error, '=-=================')
+
     throw error;
   }
 };
@@ -106,8 +105,6 @@ export const getCurrentSong = (id) => async (dispatch) => {
     }
     const song = await response.json();
 
-    // console.log('===================')
-    // console.log(song)
     dispatch(getOne(song));
     return song;
   } catch (error) {

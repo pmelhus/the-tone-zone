@@ -48,7 +48,7 @@ const SignIn = ({
       sessionActions.login({ credential, password })
     ).catch(async (res) => {
       const data = await res.json();
-      // console.log(data)
+
       if (data && data.errors) {
         setErrors(data.errors);
       }
@@ -57,7 +57,7 @@ const SignIn = ({
         await history.push("/discover");
       }
     });
-    // console.log(dispatch(sessionActions.login({ credential, password })))
+
   };
 
   const handleSignUp = (e) => {

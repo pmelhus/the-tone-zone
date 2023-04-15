@@ -35,12 +35,9 @@ const deleteSong = (song) => ({
 });
 
 export const getAllSongs = () => async (dispatch) => {
-  // console.log('================')
   const res = await fetch("/api/songs");
   if (res.ok) {
     const songs = await res.json();
-    // console.log(list)
-    // console.log(songs, "===========");
     dispatch(getSongs(songs));
   } else {
     throw res;
@@ -52,8 +49,7 @@ export const getOneSong = (id) => async (dispatch) => {
 
   const song = await response.json();
 
-  // console.log('===================')
-  // console.log(song)
+
   dispatch(getOne(song));
 };
 
@@ -66,7 +62,6 @@ export const createSong = (song) => async (dispatch) => {
 
   if (files.length === 2) {
     for (let i = 0; i < files.length; i++) {
-      console.log(files[i]);
       formData.append("files", files[i]);
     }
   }
@@ -103,7 +98,6 @@ export const createSong = (song) => async (dispatch) => {
     const song = await response.json();
     dispatch(addOneSong(song, song.user));
   } catch (error) {
-    // console.log(error, '=-=================')
     throw error;
   }
 };
@@ -140,7 +134,6 @@ export const updateSong = (data) => async (dispatch) => {
     const song = await response.json();
     dispatch(update(song));
   } catch (error) {
-    // console.log(error, '=-=================')
     throw error;
   }
 };
@@ -172,7 +165,6 @@ const songReducer = (state = initialState, action) => {
     }
     case ADD_ONE: {
       if (!state[action.song.id]) {
-        // console.log(action.user)
         const newState = {
           ...state,
           [action.song.song.id]: { ...action.song.song, User: action.user },

@@ -1,36 +1,65 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Waveform from "../../Waveform";
-import "./SearchResults.css"
+import "./SearchResults.css";
 
-const SearchSongs = ({ searchResults, playFunc, pauseFunc }) => {
+const SearchSongs = ({
+  songResults,
+  sessionUser,
+  waveLoading,
+  setWaveLoading,
+  wavePlayer,
+  audioPlayer,
+  currentAudio,
+  isPlaying,
+  toggleIsPlaying,
+  setSourceChangeSwitch,
+  setCurrentAudio,
+  h5CanPlay,
+}) => {
+  const history = useHistory();
+  const handleImageClick = (song) => {
+    history.push(`/stream/${song.id}`);
+  };
   return (
     <>
-      {searchResults.songs &&
-        Object.values(searchResults.songs).map((song) => {
-          console.log(song.url);
-          return (
-            <ul>
-              <li className="search-song-card">
-                <div className="song-image-container">
-                  <Link to={`/stream/${song.id}`}>
-                    <img
-                      id={song.imageUrl ? "song-image" : "song-no-image"}
-                      src={song.imageUrl}
-                    ></img>
-                  </Link>
-                </div>
-                <div className="song-search-player">
-                  <Waveform
-                    {...{ pauseFunc }}
-                    {...{ playFunc }}
-                    {...{ song }}
-                    audio={song.url}
-                  />
-                </div>
-              </li>
-            </ul>
-          );
-        })}
+      {songResults?.map((song) => {
+        return (
+          <div className="search-song-card">
+            {song?.imageUrl ? (
+              <div
+                className="image-content"
+                onClick={() => handleImageClick(song)}
+              >
+                <img src={song?.imageUrl} />
+              </div>
+            ) : (
+              <div
+                className="image-content"
+                onClick={() => handleImageClick(song)}
+              >
+                <img src="https://images.pexels.com/photos/7130560/pexels-photo-7130560.jpeg" />
+              </div>
+            )}
+
+            <div className="waveform-player">
+              <Waveform
+                {...{ wavePlayer }}
+                {...{ setCurrentAudio }}
+                audio={song.url}
+                {...{ waveLoading }}
+                {...{ setWaveLoading }}
+                song={song}
+                {...{ currentAudio }}
+                {...{ isPlaying }}
+                {...{ toggleIsPlaying }}
+                {...{ setSourceChangeSwitch }}
+                {...{ audioPlayer }}
+                {...{ h5CanPlay }}
+              />
+            </div>
+          </div>
+        );
+      })}
     </>
   );
 };

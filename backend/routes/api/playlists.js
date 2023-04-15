@@ -32,7 +32,7 @@ router.get(
     const allSongs = await SongPlaylist.findAll({
       where: { playlistId: id },
     });
-    // console.log(allSongs);
+
     return res.json(allSongs);
   })
 );
@@ -51,10 +51,10 @@ router.get(
 router.post(
   "/",
   asyncHandler(async (req, res) => {
-    // console.log(req.body)
+
     const { title, song, user } = req.body;
     const userId = user.id;
-    // console.log(url)
+
     const imageUrl = song.imageUrl
 
     const playlist = await Playlist.create({
@@ -64,7 +64,7 @@ router.post(
     });
     const songId = song.id;
     const playlistId = playlist.id;
-    // console.log(song, '===============SONG')
+
 
     await SongPlaylist.create({
       playlistId,
@@ -84,7 +84,7 @@ router.post(
   asyncHandler(async (req, res) => {
     const playlistId = req.body.playlist.id;
     const songId = req.body.song.id;
-    // await console.log(songId)
+
 
     const data = req.body;
     await SongPlaylist.create({
@@ -118,10 +118,10 @@ router.put(
   '/:id',
   asyncHandler(async (req,res) => {
     const id = req.body.id
-    // console.log(id)
+
     const reqTitle = req.body.title
     const thePlaylist = await Playlist.findByPk(id)
-    // await console.log(thePlaylist, '=============')
+
 
 
     const editedPlaylist = await thePlaylist.update({
@@ -134,7 +134,7 @@ router.put(
 router.delete(
   "/song/:id",
   asyncHandler(async (req, res) => {
-    // console.log(req.body)
+
     const songId = req.body.song.id
     const playlistId = req.body.playlist.id
 

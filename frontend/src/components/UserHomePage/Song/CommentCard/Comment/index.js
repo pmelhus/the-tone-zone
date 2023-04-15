@@ -24,7 +24,7 @@ const Comment = ({ comment }) => {
         .then(() => dispatch(commentActions.getAllComments()));
     } catch (error) {
       if (error instanceof ValidationError) {
-        // console.log('===================')
+
         setErrorMessages(error.errors);
       }
 
@@ -40,9 +40,7 @@ const Comment = ({ comment }) => {
       setBody("");
       // dispatch(songActions.getAllSongs());
     }
-    // dispatch(commentActions.updateComment(payload))
-    //   .then(() => setHidden(!hidden))
-    //   .then(() => dispatch(commentActions.getAllComments()));
+
   };
 
   const handleEdit = (e) => {

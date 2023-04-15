@@ -40,5 +40,22 @@ overflow-y: scroll;
 
 
 .playlist-nav-selected {
-  background-color:rgb(248, 208, 188);
+  color:#f50;
+  text-decoration-line: underline;
+  text-underline-position: under;
+cursor: pointer;
+padding: 10px;
 }
+
+.playlist-nav-unselected {
+padding: 10px;
+cursor: pointer;
+
+}
+
+.playlist-nav-unselected:hover {
+  padding: 10px;
+  cursor: pointer;
+  text-decoration-line: underline;
+  text-underline-position: under;
+  }

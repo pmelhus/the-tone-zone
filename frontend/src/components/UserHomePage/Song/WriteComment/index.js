@@ -37,7 +37,7 @@ const WriteComment = ({ song }) => {
 
       } catch (error) {
         if (error instanceof ValidationError) {
-          // console.log('===================')
+
           setErrorMessages(error.errors);
         }
 
@@ -50,7 +50,7 @@ const WriteComment = ({ song }) => {
         //!!START SILENT
 
         //!!END
-        console.log(body);
+
         // return dispatch(createComment(payload)).then(() => {
         //   dispatch(getAllComments());
         // });

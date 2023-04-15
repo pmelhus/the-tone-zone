@@ -9,7 +9,7 @@ const SearchBarNav = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const location = useLocation();
-  // console.log(location)
+
 
   const handleSearchWord = (e) => {
     e.preventDefault();

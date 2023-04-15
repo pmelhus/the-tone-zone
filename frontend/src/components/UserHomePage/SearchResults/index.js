@@ -7,16 +7,31 @@ import SearchUsers from "./SearchUsers";
 import SearchSongs from "./SearchSongs";
 import SearchPlaylists from "./SearchPlaylists";
 
-const SearchResults = ({ searchResults, playFunc, pauseFunc, isLoaded }) => {
+const SearchResults = ({
+  sessionUser,
+  waveLoading,
+  setWaveLoading,
+  wavePlayer,
+  audioPlayer,
+  currentAudio,
+  isPlaying,
+  toggleIsPlaying,
+  setSourceChangeSwitch,
+  setCurrentAudio,
+  h5CanPlay,
+}) => {
   const { pathname } = useLocation();
 
   const [userFilter, setUserFilter] = useState(true);
   const [songFilter, setSongFilter] = useState(true);
   const [everythingFilter, setEverythingFilter] = useState(true);
+  const searchResults = useSelector((state) => state.search);
+  const searchKeys = Object.keys(searchResults);
+  const userResults = searchResults.users;
+  const songResults = searchResults.songs;
+  const playlistResults = searchResults.playlists;
 
-  console.log(searchResults, "HALLO");
   const dispatch = useDispatch();
-  // console.log(songs)
 
   const handleSongFilter = () => {
     setUserFilter(false);
@@ -39,90 +54,126 @@ const SearchResults = ({ searchResults, playFunc, pauseFunc, isLoaded }) => {
         <div className="search-results-heading">
           <p>{`Search results for "${pathname.split("/")[2]}"`}</p>
         </div>
-        <div className="search-results-categories">
-          <ul className="search-categories-list">
-            <li>
-              <i className="fa-solid fa-magnifying-glass"></i>
-              <button onClick={handleEverythingFilter}>Everything</button>
-            </li>
-            <li>
-              <i className="fa-solid fa-list-music"></i>
-              <button onClick={handleSongFilter}>Tracks</button>
-            </li>
-            <li>
-              <i className="fa-regular fa-user"></i>
-              <button onClick={handleUserFilter}>People</button>
-            </li>
-          </ul>
-        </div>
-        <div className="search-results">
-          <div
-            style={{ color: "gray", fontSize: "14px" }}
-            className="number-of-results"
-          >
-            <p
+        <div className="search-results-cats-results">
+          <div className="search-results-categories">
+            <ul className="search-categories-list">
+              <li
+                className={
+                  userFilter && songFilter
+                    ? "everything-selected"
+                    : "everything-unselected"
+                }
+              >
+                <i className="fa-solid fa-lg fa-magnifying-glass"></i>
+                <div className="catagories-text" onClick={handleEverythingFilter}>Everything</div>
+              </li>
+              <li
+                className={
+                  songFilter && !userFilter
+                    ? "everything-selected"
+                    : "everything-unselected"
+                }
+              >
+                <i className="fa-solid fa-list-music"></i>
+                <div className="catagories-text" onClick={handleSongFilter}>Tracks</div>
+              </li>
+              <li                 className={
+                  !songFilter && userFilter
+                    ? "everything-selected"
+                    : "everything-unselected"
+                }>
+                <i className="fa-regular fa-user"></i>
+                <div className="catagories-text" onClick={handleUserFilter}>People</div>
+              </li>
+            </ul>
+          </div>
+          <div className="search-results">
+            <div
               style={{
-                display: "inline-flex",
+                color: "gray",
+                fontSize: "14px",
+                display: "flex",
                 alignItems: "center",
-                padding: "0",
-                margin: "0",
               }}
+              className="number-of-results"
             >
-              Found&nbsp;
-              <p style={{ fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${
-                Object.keys(searchResults.users).length
-              }`}</p>
-              &nbsp;
-              {Object.keys(searchResults.users).length > 1 ||
-              Object.keys(searchResults.users).length === 0
-                ? "people"
-                : "person"}
-              ,
-            </p>
-            <p
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                padding: "0",
-                margin: "0",
-              }}
-            >
-              &nbsp;
-              <p style={{ fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${
-                Object.keys(searchResults.songs).length
-              }`}</p>
-              &nbsp;
-              {Object.keys(searchResults.songs).length > 1 ||
-              Object.keys(searchResults.songs).length === 0
-                ? "tracks"
-                : "track"}
-            </p>
-            {/* <p style={{display: "inline-flex", alignItems: "center", padding: "0", margin: "0"}}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  padding: "0",
+                  margin: "0",
+                }}
+              >
+                Found&nbsp;
+                <p
+                  style={{
+                    fontWeight: "bold",
+                    color: "rgb(253, 77, 1)",
+                    margin: "0",
+                  }}
+                >{`${userResults?.length}`}</p>
+                &nbsp;
+                {userResults?.length > 1 || userResults?.length === 0
+                  ? "people"
+                  : "person"}
+                ,
+              </div>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  padding: "0",
+                  margin: "0",
+                }}
+              >
+                &nbsp;
+                <p
+                  style={{
+                    fontWeight: "bold",
+                    color: "rgb(253, 77, 1)",
+                    margin: "0",
+                  }}
+                >{`${songResults?.length}`}</p>
+                &nbsp;
+                {songResults?.length > 1 || songResults?.length === 0
+                  ? "tracks"
+                  : "track"}
+              </div>
+              {/* <p style={{display: "inline-flex", alignItems: "center", padding: "0", margin: "0"}}>
               &nbsp;<p style={{fontWeight: "bold", color: "rgb(253, 77, 1)" }}>{`${Object.keys(searchResults.playlists).length}`}</p>&nbsp;playlists
             </p> */}
-            {/* "${Object.keys(searchResults.songs).length} tracks, playlists"</p> */}
+              {/* "${Object.keys(searchResults.songs).length} tracks, playlists"</p> */}
+            </div>
+            {searchKeys.length || searchKeys.length ? (
+              <>
+                {userFilter && (
+                  <>
+                    <SearchUsers {...{ userResults }} />
+                  </>
+                )}
+                {songFilter && (
+                  <>
+                    <SearchSongs
+                      {...{ h5CanPlay }}
+                      {...{ wavePlayer }}
+                      {...{ setCurrentAudio }}
+                      {...{ waveLoading }}
+                      {...{ setWaveLoading }}
+                      {...{ currentAudio }}
+                      {...{ isPlaying }}
+                      {...{ toggleIsPlaying }}
+                      {...{ setSourceChangeSwitch }}
+                      {...{ audioPlayer }}
+                      {...{ songResults }}
+                    />
+                  </>
+                )}
+              </>
+            ) : (
+              <h2>Looks like your search returned no results!</h2>
+            )}
           </div>
-          {Object.keys(searchResults.songs).length ||
-          Object.keys(searchResults.users).length ? (
-            <>
-              {userFilter && (
-                <>
-                  <SearchUsers {...{ searchResults }} />
-                </>
-              )}
-              {songFilter && (
-                <>
-                  <SearchSongs
-                    {...{ pauseFunc }}
-                    {...{ playFunc }}
-                    {...{ searchResults }}
-                  />
-                </>
-              )}
-            </>
-          ) : (
-            <h2>Looks like your search returned no results!</h2>
-          )}
         </div>
       </div>
     </>

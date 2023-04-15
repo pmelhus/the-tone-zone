@@ -10,11 +10,12 @@ const getAll = (songs, users, playlists) => ({
 })
 
 export const getSearchResults = (searchWord) => async (dispatch) => {
+
   const res = await csrfFetch(`/api/search/${searchWord}`)
   if (res.ok) {
     const results = await res.json()
     const {songs, users, playlists} = results
-  //  console.log(results, 'yoooo')
+
     dispatch(getAll(songs, users, playlists))
   } else {
     throw res;
@@ -28,12 +29,12 @@ const searchReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL: {
       newState = Object.assign({}, state)
-      const allSongs = {}
-      const allUsers = {}
-      const allPlaylists = {}
-      action.songs?.forEach((song) => (allSongs[song.id]= song ))
-      action.users?.forEach((user)=> (allUsers[user.id] = user))
-      action.playlists?.forEach((playlist) => (allPlaylists[playlist.id] = playlist))
+      const allSongs = []
+      const allUsers = []
+      const allPlaylists = []
+      action.songs?.forEach((song) => (allSongs.push(song) ))
+      action.users?.forEach((user)=> (allUsers.push(user)))
+      action.playlists?.forEach((playlist) => (allPlaylists.push(playlist)))
       newState.songs = allSongs
       newState.users = allUsers
       newState.playlists = allPlaylists

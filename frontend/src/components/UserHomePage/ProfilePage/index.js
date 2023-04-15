@@ -6,7 +6,7 @@ import ProfileTracks from "./ProfileTracks";
 import ProfilePlaylist from "../ProfilePlaylist/index";
 import { useState } from "react";
 
-const ProfilePage = ({pauseFunc, playFunc}) => {
+const ProfilePage = () => {
   const sessionUser = useSelector((state) => state.session.user);
   const [proPlayLoaded, setProPlayLoaded] = useState(false);
   const { pathname } = useLocation();
@@ -49,7 +49,7 @@ const ProfilePage = ({pauseFunc, playFunc}) => {
       </div>
       <Route path={`/:username/playlists/:id`}>
         <ProfilePlaylist
-        {...{pauseFunc}} {...{playFunc}}
+
           proPlayLoaded={proPlayLoaded}
           setProPlayLoaded={setProPlayLoaded}
 

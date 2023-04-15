@@ -55,7 +55,7 @@ router.get(
       error.status = 404;
       error.title = "No current song found";
       error.errors = ["Current song not found by given ID"];
-      // console.log('==============',error)
+
       return next(error);
     }
   })

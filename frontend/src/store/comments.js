@@ -62,12 +62,10 @@ export const createComment = (comment) => async (dispatch) => {
 };
 
 export const getAllComments = () => async (dispatch) => {
-  // console.log('================')
   const res = await fetch("/api/comments");
   if (res.ok) {
     const comments = await res.json();
-    // console.log(list)
-    // console.log(data)
+
     dispatch(getComments(comments));
   } else {
     throw res;
@@ -108,7 +106,6 @@ export const updateComment = (data) => async (dispatch) => {
 };
 
 export const deleteOneComment = (data) => async (dispatch) => {
-  console.log(data);
   const response = await csrfFetch(`/api/comments/${data.id}`, {
     method: "DELETE",
     headers: {
@@ -127,7 +124,7 @@ const initialState = {};
 const commentReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_ONE: {
-      // console.log(action.user)
+      // (action.user)
       const newState = {
         ...state,
         [action.comment.id]: { ...action.comment, User: action.user },

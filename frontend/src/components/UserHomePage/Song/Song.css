@@ -1,35 +1,40 @@
 .song-content {
-width: 1180px;
-  padding-top: 10px;
 height: 100%;
 }
 
-.img-div > img {
+.img-div  {
   /* width: 360px; */
   /* height: 300px; */
   /* position: absolute;
   top: 0; */
   /* object-fit:cover; */
   /* margin-top: -60px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
 }
 
 .audio-and-image {
-  padding: 0;
-  margin: 0;
-  height: 380px;
+
+  margin-top: -16px;
+
+  margin-left: -20px;
+  margin-right: -20px;
+
   /* backdrop-filter: blur(50px); */
 }
 
 .song-player {
   display: flex;
-  /* justify-content: space-evenly; */
+  justify-content: space-between;
   width: 100%;
-  height: 100%;
   box-sizing:border-box;
+padding: 20px;
   z-index: 10;
   /* position: absolute; */
-  margin-top: 40px;
-  padding: 30px 20px 20px 30px;
+
+
 }
 
 
@@ -40,37 +45,35 @@ height: 100%;
 
 
 .title-song-player {
-  position: absolute;
-  left: 70px;
-  z-index: 1;
-  width: auto;
-  white-space: nowrap;
-  /* width: auto; */
-  top: -20px;
+min-height: 100%;
+width: 100%;
+display: flex;
+flex-direction: column;
+justify-content: space-evenly;
+margin-left: 6px;
+z-index: 1;
 }
 
 
-.title-song-player-rel {
-  position: relative;
-  width: 100%;
-}
 
 #title-p {
   background-color: black;
   color: white;
-  padding: 2px;
-  font-weight:lighter;
-  font-size: 20px;
-  margin-bottom: 2px;
+  width: fit-content;
+  padding: 2px 5px;
+  font-size: 18px;
+  margin-bottom: 4px;
+
+
 }
 
 #username-p {
   background-color: black;
   color: white;
-font-size: 15px;
-  font-weight:lighter;
-  display: inline;
+  width: fit-content;
   padding: 2px;
+  font-size: 13px;
+
 }
 
 .song-buttons {
@@ -182,7 +185,7 @@ z-index: 50000;
 }
 
 .comment-body-description {
-  position: absolute;
+  /* position: absolute; */
   margin-top: -30px;
   padding-left: 150px;
   width: 100%;
@@ -193,7 +196,7 @@ z-index: 50000;
   position: relative;
   margin-top: 60px;
   width: 87.7%;
-  height: 50%;
+  /* height: 50%; */
 }
 
 
@@ -216,9 +219,38 @@ z-index: 50000;
   /* display: flex; */
   width: 800px;
   margin-top: 20px;
+
   /* z-index: 100; */
 }
 
 .waveform-player-single-song .waveform-headings {
   display: none;
+   /* margin-left: 10px; */
+}
+.image-relative-container {
+  position: relative;
+
+}
+.waveform-headings {
+
+}
+.background-image-song {
+  position: absolute;
+width: 100%;
+height: 340px;
+z-index: 0;
+background-position: center;
+
+background-size: cover;
+
+
+
+opacity: 0.3;
+object-fit: cover;
+}
+
+.loading-image-gif {
+  width: 140px;
+  height: 140px;
+  position: absolute;
 }

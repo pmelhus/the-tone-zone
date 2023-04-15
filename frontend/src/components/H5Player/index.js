@@ -11,11 +11,14 @@ const useStyles = createUseStyles((theme) => ({}));
 const H5AudioPLayer = ({
   audioPlayer,
   wavePlayer,
+  sourceChangeSwitch,
   waveLoading,
   currentAudio,
   setCurrentAudio,
   isLoaded,
   setIsLoaded,
+  setH5CanPlay,
+  h5CanPlay
 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
@@ -27,9 +30,12 @@ const H5AudioPLayer = ({
   const currentSong = useSelector((state) => Object.values(state.currentSong));
   const songId = parseInt(pathname.split("/")[2]);
 
+
   const wavePlayFunc = (e) => {
     if (!wavePlayer.current?.isPlaying()) {
+
       wavePlayer.current.play();
+
     } else {
       return;
     }
@@ -43,6 +49,8 @@ const H5AudioPLayer = ({
     }
   };
 
+
+
   const onSeek = async (e) => {
     let seekPercentageString =
       audioPlayer.current.progressBar.current.ariaValueNow;
@@ -50,7 +58,6 @@ const H5AudioPLayer = ({
     let h5Duration = audioPlayer.current?.audio.current.duration;
     // Do something with the current time
     let seekPercentage = parseFloat(seekPercentageString, 10);
-    console.log(audioPlayer.current);
 
     const changeCurrentTimeToSeekedTime = () => {
       let seekPercentDecimal = seekPercentage * 0.01;
@@ -58,62 +65,37 @@ const H5AudioPLayer = ({
       e.currentTime = currentSeekedTime;
       wavePlayer.current.seekTo(seekPercentDecimal);
     };
-
     await changeCurrentTimeToSeekedTime();
   };
 
-  // useEffect(() => {
-  //   let h5IsPlaying = audioPlayer.current?.isPlaying();
-  //   if (h5IsPlaying) {
-  //     wavePlayer.current.play();
-  //   } else {
-  //     wavePlayer.current.pause();
-  //   }
-  // }, [[audioPlayer]]);
-
-  // useEffect(() => {
-  //   const getSongs = async () => {
-  //     const currentSong = await dispatch(getAllCurrentSongs(sessionUser?.id));
-  //     const currentSongId = currentSong[0].songId;
-  //     await setCurrentAudio(allSongs[currentSongId]);
-  //     await setIsLoaded(true);
-  //   };
-  //   getSongs();
-  // }, [dispatch, pathname]);
-  // useEffect(() => {
-  //   const getSongs = async () => {
-  //     await setCurrentAudio(allSongs[currentSongId]);
-  //     await setLoadedRefresh(true);
-  //   };
-  //   getSongs();
-  // }, []);
+  const handleCanPlay = () => {
+    setH5CanPlay(true);
+  };
 
   useEffect(() => {
     if (currentSong?.id === currentAudio?.id) {
-
       setCurrentAudio(allSongs[currentSong[0]?.songId]);
     }
   }, [currentSong]);
 
-  // useEffect(() => {
-  //   setCurrentAudio(allSongs[currentSong[0]?.songId]);
-  // }, []);
+  useEffect(() => {
+    console.log(currentAudio, "CURRENT AUDIO IN H5 PLAYER");
+    setH5CanPlay(false)
+  }, [currentAudio]);
 
-  useEffect(()=> {
-console.log(currentAudio, 'CURRENT AUDIO IN H5 PLAYER')
-  }, [currentAudio])
 
   return (
     <div style={{ zIndex: "100" }} className="continuous-audio-playback">
       {pathname !== "/" && isLoaded && (
-        <div className="audio-player-div">
+        <div className="h5-audio-player-div">
           <AudioPlayer
             className="audio-player"
             showSkipControls={false}
             showJumpControls={false}
+            onCanPlay={handleCanPlay}
             src={currentAudio?.url}
             layout="horizontal-reverse"
-            autoPlayAfterSrcChange={true}
+            autoPlayAfterSrcChange={sourceChangeSwitch}
             autoPlay={false}
             onPlay={wavePlayFunc}
             onPause={wavePauseFunc}

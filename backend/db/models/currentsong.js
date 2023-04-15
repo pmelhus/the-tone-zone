@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
     CurrentSong.belongsTo(models.Song, { foreignKey: "songId" });
   };
   CurrentSong.upload = async function ({ userId, songId }) {
-    // console.log(imageUrl)
     const currentSong = await CurrentSong.create({
       userId,
       songId,

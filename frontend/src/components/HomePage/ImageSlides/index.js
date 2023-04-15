@@ -19,20 +19,6 @@ const ImageSlides = () => {
     },
   ];
 
-  //  const carouselStyle1 = {transform: 'translateX(0%)', transition: 'transform 0.6s ease-in-out 0s', width: '300%', display: "flex", overflow:'hidden', height: '100%'}
-  //  const carouselStyle2 = {transform: 'translateX(-33%)', transition: 'transform 0.6s ease-in-out 0s', width: '300%', display: "flex", overflow:'hidden', height: '100%'}
-
-  // const [carStyle, setCarStyle] = useState(carouselStyle1)
-
-  // const carouselInterval = () => {
-  //   setInterval(carouselCallBack, 1000, carouselStyle1, carouselStyle2)
-  // }
-
-  // const carouselCallBack = (carouselStyle1) => {
-
-  // }
-  // console.log(carouselInterval())
-  // console.log(carStyle)
 
   const settings = {
     infinite: true,

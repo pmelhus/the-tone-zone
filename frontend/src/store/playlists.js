@@ -79,7 +79,7 @@ export const createPlaylist = (data) => async (dispatch) => {
     }
 
     const payload = await response.json();
-    // console.log(payload)
+
     dispatch(addOnePlaylist(payload));
   } catch (error) {
     throw error;
@@ -87,14 +87,14 @@ export const createPlaylist = (data) => async (dispatch) => {
 };
 
 export const getAllPlaylists = () => async (dispatch) => {
-  // console.log('================')
+
   const res = await fetch("/api/playlists");
   if (res.ok) {
     const playlists = await res.json();
 
     dispatch(getPlaylists(playlists));
 
-    // console.log(playlists)
+
   } else {
     throw res;
   }
@@ -103,12 +103,11 @@ export const getAllPlaylists = () => async (dispatch) => {
 export const getAllSongsPlaylist = (id) => async (dispatch) => {
   const res = await fetch(`/api/playlists/songs/${id}`);
 
-  // console.log(res, '==================?!?!?!?')
+
   if (res.ok) {
     const data = await res.json();
     dispatch(getAllSongs(data));
-    console.log(data, "============");
-    // console.log(playlists)
+
   } else {
     throw res;
   }
@@ -118,7 +117,7 @@ export const getOnePlaylist = (id) => async (dispatch) => {
   const response = await fetch(`/api/playlists/${id}`);
 
   const playlist = await response.json();
-  console.log(playlist, "$$$$$$$$$$$$$$$$");
+
   dispatch(getOne(playlist));
 };
 
@@ -149,8 +148,7 @@ export const addSongToPlaylist = (data) => async (dispatch) => {
     }
 
     const returned = await response.json();
-    // console.log(returned, '++++++++++++++=')
-    // console.log(returned.data.song)
+
     dispatch(addOneSongToPlaylist(returned.data.song, returned.data.playlist));
   } catch (error) {
     throw error;
@@ -185,7 +183,7 @@ export const deleteOnePlaylist = (data) => async (dispatch) => {
 };
 
 export const deleteOneSong = (data) => async (dispatch) => {
-  console.log(data, "here!");
+
   const response = await csrfFetch(`/api/playlists/song/${data.song.id}`, {
     method: "DELETE",
     headers: {
@@ -194,7 +192,7 @@ export const deleteOneSong = (data) => async (dispatch) => {
     body: JSON.stringify(data),
   });
   const deletedSong = await response.json();
-  console.log(deletedSong, "======?!?!??!?!");
+
   dispatch(deleteSong(deletedSong));
 };
 
@@ -211,7 +209,7 @@ const sortList = (list) => {
 const playlistReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_ONE: {
-      // console.log(state)
+
       const newState = {
         ...state,
         [action.payload.playlist.id]: {
@@ -224,7 +222,7 @@ const playlistReducer = (state = initialState, action) => {
     }
 
     case GET_ONE: {
-      // console.log(playlistSongs, "HEEERE")
+
       if (action.playlist) {
         const newState = { ...state, [action.playlist.id]: action.playlist };
         return newState;
@@ -234,7 +232,7 @@ const playlistReducer = (state = initialState, action) => {
     }
 
     case ADD_ONE_SONG: {
-      console.log(action);
+
       const newState = {
         ...state,
         [action.playlist.id]: {
@@ -247,7 +245,7 @@ const playlistReducer = (state = initialState, action) => {
     }
 
     case GET_ALL_SONGS: {
-      // console.log(state)
+
       const newState = {
         ...state
 
@@ -270,7 +268,7 @@ const playlistReducer = (state = initialState, action) => {
 
     case LOAD: {
       const newState = { ...state };
-      console.log(action.playlists);
+
       action.playlists.forEach(
         (playlist) => (newState[playlist.id] = playlist)
       );
@@ -283,7 +281,7 @@ const playlistReducer = (state = initialState, action) => {
       return newState;
     }
     case DELETE_ONE_SONG: {
-      console.log(action.payload, "payload!!!");
+
       const newSongsArr = state[action.payload.playlist.id].Songs.filter(
         (object) => object.id !== action.payload.song.id
       );

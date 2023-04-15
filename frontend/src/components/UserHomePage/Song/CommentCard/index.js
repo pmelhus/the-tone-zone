@@ -28,7 +28,7 @@ const CommentCard = ({ song }) => {
     return dateB - dateA
   })
 
-  // console.log(commentListSorted)
+
 
   useEffect(() => {
     dispatch(getAllComments());

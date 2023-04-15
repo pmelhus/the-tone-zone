@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import WaveSurfer from "wavesurfer.js";
@@ -16,51 +16,89 @@ import {
 } from "../../store/currentSong";
 
 const Waveform = ({
-  waveLoading,
   setWaveLoading,
   audio,
   song,
   wavePlayer,
-  currentAudio,
   audioPlayer,
   setCurrentAudio,
+  h5CanPlay,
+  setSourceChangeSwitch,
+  songPage,
 }) => {
   const dispatch = useDispatch();
   const containerRef = useRef();
-  const waveSurferRef = useRef({
-    isPlaying: () => false,
-  });
-  const [time, setTime] = useState(null);
+
+  const [waveHover, setWaveHover] = useState(false);
 
   const [isPlaying, toggleIsPlaying] = useState(false);
   const user = useSelector((state) => state.session.user);
-  const songs = useSelector((state) => state.songs);
+
+  const history = useHistory();
+
+  const [currentlyPlayingRef, setCurrentlyPlayingRef] = useState(null);
+
   const { pathname } = useLocation();
-  const songId = parseInt(pathname.split("/")[2]);
-  const currentSong = useSelector((state) =>
-    Object.values(state.currentSong)
-  )[0];
-  // const h5AudioPlayer = audioPlayer.current?.audio.current;
+  const songId = pathname.split("/")[2];
+  const search = pathname.split("/")[1];
 
-  // const h5PauseFunc = () => {
-  //   if (audioPlayer.current.isPlaying()) {
-  //     audioPlayer.current?.audio.current.pause();
-  //   } else {
-  //     return;
-  //   }
-  // };
+  const changeCurrentTimeToSeekedTime = (seekPercent) => {
+    wavePlayer.current?.seekTo(seekPercent);
+    if (audioPlayer.current?.isPlaying()) {
+      wavePlayer.current?.play();
+    }
+  };
 
-  // const h5PlayFunc = () => {
-  //   if (!audioPlayer.current.isPlaying()) {
-  //     audioPlayer.current?.audio.current.play();
-  //   } else {
-  //     return;
-  //   }
-  // };
-  // const audio = useSelector(state=> (state.currentSong.song))
-  // console.log(universalPlay)
+  const [currentWavePlayer, setCurrentWavePlayer] = useState(null);
+  const [indieWaveLoading, setIndieWaveLoading] = useState(true);
 
-  const [updatedSong, setUpdatedSong] = useState(false);
+  const handlePlayButton = async () => {
+    // if there is a currentSong in DB, then play/pause h5 audio player
+
+    const payload = { user, song };
+
+    if (audioPlayer.current.audio.current.src === audio) {
+      if (audioPlayer.current.isPlaying()) {
+        await setSourceChangeSwitch(false);
+        await audioPlayer.current.audio.current.pause();
+        await toggleIsPlaying(false);
+      } else {
+        await setSourceChangeSwitch(false);
+        await audioPlayer.current.audio.current.play();
+        await toggleIsPlaying(true);
+      }
+    } else {
+      // replace the currentsong in DB with the new song.
+      const replaceCurrentSong = async () => {
+        await dispatch(deleteCurrentSong());
+        await dispatch(createCurrentSong(payload));
+      };
+
+      await audioPlayer?.current?.audio?.current?.pause();
+
+
+      if (!wavePlayer.current?.isPlaying()) {
+        await wavePlayer.current?.seekTo(0);
+      }
+      if (wavePlayer.current?.isPlaying()) {
+        await wavePlayer.current?.stop();
+      }
+
+      // if (wavePlayer.current) {
+      //   wavePlayer.current.seekTo(0);
+      // }
+
+      await setSourceChangeSwitch(true);
+      await replaceCurrentSong();
+      await setCurrentAudio(song);
+
+      wavePlayer.current = currentWavePlayer;
+      // await audioPlayer?.current?.audio.current.play();
+
+      await wavePlayer.current.play(0);
+      await toggleIsPlaying(true);
+    }
+  };
 
   useEffect(() => {
     const waveSurfer = WaveSurfer.create({
@@ -69,169 +107,123 @@ const Waveform = ({
       cursorWidth: 0,
       barWidth: 2,
       barHeight: 1,
+      waveColor: "rgba(51, 51, 51, .4)",
+      progressColor: "rgb(253, 77, 1)",
     });
+    setCurrentWavePlayer(waveSurfer);
 
     if (audio) {
       waveSurfer.load(audio);
     }
-    waveSurfer.on("ready", () => {
-      waveSurferRef.current = waveSurfer;
-      wavePlayer.current = waveSurfer;
-      setWaveLoading(false);
-      waveSurfer.setMute(true);
-      let seekPercentageString =
-        audioPlayer.current.progressBar.current.ariaValueNow;
-      let h5CurrentTime = audioPlayer.current?.audio.current.currentTime;
-      let h5Duration = audioPlayer.current?.audio.current.duration;
-      // Do something with the current time
-      let seekPercentage = parseFloat(seekPercentageString, 10);
 
-      const changeCurrentTimeToSeekedTime = () => {
-        let seekPercentDecimal = seekPercentage * 0.01;
-        wavePlayer.current.seekTo(seekPercentDecimal);
-        if (audioPlayer.current.isPlaying()) {
-          wavePlayer.current.play();
-        }
-      };
-      if (currentSong.songId === song.id) {
-        changeCurrentTimeToSeekedTime();
+    // if  (audioPlayer.current.audio.current.src === audio) {
+    //   wavePlayer.current = waveSurfer
+    // }
+
+    waveSurfer.on("ready", () => {
+      setIndieWaveLoading(false);
+      waveSurfer.setMute(true);
+      setWaveLoading(false);
+
+      if (audioPlayer.current.audio.current.src === audio) {
+        let seekPercentageString =
+          audioPlayer.current.progressBar.current.ariaValueNow;
+        // Do something with the current time
+        let seekPercentage = parseFloat(seekPercentageString, 10);
+        let seekPercentDecimal = seekPercentage * 0.0102
+        ;
+        wavePlayer.current = waveSurfer;
+        changeCurrentTimeToSeekedTime(seekPercentDecimal);
       }
     });
 
     waveSurfer.on("play", () => {
-      waveSurferRef.current = waveSurfer;
-      if (wavePlayer) {
+      waveSurfer.setWaveColor("rgba(51, 51, 51, .5)");
+      if (audioPlayer.current.audio.current.src === audio) {
         wavePlayer.current = waveSurfer;
+        toggleIsPlaying(true);
       }
-      toggleIsPlaying(true);
     });
 
     waveSurfer.on("pause", () => {
-      waveSurferRef.current = waveSurfer;
-      if (wavePlayer) {
-        wavePlayer.current = waveSurfer;
-      }
       toggleIsPlaying(false);
+      waveSurfer.setWaveColor("rgba(51, 51, 51, .4)");
     });
 
     waveSurfer.on("seek", (e) => {
       let h5Duration = audioPlayer.current?.audio.current.duration;
-      let progressBarValue = e;
-      let h5CurrentTime = audioPlayer.current?.audio.current.currentTime;
-
       let newSeekedValue = e * h5Duration;
+      audioPlayer.current.audio.current.currentTime = newSeekedValue;
       const seek = () => {
         audioPlayer.current.audio.current.currentTime = newSeekedValue;
       };
-      seek();
+
+      if (audioPlayer.current.audio.current.src === audio) {
+        // if (audioPlayer.current.isPlaying()) {
+        //   return;
+        // }
+        seek();
+      } else {
+        const payload = { user, song };
+        const replaceCurrentSong = async () => {
+          await dispatch(deleteCurrentSong());
+          await dispatch(createCurrentSong(payload));
+        };
+        setSourceChangeSwitch(true);
+        replaceCurrentSong();
+        setCurrentAudio(song);
+
+        waveSurfer.play(0);
+        toggleIsPlaying(true);
+      }
+
+      if (
+        wavePlayer.current.isPlaying() &&
+        audioPlayer.current.audio.current.src !== audio
+      ) {
+        wavePlayer.current.stop();
+      }
+      wavePlayer.current = waveSurfer;
     });
 
-    // setUniversalSeek(waveSurfer.getCurrentTime())
-    // console.log(universalSeek, 'UNIVERSAL SEEK')
-
-    // waveSurfer.on("audioprocess", () => {
-    //   setUniversalSeek(waveSurfer.getCurrentTime())
-    //   console.log(universalSeek, 'UNIVERSAL SEEK')
-    // })
-
-    // if (universalPlay) {
-    //   waveSurfer.play()
-    // }
-
-    // if (universalPause) waveSurfer.pause()
-
     return () => {
-      waveSurfer.destroy();
-      setWaveLoading(true);
+      if (wavePlayer.current !== waveSurfer) {
+        waveSurfer.destroy();
+      }
+
+      setSourceChangeSwitch(false);
     };
   }, [audio, pathname]);
 
-  // if (audio) {
-  //   return (
-  //     <>
-  //       <p>No audio file!</p>
-  //     </>
-  //   );
-  // }
-
-  // const handlePlayButton = async () => {
-  //   const payload = { user, song };
-  //   // first check if currentSong exists
-  //   const getCurrent = await dispatch(getCurrentSong(song.id));
-  //   await console.log(getCurrent, "getCurrent");
-  //   if (getCurrent) {
-  //     // if it does exist, check to see if currentSong matches with song and if it does, play h5 player
-  //     console.log(song, getCurrent, "SONGS");
-  //     if (song.id === getCurrent.id) {
-  //       console.log(currentAudio, 'CURR')
-  //       if (!currentAudio) {
-  //         setCurrentAudio(getCurrent);
-  //       }
-  //       if (audioPlayer.current.isPlaying()) {
-  //         await audioPlayer.current.audio.current.pause();
-  //         await toggleIsPlaying(false);
-  //       } else {
-  //         await audioPlayer.current.audio.current.play();
-  //         await toggleIsPlaying(true);
-  //       }
-
-  //       return false;
-  //     } else {
-  //       // if it doesn't match, delete old currentSong and create new currentSong
-  //       await dispatch(deleteCurrentSong());
-  //       const newCurrentSong = await dispatch(createCurrentSong(payload));
-  //       await setCurrentAudio(newCurrentSong)
-  //       await console.log(currentAudio, 'CURRENT AUDIO')
-
-  //     }
-  //   } else {
-  //     // if currentSong doesn't exist, createCurrentSong and then set currentAudio state to new currentSong
-  //     await dispatch(deleteCurrentSong());
-  //     const newCurrentSong = await dispatch(createCurrentSong(payload));
-  //     console.log(newCurrentSong, 'NEWCURRENTSONG')
-  //     await console.log(currentAudio, 'CURRENT AUDIO')
-
-  //     return newCurrentSong.song;
-  //   }
-  // };
-
-  const handlePlayButton = () => {
-    // if there is a currentSong in DB, then play/pause h5 audio player
-
-    const payload = { user, song };
-
-    if (currentSong.id === song.id) {
-      if (audioPlayer.current.isPlaying()) {
-        audioPlayer.current.audio.current.pause();
-        toggleIsPlaying(false);
-      } else {
-        audioPlayer.current.audio.current.play();
-        toggleIsPlaying(true);
-      }
-    } else {
-      // replace the currentsong in DB with the new song.
-      const replaceCurrentSong = async () => {
-        await dispatch(deleteCurrentSong());
-        await dispatch(createCurrentSong(payload));
-      };
-      replaceCurrentSong();
-      setCurrentAudio(song)
-
-      if (audioPlayer.current.isPlaying()) {
-        audioPlayer.current.audio.current.pause();
-        toggleIsPlaying(false);
-      } else {
-        audioPlayer.current.audio.current.play();
-        toggleIsPlaying(true);
-      }
+  const handleWaveHover = () => {
+    if (!currentWavePlayer.isPlaying()) {
+      currentWavePlayer.setWaveColor("rgba(51, 51, 51, .5)");
     }
+  };
+
+  const handleWaveHoverLeave = () => {
+    if (!currentWavePlayer.isPlaying()) {
+      currentWavePlayer.setWaveColor("rgb(51, 51, 51, .4)");
+    }
+  };
+
+  const handleSongTitle = () => {
+    history.push(`/stream/${song.id}`);
   };
 
   return (
     <>
       <div className="waveform-button-title">
-        {waveLoading ? (
-          <FaPlayCircle size="3em" disabled id="waveform-button-disabled" />
+        {indieWaveLoading && h5CanPlay ? (
+          <FaPlayCircle
+            size="4em"
+            disabled
+            id={
+              songPage
+                ? "waveform-button-disabled-songPage"
+                : "waveform-button-disabled"
+            }
+          />
         ) : (
           <button
             className={"waveform-button-all"}
@@ -239,35 +231,64 @@ const Waveform = ({
             type="button"
           >
             {isPlaying ? (
-              <FaPauseCircle size="3em" id="waveform-button" />
+              <FaPauseCircle
+                size="4em"
+                id={songPage ? "waveform-button-songPage" : "waveform-button"}
+              />
             ) : (
-              <FaPlayCircle size="3em" id="waveform-button" />
+              <FaPlayCircle
+                size="4em"
+                id={songPage ? "waveform-button-songPage" : "waveform-button"}
+              />
             )}
           </button>
         )}
-        <div className="waveform-headings">
-          <div>
-            <a href={`/${song?.User?.username}`} id="username">
-              {song?.User?.username}
-            </a>
+        {songPage ? (
+          <div className="title-song-player">
+            <p id="title-p">{song?.title}</p>
+            <p id="username-p">{song?.User?.username}</p>
           </div>
-          <div>
-            <a href={`/stream/${song?.id}`} id="song-title">
-              {song?.title}
-            </a>
+        ) : (
+          <div className="waveform-headings">
+            <div>
+              <div id="username">{song?.User?.username}</div>
+            </div>
+            <div>
+              <div onClick={handleSongTitle} id="song-title">
+                {song?.title}
+              </div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div className="waveform-container">
         <div className="waveform-image-container">
-          {waveLoading && (
-            <img
-              alt="loading"
-              src="https://miro.medium.com/max/1400/1*CsJ05WEGfunYMLGfsT2sXA.gif"
-            ></img>
+          {indieWaveLoading && h5CanPlay && (
+            <div
+              style={{
+                position: "absolute",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                paddingTop: "60px",
+                right: "50%",
+              }}
+            >
+              <img
+                className="loading-image-gif"
+                alt="loading"
+                src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif"
+              ></img>
+            </div>
           )}
         </div>
-        <div ref={containerRef} />
+        <div
+          className="container-ref-div"
+          onMouseOver={handleWaveHover}
+          onMouseLeave={handleWaveHoverLeave}
+        >
+          <div ref={containerRef} />
+        </div>
       </div>
     </>
   );

@@ -7,7 +7,6 @@ import HomePage from "./components/HomePage";
 import UserHomePage from "./components/UserHomePage/index";
 import Waveform from "./components/Waveform";
 import WaveSurfer from "wavesurfer.js";
-import WaveformContinuous from "./components/Waveform/WaveformContinuous";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { useRef, forwardRef } from "react";
 import H5AudioPlayer from "./components/H5Player/index";
@@ -21,34 +20,18 @@ function App() {
   const [signInToggle, setSignInToggle] = useState(false);
   const [signUpToggle, setSignUpToggle] = useState(false);
 
-
   const [currentAudio, setCurrentAudio] = useState();
+  const [h5CanPlay, setH5CanPlay] = useState(false);
 
   const [waveLoading, setWaveLoading] = useState(true);
   const [autoPlay, setAutoplay] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
   const songs = useSelector((state) => state.songs);
-  // const [isPlaying, toggleIsPlaying] = useState(false);
-  // let waveSurfer
+  const [sourceChangeSwitch, setSourceChangeSwitch] = useState(false);
 
-  // console.log(currentAudio, "CURRENT AUDIO");
   const audioPlayer = useRef();
   const wavePlayer = useRef();
 
-  // console.log(audioPlayer.current?.audio.current)
-  // console.log(wavePlayer)
-  // useEffect(()=> {
-  //   if (!waveLoading) {
-  //     console.log(waveSurfer)
-  //   }
-  // },[waveLoading])
-
-  //     useEffect(()=> {
-
-  // //  console.log( getCurrentDurationPercent(), 'TIME')
-  // setCurrentTime(h5CurrentTime)
-
-  //     }, [h5CurrentTime])
   const [user, setUser] = useState("");
 
   const setNewTime = (player, time) => {
@@ -63,12 +46,10 @@ function App() {
         const currentSongs = await dispatch(
           getAllCurrentSongs(sessionUser?.id)
         );
-
       }
     };
     getUser();
     setIsLoaded(true);
-    //  dispatch(getAllCurrentSongs(sessionUser.id));
   }, [dispatch]);
 
   useEffect(() => {
@@ -113,16 +94,21 @@ function App() {
               {...{ wavePlayer }}
               {...{ setCurrentAudio }}
               {...{ currentAudio }}
+              {...{ setSourceChangeSwitch }}
+              {...{ h5CanPlay }}
             />
           )}
           <H5AudioPlayer
             {...{ waveLoading }}
             {...{ audioPlayer }}
+            {...{ sourceChangeSwitch }}
             {...{ wavePlayer }}
             {...{ isLoaded }}
-            {...{setIsLoaded}}
+            {...{ setIsLoaded }}
             {...{ setCurrentAudio }}
             {...{ currentAudio }}
+            {...{ h5CanPlay }}
+            {...{ setH5CanPlay }}
           />
         </div>
       </Switch>
