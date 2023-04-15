@@ -10,7 +10,7 @@ const {
 } = require("../../awsS3");
 
 // const songValidations = require('../../utils/songs')
-const { Song, User, Comment } = require("../../db/models");
+const { Song, CurrentSong, User, Comment } = require("../../db/models");
 
 const router = express.Router();
 
@@ -88,9 +88,16 @@ router.delete(
   "/:id",
   asyncHandler(async (req, res) => {
     const id = req.params.id;
-    const song = await CurrentSong.findByPk(id);
-
+    const song = await Song.findByPk(id);
+    const currentSong = await CurrentSong.findOne({
+      where: {
+        songId: id
+      }
+    })
     await song.destroy();
+    if (currentSong) {
+      await currentSong.destroy()
+    }
     return res.json(song);
   })
 );

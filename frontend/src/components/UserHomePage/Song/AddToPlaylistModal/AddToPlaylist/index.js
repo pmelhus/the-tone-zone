@@ -22,18 +22,17 @@ const AddToPlaylist = ({
   showTooltip,
   showForm,
   setSelected,
+  playlists
 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
-  const playlists = useSelector((state) => Object.values(state.playlists));
+
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
 
   const [addedToPlaylist, setAddedToPlaylist] = useState(false);
 
-  useEffect(() => {
-    dispatch(getAllPlaylists());
-  }, [dispatch]);
+
 
 
   const myPlaylists = playlists.filter((playlist) => {

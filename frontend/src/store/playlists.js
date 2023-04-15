@@ -86,9 +86,9 @@ export const createPlaylist = (data) => async (dispatch) => {
   }
 };
 
-export const getAllPlaylists = () => async (dispatch) => {
+export const getAllPlaylists = (id) => async (dispatch) => {
 
-  const res = await fetch("/api/playlists");
+  const res = await fetch(`/api/playlists/${id}`);
   if (res.ok) {
     const playlists = await res.json();
 

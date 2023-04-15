@@ -19,12 +19,7 @@ import AudioPlayer from "react-h5-audio-player";
 import "./ProfilePlaylist.css";
 import Waveform from "../../Waveform";
 
-const ProfilePlaylist = ({
-
-  proPlayLoaded,
-  setProPlayLoaded,
-
-}) => {
+const ProfilePlaylist = ({ proPlayLoaded, setProPlayLoaded }) => {
   const [signInToggle, setSignInToggle] = useState(false);
   const history = useHistory();
   const { id } = useParams();
@@ -43,36 +38,28 @@ const ProfilePlaylist = ({
   const [songId, setSongId] = useState(null);
   const selectedSong = useSelector((state) => state.songs[songId]);
 
-
   useEffect(() => {
     setProPlayLoaded(true);
 
     dispatch(getOnePlaylist(id));
 
     setIsLoaded(true);
-
   }, [dispatch]);
   if (!playlist) return null;
 
   const handlePlaylistDelete = () => {
-
     dispatch(deleteOnePlaylist(playlist));
     history.push(`/you/library/playlists`);
   };
 
   const openPlaylist = (e) => {
-
-
     setEditModal(!editModal);
-
   };
 
   const openMenu = (e) => {
-
     setShowMenu(!showMenu);
     if (!showMenu) return;
   };
-
 
   return (
     <>
@@ -84,36 +71,25 @@ const ProfilePlaylist = ({
               <p id="username-p">{playlist?.User?.username}</p>
             </div>
             <div className="playlist-waveform">
-              <Waveform
-
-
-                audio={url}
-              />
+              <Waveform audio={url} />
             </div>
           </div>
-
 
           <div className="img-div">
             <img src={playlist?.imageUrl}></img>
           </div>
         </div>
       </div>
-      <div className="song-buttons">
-        {user.id === playlist.User.id && (
-          <button onClick={(e) => handlePlaylistDelete()}>
-            Delete playlist
-          </button>
-        )}
+      <div onClick={(e) => handlePlaylistDelete()} className="song-buttons">
+        {user.id === playlist.User.id && <p>Delete playlist</p>}
       </div>
-
 
       {isLoaded &&
         playlist?.Songs?.map((song) => {
           return (
             <>
               <PlaylistSong
-
-              {...{songId}}
+                {...{ songId }}
                 key={id}
                 {...{ setSongId }}
                 url={url}

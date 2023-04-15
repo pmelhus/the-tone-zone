@@ -187,10 +187,9 @@ const Waveform = ({
     });
 
     return () => {
-      if (wavePlayer.current !== waveSurfer) {
+      if (wavePlayer?.current !== waveSurfer) {
         waveSurfer.destroy();
       }
-
       setSourceChangeSwitch(false);
     };
   }, [audio, pathname]);

@@ -7,7 +7,6 @@ const UPDATE = "songs/UPDATE";
 const DELETE = "songs/DELETE";
 const GET_ONE = "songs/GET_ONE";
 
-
 const addOneSong = (song, user) => ({
   type: ADD_ONE,
   song,
@@ -48,7 +47,6 @@ export const getOneSong = (id) => async (dispatch) => {
   const response = await fetch(`/api/songs/${id}`);
 
   const song = await response.json();
-
 
   dispatch(getOne(song));
 };
@@ -139,29 +137,49 @@ export const updateSong = (data) => async (dispatch) => {
 };
 
 export const deleteOneSong = (data) => async (dispatch) => {
-  const response = await csrfFetch(`/api/songs/${data.id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+  try {
+    const response = await csrfFetch(`/api/songs/${data.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      let error;
+      if (response.status === 422) {
+        error = await response.json();
+        throw new ValidationError(error.errors, response.statusText);
+      } else {
+        let errorJSON;
+        error = await response.text();
+        try {
+          // Check if the error is JSON, i.e., from the Pokemon server. If so,
+          // don't throw error yet or it will be caught by the following catch
+          errorJSON = JSON.parse(error);
+        } catch {
+          // Case if server could not be reached
+          throw new Error(error);
+        }
+        throw new Error(`${errorJSON.title}: ${errorJSON.message}`);
+      }
+    }
+    const song = await response.json();
 
-  const song = await response.json();
-
-  dispatch(deleteSong(song));
+    dispatch(deleteSong(song));
+  } catch (error) {
+    throw error;
+  }
 };
 
 const initialState = {};
-
-
 
 const songReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD: {
       const allSongs = {};
       action.songs.forEach((song) => (allSongs[song.id] = song));
-      return { ...allSongs, ...state};
+      return { ...allSongs, ...state };
     }
     case ADD_ONE: {
       if (!state[action.song.id]) {

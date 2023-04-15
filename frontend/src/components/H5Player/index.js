@@ -33,16 +33,14 @@ const H5AudioPLayer = ({
 
   const wavePlayFunc = (e) => {
     if (!wavePlayer.current?.isPlaying()) {
-
       wavePlayer.current.play();
-
     } else {
       return;
     }
   };
 
   const wavePauseFunc = (e) => {
-    if (wavePlayer.current?.isPlaying()) {
+    if (  wavePlayer.current?.isPlaying()) {
       wavePlayer.current.pause();
     } else {
       return;
@@ -76,11 +74,13 @@ const H5AudioPLayer = ({
     if (currentSong?.id === currentAudio?.id) {
       setCurrentAudio(allSongs[currentSong[0]?.songId]);
     }
+
   }, [currentSong]);
 
   useEffect(() => {
-    console.log(currentAudio, "CURRENT AUDIO IN H5 PLAYER");
+
     setH5CanPlay(false)
+
   }, [currentAudio]);
 
 

@@ -1,7 +1,7 @@
 import "./AddToPlaylistModal.css";
-import { Link, useHistory } from "react-router-dom";
+import {  useHistory } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { getAllPlaylists } from "../../../../store/playlists";
+import { useSelector } from "react-redux";
 import CreatePlaylistForm from "./CreatePlaylistForm";
 import AddToPlaylist from "./AddToPlaylist";
 import { createUseStyles, useTheme } from "react-jss";
@@ -28,10 +28,14 @@ const AddToPlaylistModal = ({ playModal, setPlayModal }) => {
   const [selected, setSelected] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false)
   const tooltipTarget = useRef(null)
+  const playlists = useSelector((state) => Object.values(state.playlists));
+
 
   const goToPlaylist = () => {
     history.push("/you/library/playlists");
   };
+
+
 
   return (
     <>
@@ -67,6 +71,7 @@ const AddToPlaylistModal = ({ playModal, setPlayModal }) => {
         setShowForm={setShowForm}
         {...{setShowTooltip}}
         {...{showTooltip}}
+        {...{playlists}}
       />
       <CreatePlaylistForm
         showForm={showForm}

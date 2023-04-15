@@ -2,6 +2,7 @@ import "react-h5-audio-player/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { getOneSong, deleteOneSong, getAllSongs } from "../../../store/songs";
+import { getAllPlaylists } from "../../../store/playlists";
 // import AudioPlayer from "react-h5-audio-player";
 import { Link, useParams, useHistory } from "react-router-dom";
 import EditModal from "./EditModal";
@@ -11,6 +12,7 @@ import AddToPlaylistModal from "./AddToPlaylistModal";
 import { ValidationError } from "../../../utils/validationError";
 import Waveform from "../../Waveform";
 import Modal from "react-bootstrap/Modal";
+import DeleteModal from "./DeleteModal";
 
 import "./Song.css";
 
@@ -35,6 +37,7 @@ const Song = ({
   toggleIsPlaying,
   setSourceChangeSwitch,
   h5CanPlay,
+  sessionUser,
 }) => {
   const [signInToggle, setSignInToggle] = useState(false);
   const theme = useTheme();
@@ -45,15 +48,15 @@ const Song = ({
   const history = useHistory();
   const [showMenu, setShowMenu] = useState(false);
   const song = useSelector((state) => state.songs[songId]);
-  const user = useSelector((state) => state.session.user);
+
+  const [deleteModal, setDeleteModal] = useState(false);
 
   useEffect(() => {
     dispatch(getOneSong(songId));
-  }, [dispatch]);
-
-  const handleDelete = async (e) => {
-    await dispatch(deleteOneSong(song)).then(history.push("/stream"));
-  };
+    if (sessionUser) {
+      dispatch(getAllPlaylists(sessionUser.id));
+    }
+  }, [dispatch, sessionUser]);
 
   const openPlaylist = (e) => {
     // if (playModal) return
@@ -62,6 +65,10 @@ const Song = ({
 
   const handleClose = () => {
     setPlayModal(false);
+  };
+
+  const handleDeleteClose = () => {
+    setDeleteModal(false);
   };
 
   const openMenu = (e) => {
@@ -126,15 +133,21 @@ const Song = ({
           <div className="comment-button-section">
             <WriteComment song={song} />
             <div className="song-buttons">
-              {user?.id === song?.User?.id && (
+              {sessionUser?.id === song?.User?.id && (
                 <>
                   <button
+                    className="song-button"
                     onClick={() => setSignInToggle(!signInToggle)}
                     type="button"
                   >
-                    Edit
+                    <p>Edit</p>
                   </button>
-                  <button onClick={handleDelete}>Delete</button>
+                  <button
+                    className="song-button"
+                    onClick={() => setDeleteModal(true)}
+                  >
+                    <p>Delete</p>
+                  </button>
                 </>
               )}
               <div className="dropdown-more">
@@ -185,11 +198,14 @@ const Song = ({
                   setVisible={setSignInToggle}
                 />
               </div>
-              <Modal backdrop="static" show={playModal} onHide={handleClose}>
+              <Modal show={playModal} onHide={handleClose}>
                 <AddToPlaylistModal
                   playModal={playModal}
                   setPlayModal={setPlayModal}
                 />
+              </Modal>
+              <Modal show={deleteModal} onHide={handleDeleteClose}>
+                <DeleteModal {...{ song }} {...{ setDeleteModal }} />
               </Modal>
             </div>
           </div>

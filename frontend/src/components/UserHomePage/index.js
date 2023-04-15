@@ -35,8 +35,6 @@ const UserHomePage = ({
   const searchWord = pathname.split("/")[2];
   const sessionUser = useSelector((state) => state.session.user);
 
-
-  console.log(searchWord, "SEARCH WORD");
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(getAllPlaylists());
