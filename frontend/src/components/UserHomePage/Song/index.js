@@ -58,6 +58,8 @@ const Song = ({
     }
   }, [dispatch, sessionUser]);
 
+  const playlists = useSelector((state) => Object.values(state.playlists));
+
   const openPlaylist = (e) => {
     // if (playModal) return
     setPlayModal(true);
@@ -76,18 +78,6 @@ const Song = ({
     if (showMenu) return;
     setShowMenu(!showMenu);
   };
-
-  useEffect(() => {
-    if (!showMenu && playModal) return;
-
-    const closeMenu = () => {
-      setShowMenu(false);
-    };
-
-    document.addEventListener("click", closeMenu);
-
-    return () => document.removeEventListener("click", closeMenu);
-  }, [showMenu]);
 
   return (
     <div className="song-content">
@@ -200,6 +190,7 @@ const Song = ({
               </div>
               <Modal show={playModal} onHide={handleClose}>
                 <AddToPlaylistModal
+                  {...{ playlists }}
                   playModal={playModal}
                   setPlayModal={setPlayModal}
                 />

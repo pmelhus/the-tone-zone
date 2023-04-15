@@ -18,7 +18,8 @@ const useStyles = createUseStyles((theme) => ({
 
 }));
 
-const AddToPlaylistModal = ({ playModal, setPlayModal }) => {
+const AddToPlaylistModal = ({ playlists, playModal, setPlayModal }) => {
+
   const theme = useTheme();
   const classes = useStyles({ theme });
   const [errors, setErrors] = useState([]);
@@ -28,7 +29,9 @@ const AddToPlaylistModal = ({ playModal, setPlayModal }) => {
   const [selected, setSelected] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false)
   const tooltipTarget = useRef(null)
-  const playlists = useSelector((state) => Object.values(state.playlists));
+
+
+  console.log(playlists, 'PLAYLISTS')
 
 
   const goToPlaylist = () => {
@@ -64,15 +67,19 @@ const AddToPlaylistModal = ({ playModal, setPlayModal }) => {
           <h4 ref={tooltipTarget}>Create a playlist</h4>
         </div>
       </nav>
+      {playlists.length && (
+
       <AddToPlaylist
         setShowPlaylist={setShowPlaylist}
         showPlaylist={showPlaylist}
         showForm={showForm}
+        {...{playlists}}
         setShowForm={setShowForm}
         {...{setShowTooltip}}
         {...{showTooltip}}
         {...{playlists}}
       />
+      )}
       <CreatePlaylistForm
         showForm={showForm}
         setShowForm={setShowForm}

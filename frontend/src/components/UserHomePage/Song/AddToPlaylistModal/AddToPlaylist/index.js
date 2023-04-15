@@ -35,26 +35,24 @@ const AddToPlaylist = ({
 
 
 
-  const myPlaylists = playlists.filter((playlist) => {
-    return playlist.userId === sessionUser.id;
-  });
+
 
   useEffect(()=> {
-if (!myPlaylists.length) {
+if (!playlists.length) {
   setShowTooltip(true)
 }
 
-  },[myPlaylists])
+  },[playlists])
 
   const [noPlaylists, setNoPlaylists] = useState(false);
 
-  if (!showPlaylist && showForm) return null;
+
 
 
   return (
     <>
       <div className="playlist-card">
-        {myPlaylists.map((playlist) => {
+        {playlists.map((playlist) => {
           return (
             <>
               <PlaylistButton {...{ playlist }} />
@@ -63,7 +61,7 @@ if (!myPlaylists.length) {
         })}
       </div>
       <div>
-        {!myPlaylists.length && (
+        {!playlists.length && (
           <>
             <p>No playlists</p>
           </>
