@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Waveform from "../../Waveform";
 import "./SearchResults.css";
 
@@ -16,37 +16,48 @@ const SearchSongs = ({
   setCurrentAudio,
   h5CanPlay,
 }) => {
+  const history = useHistory();
+  const handleImageClick = (song) => {
+    history.push(`/stream/${song.id}`);
+  };
   return (
     <>
       {songResults?.map((song) => {
         return (
+          <div className="search-song-card">
+            {song?.imageUrl ? (
+              <div
+                className="image-content"
+                onClick={() => handleImageClick(song)}
+              >
+                <img src={song?.imageUrl} />
+              </div>
+            ) : (
+              <div
+                className="image-content"
+                onClick={() => handleImageClick(song)}
+              >
+                <img src="https://images.pexels.com/photos/7130560/pexels-photo-7130560.jpeg" />
+              </div>
+            )}
 
-            <div className="search-song-card">
-              <div className="song-image-container">
-                <Link to={`/stream/${song.id}`}>
-                  <img
-                    id={song.imageUrl ? "song-image" : "song-no-image"}
-                    src={song.imageUrl}
-                  ></img>
-                </Link>
-              </div>
-              <div className="song-search-player">
-                <Waveform
-                  {...{ wavePlayer }}
-                  {...{ setCurrentAudio }}
-                  audio={song.url}
-                  {...{ waveLoading }}
-                  {...{ setWaveLoading }}
-                  song={song}
-                  {...{ currentAudio }}
-                  {...{ isPlaying }}
-                  {...{ toggleIsPlaying }}
-                  {...{ setSourceChangeSwitch }}
-                  {...{ audioPlayer }}
-                />
-              </div>
+            <div className="waveform-player">
+              <Waveform
+                {...{ wavePlayer }}
+                {...{ setCurrentAudio }}
+                audio={song.url}
+                {...{ waveLoading }}
+                {...{ setWaveLoading }}
+                song={song}
+                {...{ currentAudio }}
+                {...{ isPlaying }}
+                {...{ toggleIsPlaying }}
+                {...{ setSourceChangeSwitch }}
+                {...{ audioPlayer }}
+                {...{ h5CanPlay }}
+              />
             </div>
-
+          </div>
         );
       })}
     </>

@@ -18,8 +18,8 @@
 }
 
 .image-content > img {
-  width: 160px;
-  height: 160px;
+  width: 180px;
+  height: 180px;
 }
 
 #hear-latest {
@@ -46,6 +46,7 @@
   /* margin-right: 15px; */
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .song-card {
   width: 100%;

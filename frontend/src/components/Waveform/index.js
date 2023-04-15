@@ -40,6 +40,7 @@ const Waveform = ({
 
   const { pathname } = useLocation();
   const songId = pathname.split("/")[2];
+  const search = pathname.split("/")[1];
 
   const changeCurrentTimeToSeekedTime = (seekPercent) => {
     wavePlayer.current?.seekTo(seekPercent);
@@ -75,7 +76,7 @@ const Waveform = ({
 
       await audioPlayer?.current?.audio?.current?.pause();
 
-      console.log(wavePlayer.current, "EHRE");
+
       if (!wavePlayer.current?.isPlaying()) {
         await wavePlayer.current?.seekTo(0);
       }
@@ -129,7 +130,8 @@ const Waveform = ({
           audioPlayer.current.progressBar.current.ariaValueNow;
         // Do something with the current time
         let seekPercentage = parseFloat(seekPercentageString, 10);
-        let seekPercentDecimal = seekPercentage * 0.0104;
+        let seekPercentDecimal = seekPercentage * 0.0102
+        ;
         wavePlayer.current = waveSurfer;
         changeCurrentTimeToSeekedTime(seekPercentDecimal);
       }
@@ -188,6 +190,7 @@ const Waveform = ({
       if (wavePlayer.current !== waveSurfer) {
         waveSurfer.destroy();
       }
+
       setSourceChangeSwitch(false);
     };
   }, [audio, pathname]);

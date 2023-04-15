@@ -10,7 +10,7 @@ const getAll = (songs, users, playlists) => ({
 })
 
 export const getSearchResults = (searchWord) => async (dispatch) => {
-  console.log(searchWord, 'SEARCH IN THUNK')
+
   const res = await csrfFetch(`/api/search/${searchWord}`)
   if (res.ok) {
     const results = await res.json()
