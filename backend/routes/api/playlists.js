@@ -84,14 +84,14 @@ router.post(
     const playlistId = req.body.playlist.id;
     const songId = req.body.song.id;
 
-    const data = req.body;
-    await SongPlaylist.create({
+
+   const newSong = await SongPlaylist.create({
       playlistId,
       songId,
-      include: Song,
     });
+
     return res.json({
-      data,
+newSong
     });
   })
 );
@@ -132,15 +132,18 @@ router.delete(
   asyncHandler(async (req, res) => {
     const songId = req.body.song.id;
     const playlistId = req.body.playlist.id;
+    const response = await SongPlaylist.findOne({
+      where: {songId: songId, playlistId: playlistId}
+    })
 
     const deletedSong = await SongPlaylist.destroy({
       where: {
         playlistId: playlistId,
         songId: songId,
-      },
+      }
     });
 
-    return res.json(req.body);
+    return res.json(response);
   })
 );
 

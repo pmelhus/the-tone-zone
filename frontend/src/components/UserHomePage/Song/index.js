@@ -13,6 +13,7 @@ import { ValidationError } from "../../../utils/validationError";
 import Waveform from "../../Waveform";
 import Modal from "react-bootstrap/Modal";
 import DeleteModal from "./DeleteModal";
+import FadeIn from "react-fade-in";
 
 import "./Song.css";
 
@@ -58,11 +59,14 @@ const Song = ({
     }
   }, [dispatch, sessionUser]);
 
-  const playlists = useSelector((state) => Object.values(state.playlists));
+  const playlists = useSelector((state) =>
+    Object.values(state.playlists.playlists)
+  );
 
   const openPlaylist = (e) => {
     // if (playModal) return
     setPlayModal(true);
+    setShowMenu(false);
   };
 
   const handleClose = () => {
@@ -74,8 +78,8 @@ const Song = ({
   };
 
   const openMenu = (e) => {
-    e.stopPropagation();
-    if (showMenu) return;
+
+
     setShowMenu(!showMenu);
   };
 
@@ -145,12 +149,14 @@ const Song = ({
                   <i class="fa-solid fa-ellipsis"></i>More
                 </button>
                 {showMenu && (
-                  <div
-                    className="profile-dropdown"
-                    onClick={(e) => openPlaylist()}
-                  >
-                    <a>add to playlist</a>
-                  </div>
+                  <FadeIn>
+                    <div
+                      className="profile-dropdown"
+                      onClick={(e) => openPlaylist()}
+                    >
+                      <a>add to playlist</a>
+                    </div>
+                  </FadeIn>
                 )}
               </div>
             </div>

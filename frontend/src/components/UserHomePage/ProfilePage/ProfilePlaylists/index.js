@@ -1,13 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import {  useEffect } from "react";
 import { getAllPlaylists } from "../../../../store/playlists";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import "./ProfilePlaylists.css";
 
 const ProfilePlaylists = ({ proPlayLoaded, setProPlayLoaded }) => {
   const dispatch = useDispatch();
   const playlists = useSelector((state) => Object.values(state.playlists));
   const sessionUser = useSelector((state) => state.session.user);
+
+  const history = useHistory()
+
+  const handleClick = (playlist) => {
+history.push(`/${sessionUser.username}/playlists/${playlist.id}`)
+  }
   useEffect(() => {
     setProPlayLoaded(false);
     dispatch(getAllPlaylists());
@@ -20,11 +26,11 @@ const ProfilePlaylists = ({ proPlayLoaded, setProPlayLoaded }) => {
             return (
               <div className="playlist-div">
                 <h2>
-                  <Link
-                    to={`/${sessionUser.username}/playlists/${playlist.id}`}
+                  <div
+                    onClick={()=> handleClick(playlist)}
                   >
                     {playlist.title}
-                  </Link>
+                  </div>
                 </h2>
                 <h3>{playlist.User.username}</h3>
               </div>

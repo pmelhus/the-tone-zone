@@ -8,8 +8,11 @@ import PlaylistButton from "./PlaylistButton";
 import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
-
-
+playlistsContainer: {
+  height: '400px',
+  padding: '20px',
+  overflowY: 'scroll'
+}
 
 }));
 
@@ -51,7 +54,7 @@ if (!playlists.length) {
 
   return (
     <>
-      <div className="playlist-card">
+      <div className={classes.playlistsContainer}>
         {playlists.map((playlist) => {
           return (
             <>
@@ -61,11 +64,7 @@ if (!playlists.length) {
         })}
       </div>
       <div>
-        {!playlists.length && (
-          <>
-            <p>No playlists</p>
-          </>
-        )}
+
       </div>
     </>
   );

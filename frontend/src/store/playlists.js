@@ -15,10 +15,9 @@ const addOnePlaylist = (payload) => ({
   payload,
 });
 
-const addOneSongToPlaylist = (song, playlist) => ({
+const addOneSongToPlaylist = (payload) => ({
   type: ADD_ONE_SONG,
-  song,
-  playlist,
+  payload,
 });
 
 const getOne = (playlist) => ({
@@ -142,8 +141,8 @@ export const addSongToPlaylist = (data) => async (dispatch) => {
     }
 
     const returned = await response.json();
-
-    dispatch(addOneSongToPlaylist(returned.data.song, returned.data.playlist));
+    console.log(returned, "RETUREND");
+    dispatch(addOneSongToPlaylist(returned.newSong));
   } catch (error) {
     throw error;
   }
@@ -230,10 +229,11 @@ const playlistReducer = (state = initialState, action) => {
     case ADD_ONE_SONG: {
       const newState = {
         ...state,
+
         playlistSongs: {
-          [action.playlist.id]: {
-            ...action.playlist,
-            Songs: { ...state.Songs, [action.song.id]: action.song },
+          ...state.playlistSongs,
+          [action.payload.id]: {
+            ...action.payload,
           },
         },
       };
@@ -243,6 +243,7 @@ const playlistReducer = (state = initialState, action) => {
 
     case GET_ALL_SONGS: {
       const newState = { ...state };
+      console.log(action, "ACTION");
 
       action.songs.forEach((song) => (newState.playlistSongs[song.id] = song));
       return newState;
@@ -275,10 +276,8 @@ const playlistReducer = (state = initialState, action) => {
       return newState;
     }
     case DELETE_ONE_SONG: {
-      const newSongsArr = state.playlistSongs[action.payload.playlist.id].Songs.filter(
-        (object) => object.id !== action.payload.song.id
-      );
-      state[action.payload.playlist.id].Songs = newSongsArr;
+      console.log(action.payload, "payload");
+      delete state.playlistSongs[action.payload.id];
       const newState = { ...state };
       return newState;
     }
