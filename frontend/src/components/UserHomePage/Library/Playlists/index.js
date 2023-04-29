@@ -6,17 +6,17 @@ import "./Playlists.css";
 
 const Playlists = () => {
   const dispatch = useDispatch();
-  const playlists = useSelector((state) => Object.values(state.playlists));
+  const playlists = useSelector((state) => Object.values(state.playlists.playlists));
   const sessionUser = useSelector((state) => state.session.user);
   // const playlistList = useSelector()
-  useEffect(() => {
-    dispatch(getAllPlaylists());
-  }, [dispatch]);
-
+  // useEffect(() => {
+  //   dispatch(getAllPlaylists());
+  // }, [dispatch]);
+console.log(playlists, "playlists")
   return (
     <div className="playlists-container">
       <p>Hear your own playlists:</p>
-      <div className="playlists-container">
+
         <ul className="playlist-cards">
           {playlists &&
             playlists.map((playlist) => {
@@ -30,7 +30,7 @@ const Playlists = () => {
                 );
             })}
         </ul>
-      </div>
+
     </div>
   );
 };

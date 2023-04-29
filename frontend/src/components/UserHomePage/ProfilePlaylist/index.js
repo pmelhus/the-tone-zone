@@ -1,51 +1,63 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Route,
-  Switch,
-  Link,
-  NavLink,
-  useParams,
-  useHistory,
-} from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
-  getOnePlaylist,
-  getAllSongsPlaylist,
-  getAllPlaylists,
   deleteOnePlaylist,
+  getAllSongsPlaylist,
 } from "../../../store/playlists";
 import PlaylistSong from "./PlaylistSong";
-import AudioPlayer from "react-h5-audio-player";
 import "./ProfilePlaylist.css";
 import Waveform from "../../Waveform";
+import { createUseStyles, useTheme } from "react-jss";
 
-const ProfilePlaylist = ({ proPlayLoaded, setProPlayLoaded }) => {
+const useStyles = createUseStyles((theme) => ({
+  songImage: {
+    width: "300px",
+    height: "300px",
+    objectFit: "cover",
+  },
+}));
+
+const ProfilePlaylist = ({
+  setCurrentAudio,
+  audioPlayer,
+  wavePlayer,
+  waveLoading,
+  setWaveLoading,
+  isPlaying,
+  currentAudio,
+  toggleIsPlaying,
+  setSourceChangeSwitch,
+  h5CanPlay,
+  sessionUser,
+}) => {
+  const theme = useTheme();
+  const classes = useStyles({ theme });
+
   const [signInToggle, setSignInToggle] = useState(false);
   const history = useHistory();
-  const { id } = useParams();
+  const { pathname } = useLocation();
+  const id = parseInt(pathname.split("/")[3]);
+  const playlist = useSelector((state) => state.playlists.playlists[id]);
   const dispatch = useDispatch();
-  const playlist = useSelector((state) => state.playlists[id]);
-  const sessionUser = useSelector((state) => state?.session.user);
-
-  const user = useSelector((state) => state?.playlists[id]?.User);
   const [isLoaded, setIsLoaded] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const songs = useSelector((state) => state?.playlists[id]?.Songs);
+  const songs = useSelector((state) =>
+    Object.values(state?.playlists.playlistSongs)
+  );
   const [title, setTitle] = useState(songs?.title);
-  const [url, setUrl] = useState(songs?.url);
+  const [url, setUrl] = useState();
   const [showSelected, setShowSelected] = useState(false);
-  const [songId, setSongId] = useState(null);
-  const selectedSong = useSelector((state) => state.songs[songId]);
 
-  useEffect(() => {
-    setProPlayLoaded(true);
+  const [pressPlay, setPressPlay] = useState(false);
 
-    dispatch(getOnePlaylist(id));
+  const [song, setSong] = useState();
 
-    setIsLoaded(true);
-  }, [dispatch]);
-  if (!playlist) return null;
+  const allSongs = useSelector((state) => state.songs);
+  const [currentPlaylistSong, setCurrentPlaylistSong] = useState(
+    playlist?.Songs[0]
+  );
 
   const handlePlaylistDelete = () => {
     dispatch(deleteOnePlaylist(playlist));
@@ -61,48 +73,112 @@ const ProfilePlaylist = ({ proPlayLoaded, setProPlayLoaded }) => {
     if (!showMenu) return;
   };
 
+  useEffect(() => {
+    if (playlist && allSongs) {
+      setUrl(allSongs[playlist?.Songs[0]?.id]?.url);
+      setSong(allSongs[playlist?.Songs[0]?.id]);
+    }
+
+    setIsLoaded(true);
+  }, [playlist, allSongs]);
+
+  const handlePlay = () => {
+    setPressPlay(true);
+    setPressPlay(false);
+  };
+
+  useEffect(() => {}, []);
+
   return (
     <>
       <div className="audio-and-image">
+        <div className="image-relative-container">
+          {playlist?.imageUrl ? (
+            <>
+              <img src={playlist?.imageUrl} className="background-image-song" />
+            </>
+          ) : (
+            <>
+              <img
+                src="https://images.pexels.com/photos/6985001/pexels-photo-6985001.jpeg"
+                className="background-image-song"
+              />
+            </>
+          )}
+        </div>
         <div className="song-player">
-          <div className="title-song-player-rel">
-            <div className="title-song-player">
-              <p id="title-p">{playlist?.title}</p>
-              <p id="username-p">{playlist?.User?.username}</p>
+          {isLoaded && (
+            <div className="waveform-player-single-song">
+              <Waveform
+                audio={url}
+                {...{ setCurrentAudio }}
+                {...{ wavePlayer }}
+                {...{ waveLoading }}
+                {...{ setWaveLoading }}
+                {...{ audioPlayer }}
+                {...{ isPlaying }}
+                {...{ toggleIsPlaying }}
+                {...{ currentAudio }}
+                {...{ song }}
+                {...{ pressPlay }}
+                {...{ playlist }}
+                {...{ setSourceChangeSwitch }}
+                {...{ h5CanPlay }}
+                songPage={true}
+                playlistPage={true}
+              />
             </div>
-            <div className="playlist-waveform">
-              <Waveform audio={url} />
-            </div>
-          </div>
+          )}
 
           <div className="img-div">
-            <img src={playlist?.imageUrl}></img>
+            {playlist?.imageUrl ? (
+              <img className={classes.songImage} src={playlist?.imageUrl}></img>
+            ) : (
+              <img
+                className={classes.songImage}
+                src="https://images.pexels.com/photos/6985001/pexels-photo-6985001.jpeg"
+              ></img>
+            )}
           </div>
         </div>
       </div>
-      <div onClick={(e) => handlePlaylistDelete()} className="song-buttons">
-        {user.id === playlist.User.id && <p>Delete playlist</p>}
+      <div onClick={(e) => handlePlaylistDelete()}>
+        {sessionUser.id === sessionUser.id && (
+          <p className="song-button">Delete playlist</p>
+        )}
       </div>
 
-      {isLoaded &&
+      {playlist?.Songs?.length ? (
         playlist?.Songs?.map((song) => {
           return (
-            <>
+            <div onClick={handlePlay}>
               <PlaylistSong
-                {...{ songId }}
-                key={id}
-                {...{ setSongId }}
-                url={url}
+                {...{ waveLoading }}
+                {...{ setCurrentAudio }}
+                {...{ wavePlayer }}
+                {...{ setSourceChangeSwitch }}
+                {...{ audioPlayer }}
+                {...{ isPlaying }}
+                {...{ setSong }}
+                {...{ setPressPlay }}
+                {...{ setCurrentPlaylistSong }}
+                {...{ currentPlaylistSong }}
+                audio={url}
                 song={song}
-                user={user}
+                user={sessionUser}
                 setUrl={setUrl}
                 setTitle={setTitle}
                 {...{ setShowSelected }}
                 {...{ showSelected }}
               />
-            </>
+            </div>
           );
-        })}
+        })
+      ) : (
+        <>
+          <p>No songs in playlist</p>
+        </>
+      )}
     </>
   );
 };

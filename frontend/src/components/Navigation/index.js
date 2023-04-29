@@ -6,9 +6,9 @@ import "./Navigation.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LoginModal from "../HomePage/SignIn/LoginModal";
 import SignUpModal from "../HomePage/SignUp/SignUpModal";
-import SearchBarNav from "./SearchBarNav"
+import SearchBarNav from "./SearchBarNav";
 
-function Navigation({ isLoaded}) {
+function Navigation({ isLoaded }) {
   // const sessionUser = useSelector((st ate) => state.session.user);
   const [signInToggle2, setSignInToggle2] = useState(false);
   const [signUpToggle2, setSignUpToggle2] = useState(false);
@@ -26,7 +26,9 @@ function Navigation({ isLoaded}) {
 
   let sessionLinks;
   if (sessionUser) {
-    sessionLinks = <ProfileButton {...{setSignInToggle2}} user={sessionUser} />;
+    sessionLinks = (
+      <ProfileButton {...{ setSignInToggle2 }} user={sessionUser} />
+    );
   }
 
   return (
@@ -54,20 +56,21 @@ function Navigation({ isLoaded}) {
             )}
 
             <NavLink
-                  className={streamUrl === "stream" && "nav-div-selected"}
+              className={streamUrl === "stream" && "nav-div-selected"}
               to="/stream"
             >
-              <li  className="ul-nav-items">
-                <p >Stream</p>
+              <li className="ul-nav-items">
+                <p>Stream</p>
               </li>
             </NavLink>
             {sessionUser && (
               <NavLink
                 className={
-                  location.pathname === "/you/library/playlists" &&
+                  (location.pathname === "/you/library/playlists" ||
+                    location.pathname === "/you/library/tracks") &&
                   "nav-div-selected"
                 }
-                to="/you/library/playlists"
+                to="/you/library/tracks"
               >
                 <li className="ul-nav-items">
                   <p>Library</p>
@@ -76,12 +79,12 @@ function Navigation({ isLoaded}) {
             )}
           </ul>
           {/* <div className="search-bar-nav"> */}
-            <SearchBarNav/>
+          <SearchBarNav />
           {/* </div> */}
           <div className={sessionUser ? "profile-button" : "signin-signup-div"}>
             {sessionUser ? (
               <NavLink to="/upload">
-                <p style={{margin:'0'}}>Upload</p>
+                <p style={{ margin: "0" }}>Upload</p>
               </NavLink>
             ) : (
               <>

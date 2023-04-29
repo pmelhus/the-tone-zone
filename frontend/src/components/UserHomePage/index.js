@@ -14,6 +14,7 @@ import { getAllPlaylists } from "../../store/playlists";
 import { getAllSongs } from "../../store/songs";
 import SearchResults from "./SearchResults";
 import { getSearchResults } from "../../store/search";
+import LibraryNav from "./LibraryNav";
 import { getAllCurrentSongs } from "../../store/currentSong";
 
 // howler.js range i
@@ -22,6 +23,7 @@ const UserHomePage = ({
   setSourceChangeSwitch,
   setWaveLoading,
   isPlaying,
+  sessionUser,
   toggleIsPlaying,
   wavePlayer,
   audioPlayer,
@@ -33,17 +35,26 @@ const UserHomePage = ({
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const searchWord = pathname.split("/")[2];
-  const sessionUser = useSelector((state) => state.session.user);
+  const searchPath = pathname.split("/")[1];
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(getAllPlaylists());
+      await dispatch(getAllPlaylists(sessionUser.id));
       await dispatch(getAllSongs());
+    };
+
+    const fetchSearch = async () => {
       await dispatch(getSearchResults(searchWord));
     };
+
+    if (searchPath === "search") {
+      fetchSearch();
+    }
     fetchData();
     setIsLoaded(true);
   }, [dispatch, pathname]);
+
+
 
   return (
     <div className="user-home-body">
@@ -83,11 +94,8 @@ const UserHomePage = ({
           />
         </Route>
         <Route path="/you/library">
-          <nav className="library-nav">
-            {/* <Link to="/you/library/overview">Overview</Link> */}
-            {/* <Link to="/you/library/likes">Likes</Link> */}
-            <Link to="/you/library/playlists">Playlists</Link>
-          </nav>
+          <LibraryNav />
+
           <Library />
         </Route>
         <Route path="/upload">
@@ -96,7 +104,22 @@ const UserHomePage = ({
         {isLoaded && (
           <>
             <Route path="/:username">
-              <ProfilePage {...{ audioPlayer }} />
+              <ProfilePage
+                sessionUser={sessionUser}
+                {...{ audioPlayer }}
+                {...{ wavePlayer }}
+                {...{ setSourceChangeSwitch }}
+                {...{ waveLoading }}
+                {...{ setWaveLoading }}
+                {...{ wavePlayer }}
+                {...{ isPlaying }}
+                {...{ toggleIsPlaying }}
+                {...{ setCurrentAudio }}
+                {...{ currentAudio }}
+                {...{ h5CanPlay }}
+                {...{setCurrentAudio}}
+         
+              />
             </Route>
             <Route path="/search">
               <SearchResults
@@ -116,10 +139,6 @@ const UserHomePage = ({
             </Route>
           </>
         )}
-        {/* <Route path={`/:username/playlists/:id`}>
-          <p>HALLO</p>
-          <ProfilePlaylist {...{}}/>
-        </Route> */}
       </Switch>
     </div>
   );

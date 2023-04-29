@@ -20,7 +20,7 @@ router.get(
     const id = req.params.id;
     const allPlaylists = await Playlist.findAll({
       where: { userId: id },
-      include: User,
+      include: [User, Song]
     });
 
     return res.json(allPlaylists);
@@ -61,7 +61,8 @@ router.post(
     const playlist = await Playlist.create({
       title,
       userId,
-      imageUrl,
+      imageUrl
+
     });
     const songId = song.id;
     const playlistId = playlist.id;

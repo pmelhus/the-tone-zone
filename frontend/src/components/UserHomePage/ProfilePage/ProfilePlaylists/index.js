@@ -14,10 +14,10 @@ const ProfilePlaylists = ({ proPlayLoaded, setProPlayLoaded }) => {
   const handleClick = (playlist) => {
 history.push(`/${sessionUser.username}/playlists/${playlist.id}`)
   }
-  useEffect(() => {
-    setProPlayLoaded(false);
-    dispatch(getAllPlaylists());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   setProPlayLoaded(false);
+  //   dispatch(getAllPlaylists());
+  // }, [dispatch]);
   return (
     <>
       <div className="playlist-card">

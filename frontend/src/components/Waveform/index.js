@@ -24,14 +24,18 @@ const Waveform = ({
   setCurrentAudio,
   h5CanPlay,
   setSourceChangeSwitch,
+  playlist,
   songPage,
+  playlistPage,
+  pressPlay
 }) => {
   const dispatch = useDispatch();
   const containerRef = useRef();
 
   const [waveHover, setWaveHover] = useState(false);
+  const [isPlaying, toggleIsPlaying] = useState(false)
 
-  const [isPlaying, toggleIsPlaying] = useState(false);
+
   const user = useSelector((state) => state.session.user);
 
   const history = useHistory();
@@ -76,7 +80,6 @@ const Waveform = ({
 
       await audioPlayer?.current?.audio?.current?.pause();
 
-
       if (!wavePlayer.current?.isPlaying()) {
         await wavePlayer.current?.seekTo(0);
       }
@@ -99,6 +102,13 @@ const Waveform = ({
       await toggleIsPlaying(true);
     }
   };
+
+  useEffect(() => {
+    if (pressPlay === true) {
+
+      handlePlayButton();
+    }
+  }, [pressPlay]);
 
   useEffect(() => {
     const waveSurfer = WaveSurfer.create({
@@ -130,8 +140,7 @@ const Waveform = ({
           audioPlayer.current.progressBar.current.ariaValueNow;
         // Do something with the current time
         let seekPercentage = parseFloat(seekPercentageString, 10);
-        let seekPercentDecimal = seekPercentage * 0.0102
-        ;
+        let seekPercentDecimal = seekPercentage * 0.0102;
         wavePlayer.current = waveSurfer;
         changeCurrentTimeToSeekedTime(seekPercentDecimal);
       }
@@ -153,7 +162,7 @@ const Waveform = ({
     waveSurfer.on("seek", (e) => {
       let h5Duration = audioPlayer.current?.audio.current.duration;
       let newSeekedValue = e * h5Duration;
-      audioPlayer.current.audio.current.currentTime = newSeekedValue;
+      // audioPlayer.current.audio.current.currentTime = newSeekedValue;
       const seek = () => {
         audioPlayer.current.audio.current.currentTime = newSeekedValue;
       };
@@ -242,22 +251,42 @@ const Waveform = ({
             )}
           </button>
         )}
-        {songPage ? (
-          <div className="title-song-player">
-            <p id="title-p">{song?.title}</p>
-            <p id="username-p">{song?.User?.username}</p>
-          </div>
+
+        {playlistPage ? (
+          <>
+            <div className="title-song-player">
+              <p id="title-p">{playlist?.title}</p>
+              <p id="username-p"> {playlist?.User.username}</p>
+            </div>
+          </>
         ) : (
-          <div className="waveform-headings">
-            <div>
-              <div id="username">{song?.User?.username}</div>
-            </div>
-            <div>
-              <div onClick={handleSongTitle} id="song-title">
-                {song?.title}
+          <>
+            {songPage ? (
+              <div className="title-song-player">
+                <p id="title-p">{song?.title}</p>
+                {playlistPage ? (
+                  <>
+                    <p id="username-p"></p>
+                  </>
+                ) : (
+                  <>
+                    <p ç>{song?.User?.username}</p>
+                  </>
+                )}
               </div>
-            </div>
-          </div>
+            ) : (
+              <div className="waveform-headings">
+                <div>
+                  <div id="username">{song?.User?.username}</div>
+                </div>
+                <div>
+                  <div onClick={handleSongTitle} id="song-title">
+                    {song?.title}
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
       <div className="waveform-container">

@@ -20,11 +20,11 @@ function sortArrayBySearchStringMatch(arr, searchStr) {
 
 function sortArrayBySearchStringMatchUsers(arr, searchStr) {
   // Create a new array of objects with the original strings and their match scores
-
   if (!arr.length) return []
   const matchScores = arr.map(obj => {
     // Calculate the match score by counting the number of characters that match the search string
     const matchCount = Array.from(obj.username.toLowerCase()).reduce((count, char) => {
+      console.log(obj, searchStr, 'BANANA')
       return count + (searchStr.toLowerCase().includes(char) ? 1 : 0);
     }, 0);
     return { obj, matchScore: matchCount };

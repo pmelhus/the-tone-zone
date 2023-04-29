@@ -79,6 +79,8 @@ export const createPlaylist = (data) => async (dispatch) => {
     const payload = await response.json();
 
     dispatch(addOnePlaylist(payload));
+
+    return payload
   } catch (error) {
     throw error;
   }
@@ -141,7 +143,7 @@ export const addSongToPlaylist = (data) => async (dispatch) => {
     }
 
     const returned = await response.json();
-    console.log(returned, "RETUREND");
+
     dispatch(addOneSongToPlaylist(returned.newSong));
   } catch (error) {
     throw error;

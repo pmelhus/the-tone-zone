@@ -16,7 +16,7 @@ router.get(
   "/:searchWord",
   asyncHandler(async function (req, res) {
     const searchWord = req.params.searchWord;
-    console.log(searchWord);
+    console.log(searchWord, "BANANA");
     const songsRes = await Song.findAll({
       where: {
         title: {
@@ -37,6 +37,8 @@ router.get(
           [Op.or]: [
             { [Op.substring]: searchWord.toLowerCase() },
             { [Op.substring]: searchWord.toUpperCase() },
+            { [Op.substring]: searchWord },
+            { [Op.iRegexp]: searchWord },
           ],
         },
       },
@@ -47,17 +49,26 @@ router.get(
           [Op.or]: [
             { [Op.substring]: searchWord.toLowerCase() },
             { [Op.substring]: searchWord.toUpperCase() },
+            { [Op.substring]: searchWord },
+            { [Op.iRegexp]: searchWord },
           ],
         },
       },
       include: User,
     });
-
-    return res.json({
-      songs: sortArrayBySearchStringMatch(songsRes, searchWord),
-      users:   sortArrayBySearchStringMatchUsers(usersRes, searchWord),
-      playlists:  sortArrayBySearchStringMatchUsers(playlistsRes, searchWord)
-    });
+    if (songsRes && usersRes && playlistsRes) {
+      return res.json({
+        songs: sortArrayBySearchStringMatch(songsRes, searchWord),
+        users: sortArrayBySearchStringMatchUsers(usersRes, searchWord),
+        playlists: sortArrayBySearchStringMatch(playlistsRes, searchWord),
+      });
+    } else {
+      return res.json({
+        songs: songsRes,
+        users: usersRes,
+        playlists: playlistsRes,
+      });
+    }
   })
 );
 
