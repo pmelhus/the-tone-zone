@@ -67,7 +67,7 @@ router.delete(
 
 
     await CurrentSong.destroy({
-      where: {},
+ 
       truncate: true
     });
     return res.json();

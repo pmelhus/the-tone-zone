@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
+import PlaylistSong from "../UserHomePage/ProfilePlaylist/PlaylistSong";
 import WaveSurfer from "wavesurfer.js";
 import {
   FaPlayCircle,
@@ -20,6 +21,10 @@ const Waveform = ({
   audio,
   song,
   wavePlayer,
+  waveLoading,
+  sessionUser,
+  setShowSelected,
+  showSelected,
   audioPlayer,
   setCurrentAudio,
   h5CanPlay,
@@ -27,14 +32,14 @@ const Waveform = ({
   playlist,
   songPage,
   playlistPage,
-  pressPlay
+  setUrl,
+  setTitle,
 }) => {
   const dispatch = useDispatch();
   const containerRef = useRef();
 
   const [waveHover, setWaveHover] = useState(false);
-  const [isPlaying, toggleIsPlaying] = useState(false)
-
+  const [isPlaying, toggleIsPlaying] = useState(false);
 
   const user = useSelector((state) => state.session.user);
 
@@ -56,7 +61,7 @@ const Waveform = ({
   const [currentWavePlayer, setCurrentWavePlayer] = useState(null);
   const [indieWaveLoading, setIndieWaveLoading] = useState(true);
 
-  const handlePlayButton = async () => {
+  const handlePlayButton = async (song) => {
     // if there is a currentSong in DB, then play/pause h5 audio player
 
     const payload = { user, song };
@@ -103,12 +108,9 @@ const Waveform = ({
     }
   };
 
-  useEffect(() => {
-    if (pressPlay === true) {
-
-      handlePlayButton();
-    }
-  }, [pressPlay]);
+  const handlePlaylistSongClick = async (song) => {
+    await handlePlayButton(song);
+  };
 
   useEffect(() => {
     const waveSurfer = WaveSurfer.create({
@@ -318,6 +320,9 @@ const Waveform = ({
           <div ref={containerRef} />
         </div>
       </div>
+   <div>
+    
+   </div>
     </>
   );
 };

@@ -5,7 +5,7 @@ import {
   deleteOnePlaylist,
   getAllSongsPlaylist,
 } from "../../../store/playlists";
-import PlaylistSong from "./PlaylistSong";
+
 import "./ProfilePlaylist.css";
 import Waveform from "../../Waveform";
 import { createUseStyles, useTheme } from "react-jss";
@@ -47,17 +47,10 @@ const ProfilePlaylist = ({
     Object.values(state?.playlists.playlistSongs)
   );
   const [title, setTitle] = useState(songs?.title);
-  const [url, setUrl] = useState();
+
   const [showSelected, setShowSelected] = useState(false);
 
-  const [pressPlay, setPressPlay] = useState(false);
-
-  const [song, setSong] = useState();
-
   const allSongs = useSelector((state) => state.songs);
-  const [currentPlaylistSong, setCurrentPlaylistSong] = useState(
-    playlist?.Songs[0]
-  );
 
   const handlePlaylistDelete = () => {
     dispatch(deleteOnePlaylist(playlist));
@@ -73,21 +66,9 @@ const ProfilePlaylist = ({
     if (!showMenu) return;
   };
 
-  useEffect(() => {
-    if (playlist && allSongs) {
-      setUrl(allSongs[playlist?.Songs[0]?.id]?.url);
-      setSong(allSongs[playlist?.Songs[0]?.id]);
-    }
+  console.log(playlist)
 
-    setIsLoaded(true);
-  }, [playlist, allSongs]);
-
-  const handlePlay = () => {
-    setPressPlay(true);
-    setPressPlay(false);
-  };
-
-  useEffect(() => {}, []);
+  const [url, setUrl] = useState(playlist?.Songs[0]?.url);
 
   return (
     <>
@@ -107,28 +88,29 @@ const ProfilePlaylist = ({
           )}
         </div>
         <div className="song-player">
-          {isLoaded && (
-            <div className="waveform-player-single-song">
-              <Waveform
-                audio={url}
-                {...{ setCurrentAudio }}
-                {...{ wavePlayer }}
-                {...{ waveLoading }}
-                {...{ setWaveLoading }}
-                {...{ audioPlayer }}
-                {...{ isPlaying }}
-                {...{ toggleIsPlaying }}
-                {...{ currentAudio }}
-                {...{ song }}
-                {...{ pressPlay }}
-                {...{ playlist }}
-                {...{ setSourceChangeSwitch }}
-                {...{ h5CanPlay }}
-                songPage={true}
-                playlistPage={true}
-              />
-            </div>
-          )}
+          <div className="waveform-player-single-song">
+            <Waveform
+              audio={url}
+              {...{ setCurrentAudio }}
+              {...{ wavePlayer }}
+              {...{ waveLoading }}
+              {...{ setWaveLoading }}
+              {...{ audioPlayer }}
+              {...{ isPlaying }}
+              {...{ toggleIsPlaying }}
+              {...{ currentAudio }}
+              {...{setShowSelected}}
+              {...{showSelected}}
+              {...{ setUrl }}
+              {...{setTitle}}
+              {...{ sessionUser }}
+              {...{ playlist }}
+              {...{ setSourceChangeSwitch }}
+              {...{ h5CanPlay }}
+              songPage={true}
+              playlistPage={true}
+            />
+          </div>
 
           <div className="img-div">
             {playlist?.imageUrl ? (
@@ -147,38 +129,6 @@ const ProfilePlaylist = ({
           <p className="song-button">Delete playlist</p>
         )}
       </div>
-
-      {playlist?.Songs?.length ? (
-        playlist?.Songs?.map((song) => {
-          return (
-            <div onClick={handlePlay}>
-              <PlaylistSong
-                {...{ waveLoading }}
-                {...{ setCurrentAudio }}
-                {...{ wavePlayer }}
-                {...{ setSourceChangeSwitch }}
-                {...{ audioPlayer }}
-                {...{ isPlaying }}
-                {...{ setSong }}
-                {...{ setPressPlay }}
-                {...{ setCurrentPlaylistSong }}
-                {...{ currentPlaylistSong }}
-                audio={url}
-                song={song}
-                user={sessionUser}
-                setUrl={setUrl}
-                setTitle={setTitle}
-                {...{ setShowSelected }}
-                {...{ showSelected }}
-              />
-            </div>
-          );
-        })
-      ) : (
-        <>
-          <p>No songs in playlist</p>
-        </>
-      )}
     </>
   );
 };

@@ -49,14 +49,11 @@ const useStyles = createUseStyles((theme, song) => ({
 
 const PlaylistSong = ({
   isPlaying,
-  setSong,
-  setPressPlay,
   song,
   user,
   setCurrentPlaylistSong,
   currentPlaylistSong,
-  setUrl,
-  audio,
+audio,
   audioPlayer,
   setSourceChangeSwitch,
   wavePlayer,
@@ -72,65 +69,20 @@ const PlaylistSong = ({
 
 
 
-  const handlePlayButton = async () => {
-    // if there is a currentSong in DB, then play/pause h5 audio player
-    await setCurrentPlaylistSong(song);
-    const payload = { user, song };
 
-    if (audioPlayer.current.audio.current.src === song?.url) {
-      if (audioPlayer.current.isPlaying()) {
-        await setSourceChangeSwitch(false);
-        await audioPlayer.current.audio.current.pause();
-        await setLocalIsPlaying(false);
-      } else {
-        await setSourceChangeSwitch(false);
-        await audioPlayer.current.audio.current.play();
-        await setLocalIsPlaying(true);
-      }
-    } else {
-      // replace the currentsong in DB with the new song.
-      const replaceCurrentSong = async () => {
-        await dispatch(deleteCurrentSong());
-        await dispatch(createCurrentSong(payload));
-      };
 
-      await audioPlayer?.current?.audio?.current?.pause();
 
-      if (!wavePlayer.current?.isPlaying()) {
-        await wavePlayer.current?.seekTo(0);
-      }
-      if (wavePlayer.current?.isPlaying()) {
-        await wavePlayer.current?.stop();
-      }
+useEffect(()=>{
+if (currentPlaylistSong !== audio) {
+setLocalIsPlaying(false)
+}
+},[])
 
-      // if (wavePlayer.current) {
-      //   wavePlayer.current.seekTo(0);
-      // }
-
-      await setSourceChangeSwitch(true);
-      await replaceCurrentSong();
-      await setCurrentAudio(song);
-
-      // wavePlayer.current = currentWavePlayer;
-      // await audioPlayer?.current?.audio.current.play();
-
-      await wavePlayer.current.play(0);
-      await setLocalIsPlaying(true);
-    }
-  };
-
-  useEffect(() => {
-    if (currentPlaylistSong?.id === song.id && isPlaying) {
-      setLocalIsPlaying(true);
-    } else {
-      setLocalIsPlaying(false);
-    }
-  }, [currentPlaylistSong, isPlaying]);
 
   return (
     <>
       <div className="button-set-url">
-        <button id="playlist-song" disabled={waveLoading ? true : false} onClick={handlePlayButton}>
+        <button id="playlist-song" disabled={waveLoading ? true : false}>
           {song?.imageUrl ? (
             <div className={classes.imageContainer}>
               <div className={classes.relativeContainer}>
@@ -142,7 +94,7 @@ const PlaylistSong = ({
                   </>
                 ) : (
                   <i
-                    className={`fa-solid fa-circle-play ${classes.playIcon} `}
+                    className="fa-solid fa-circle-play"
                   ></i>
                 )}
               </div>
