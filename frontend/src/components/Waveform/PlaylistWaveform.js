@@ -16,7 +16,7 @@ import {
   deleteCurrentSong,
 } from "../../store/currentSong";
 
-const Waveform = ({
+const PlaylistWaveform = ({
   setWaveLoading,
   audio,
   song,
@@ -109,6 +109,11 @@ const Waveform = ({
     }
   };
 
+  const handlePlaylistSongClick = async (song) => {
+    await setUrl(song?.url)
+    await setCurrentAudio(song);
+    await handlePlayButton(song);
+  };
 
   useEffect(() => {
     const waveSurfer = WaveSurfer.create({
@@ -316,12 +321,24 @@ const Waveform = ({
           <div ref={containerRef} />
         </div>
       </div>
+      {playlistPage && (
+        <>
+          {playlist?.Songs.map((song) => {
+            return (
+              <button onClick={() => handlePlaylistSongClick(song)}>
+                <p>{song.title}</p>
+              </button>
+            );
+          })}
+        </>
+      )}
+      <div></div>
     </>
   );
 };
 
-Waveform.propTypes = {
+PlaylistWaveform.propTypes = {
   audio: PropTypes.string.isRequired,
 };
 
-export default Waveform;
+export default PlaylistWaveform;

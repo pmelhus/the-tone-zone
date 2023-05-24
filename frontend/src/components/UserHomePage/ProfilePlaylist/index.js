@@ -7,7 +7,7 @@ import {
 } from "../../../store/playlists";
 
 import "./ProfilePlaylist.css";
-import Waveform from "../../Waveform";
+import PlaylistWaveform from "../../Waveform/PlaylistWaveform";
 import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
@@ -65,10 +65,15 @@ const ProfilePlaylist = ({
     setShowMenu(!showMenu);
     if (!showMenu) return;
   };
+  const [playlistLoaded, setPlaylistLoaded] = useState(false)
+  const [url, setUrl] = useState()
 
-  console.log(playlist)
-
-  const [url, setUrl] = useState(playlist?.Songs[0]?.url);
+useEffect(()=> {
+if (playlist) {
+  setPlaylistLoaded(true)
+  setUrl(playlist?.Songs[0].url)
+}
+}, [playlist])
 
   return (
     <>
@@ -89,27 +94,30 @@ const ProfilePlaylist = ({
         </div>
         <div className="song-player">
           <div className="waveform-player-single-song">
-            <Waveform
-              audio={url}
-              {...{ setCurrentAudio }}
-              {...{ wavePlayer }}
-              {...{ waveLoading }}
-              {...{ setWaveLoading }}
-              {...{ audioPlayer }}
-              {...{ isPlaying }}
-              {...{ toggleIsPlaying }}
-              {...{ currentAudio }}
-              {...{setShowSelected}}
-              {...{showSelected}}
-              {...{ setUrl }}
-              {...{setTitle}}
-              {...{ sessionUser }}
-              {...{ playlist }}
-              {...{ setSourceChangeSwitch }}
-              {...{ h5CanPlay }}
-              songPage={true}
-              playlistPage={true}
-            />
+            {playlistLoaded && (
+              <PlaylistWaveform
+                audio={url}
+                {...{ setCurrentAudio }}
+                {...{ wavePlayer }}
+                {...{ playlist }}
+                {...{ waveLoading }}
+                {...{ setWaveLoading }}
+                {...{ audioPlayer }}
+                {...{ isPlaying }}
+                {...{ toggleIsPlaying }}
+                {...{ currentAudio }}
+                {...{ setShowSelected }}
+                {...{ showSelected }}
+                {...{ setUrl }}
+                {...{ setTitle }}
+                {...{ sessionUser }}
+                {...{ playlist }}
+                {...{ setSourceChangeSwitch }}
+                {...{ h5CanPlay }}
+                songPage={true}
+                playlistPage={true}
+              />
+            )}
           </div>
 
           <div className="img-div">
