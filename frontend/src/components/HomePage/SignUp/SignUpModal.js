@@ -72,9 +72,7 @@ function SignupFormPage({ signUpToggle, setSignUpToggle, setSignInToggle }) {
       }}
     >
       <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-content">
-
-        </div>
+    
       </div>
     </div>
   );

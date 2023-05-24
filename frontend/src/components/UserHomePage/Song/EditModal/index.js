@@ -6,7 +6,7 @@ import { updateSong, getOneSong } from "../../../../store/songs";
 import { ValidationError } from "../../../../utils/validationError";
 import ErrorMessage from "../../../ErrorMessage";
 
-const EditModal = ({ propTitle, propDescription, visible, setVisible }) => {
+const EditModal = ({ propTitle, propDescription }) => {
   const [title, setTitle] = useState(propTitle);
   const [description, setDescription] = useState(propDescription);
   const [errors, setErrors] = useState([]);
@@ -15,16 +15,25 @@ const EditModal = ({ propTitle, propDescription, visible, setVisible }) => {
   let history = useHistory();
   const dispatch = useDispatch();
   const { songId } = useParams();
-
-  const backgroundClick = () => {
-    setVisible(!visible);
+  const [preview, setPreview] = useState();
+  const handleCancelClick = (e) => {
+    e.preventDefault();
+    //!!START SILENT
+    setErrorMessages({});
+    //!!END
+    history.goBack();
   };
-  if (!visible) return null;
+  const updateImage = (e) => {
+    const file = e.target.files[0];
+    if (file) setImage(file);
+
+  };
+  const [image, setImage] = useState(null);
 
   // const updateTitle = (e) => {setTitle(e.target.value)}
   // const updateDescription = (e) => {setDescription(e.target.value)}
 
-  const handleSubmit = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     const payload = {
@@ -53,52 +62,69 @@ const EditModal = ({ propTitle, propDescription, visible, setVisible }) => {
       //!!START SILENT
       setErrorMessages({});
       dispatch(getOneSong(songId));
-      setVisible(!visible);
+
     }
   };
 
   return (
-    <div
-      className="background-modal"
-      onClick={(e) => {
-        backgroundClick();
-      }}
-    >
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <ErrorMessage message={errorMessages.overall} />
-        <form onSubmit={handleSubmit}>
-          <ul>
-            {errors.map((error, idx) => (
-              <li key={idx}>{error}</li>
-            ))}
-          </ul>
-          <div className="title-div">
-            <label>Title</label>
+
+    <div className="upload-content">
+
+      <ErrorMessage message={errorMessages.overall} />
+      <form className="upload-form" onSubmit={onSubmit}>
+        <img className="image-preview" src={preview}></img>
+        <div>
+
+          <label for="song-name">Title</label>
+          <br></br>
+          <input
+            name="song-name"
+            placeholder="Name your track"
+            value={title}
+            onChange={setTitle}
+            type="text"
+            min={2}
+            required
+          ></input>
+        </div>
+        <ErrorMessage label={"title"} message={errorMessages.title} />
+        <div>
+          <label for="song-description">Description</label>
+          <br></br>
+          <textarea
+            type="text"
+            placeholder="Describe your track"
+            name="song-description"
+            value={description}
+            onChange={setDescription}
+            required
+          ></textarea>
+        </div>
+        <ErrorMessage
+          label={"description"}
+          message={errorMessages.description}
+        />
+        <div>
+          <label className="upload-song-input">
+            Upload image
             <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
-            <ErrorMessage label={"title"} message={errorMessages.title} />
-          </div>
-          <div className="description-div">
-            <label>Description</label>
-            <input
-              type="text"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-            />
-            <ErrorMessage
-              label={"description"}
-              message={errorMessages.description}
-            />
-          </div>
-          <button type="submit">Submit Edit</button>
-        </form>
-      </div>
+              placeholder="Upload your image"
+              type="file"
+              accept="image/*"
+              name="image-upload"
+              onChange={updateImage}
+            ></input>
+          </label>
+        </div>
+
+
+        <button type="button" onClick={handleCancelClick}>
+          Cancel
+        </button>
+        <button>Save</button>
+      </form>
     </div>
+
   );
 };
 

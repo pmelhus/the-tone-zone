@@ -25,6 +25,10 @@ const useStyles = createUseStyles((theme) => ({
     height: "300px",
     objectFit: "cover",
   },
+  songDescription: {
+    marginBottom: "10px",
+    maxHeight: "200px",
+  },
 }));
 
 const Song = ({
@@ -51,6 +55,7 @@ const Song = ({
   const song = useSelector((state) => state.songs[songId]);
 
   const [deleteModal, setDeleteModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
 
   useEffect(() => {
     dispatch(getOneSong(songId));
@@ -63,12 +68,6 @@ const Song = ({
     Object.values(state.playlists.playlists)
   );
 
-  const openPlaylist = (e) => {
-    // if (playModal) return
-    setPlayModal(true);
-    setShowMenu(false);
-  };
-
   const handleClose = () => {
     setPlayModal(false);
   };
@@ -76,11 +75,8 @@ const Song = ({
   const handleDeleteClose = () => {
     setDeleteModal(false);
   };
-
-  const openMenu = (e) => {
-
-
-    setShowMenu(!showMenu);
+  const handleEditClose = () => {
+    setEditModal(false);
   };
 
   return (
@@ -131,7 +127,7 @@ const Song = ({
                 <>
                   <button
                     className="song-button"
-                    onClick={() => setSignInToggle(!signInToggle)}
+                    onClick={() => setEditModal(true)}
                     type="button"
                   >
                     <p>Edit</p>
@@ -144,7 +140,7 @@ const Song = ({
                   </button>
                 </>
               )}
-              <div className="dropdown-more">
+              {/* <div className="dropdown-more">
                 <button onClick={(e) => openMenu(e)}>
                   <i class="fa-solid fa-ellipsis"></i>More
                 </button>
@@ -158,7 +154,7 @@ const Song = ({
                     </div>
                   </FadeIn>
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="avatar-comment-description">
@@ -181,19 +177,11 @@ const Song = ({
               )}
             </div>
             <div className="comment-body-description">
-              <div className="song-description">
-                <h3>Description</h3>
+              <div className={classes.songDescription}>
                 <p>{song?.description}</p>
               </div>
               <CommentCard song={song} />
-              <div>
-                <EditModal
-                  title={song.title}
-                  description={song.description}
-                  visible={signInToggle}
-                  setVisible={setSignInToggle}
-                />
-              </div>
+
               <Modal show={playModal} onHide={handleClose}>
                 <AddToPlaylistModal
                   {...{ playlists }}
@@ -201,8 +189,14 @@ const Song = ({
                   setPlayModal={setPlayModal}
                 />
               </Modal>
-              <Modal show={deleteModal} onHide={handleDeleteClose}>
+              <Modal centered show={deleteModal} onHide={handleDeleteClose}>
                 <DeleteModal {...{ song }} {...{ setDeleteModal }} />
+              </Modal>
+              <Modal centered size="lg" show={editModal} onHide={handleEditClose}>
+                <Modal.Body>
+
+                <EditModal {...{ song }} {...{ setEditModal }} />
+                </Modal.Body>
               </Modal>
             </div>
           </div>

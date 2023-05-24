@@ -92,7 +92,7 @@ const SignIn = ({
       >
         Sign In
       </button>
-      <Modal show={signInToggle} onHide={handleClose}>
+      <Modal size='lg' centered show={signInToggle} onHide={handleClose}>
         <form className="signin-form" onSubmit={handleSubmit}>
           <ul>
             {errors && errors.map((error, idx) => <li key={idx}>{error}</li>)}

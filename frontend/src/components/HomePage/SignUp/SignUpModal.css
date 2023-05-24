@@ -50,4 +50,8 @@ label {
 #profile-avatar-label {
   border: .1px rgb(190, 188, 188) solid;
   cursor: pointer;
+  font-size: 13px;
+padding: 2px 4px;
+border-radius: 4px;
+margin-top: 6px;
 }
