@@ -45,9 +45,9 @@ const LibraryNav = () => {
   };
 
   useEffect(() => {
-    if (pathname.split("/")[3] === "playlists") {
-      setSelected("playlists");
-    }
+    // if (pathname.split("/")[3] === "playlists") {
+    //   setSelected("playlists");
+    // }
     if (pathname.split("/")[3] === "tracks") {
       setSelected("tracks");
     }
@@ -71,7 +71,7 @@ const LibraryNav = () => {
             <h4>Tracks</h4>
           </div>
         </NavLink>
-        <NavLink to="/you/library/playlists">
+        {/* <NavLink to="/you/library/playlists">
           <div
             className={
               selected === "playlists"
@@ -82,7 +82,7 @@ const LibraryNav = () => {
           >
             <h4>Playlists</h4>
           </div>
-        </NavLink>
+        </NavLink> */}
       </nav>
     </>
   );

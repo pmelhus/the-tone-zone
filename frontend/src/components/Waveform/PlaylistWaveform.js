@@ -16,6 +16,8 @@ import {
   deleteCurrentSong,
 } from "../../store/currentSong";
 
+import PlaylistDelete from "../UserHomePage/ProfilePlaylist/PlaylistDelete";
+
 const PlaylistWaveform = ({
   setWaveLoading,
   audio,
@@ -110,8 +112,9 @@ const PlaylistWaveform = ({
   };
 
   const handlePlaylistSongClick = async (song) => {
-    await setUrl(song?.url)
+    await setUrl(song?.url);
     await setCurrentAudio(song);
+    
     await handlePlayButton(song);
   };
 
@@ -255,42 +258,12 @@ const PlaylistWaveform = ({
           </button>
         )}
 
-        {playlistPage ? (
-          <>
-            <div className="title-song-player">
-              <p id="title-p">{playlist?.title}</p>
-              <p id="username-p"> {playlist?.User.username}</p>
-            </div>
-          </>
-        ) : (
-          <>
-            {songPage ? (
-              <div className="title-song-player">
-                <p id="title-p">{song?.title}</p>
-                {playlistPage ? (
-                  <>
-                    <p id="username-p"></p>
-                  </>
-                ) : (
-                  <>
-                    <p ç>{song?.User?.username}</p>
-                  </>
-                )}
-              </div>
-            ) : (
-              <div className="waveform-headings">
-                <div>
-                  <div id="username">{song?.User?.username}</div>
-                </div>
-                <div>
-                  <div onClick={handleSongTitle} id="song-title">
-                    {song?.title}
-                  </div>
-                </div>
-              </div>
-            )}
-          </>
-        )}
+        <>
+          <div className="title-song-player">
+            <p id="title-p">{playlist?.title}</p>
+            <p id="username-p"> {playlist?.User.username}</p>
+          </div>
+        </>
       </div>
       <div className="waveform-container">
         <div className="waveform-image-container">
@@ -321,18 +294,16 @@ const PlaylistWaveform = ({
           <div ref={containerRef} />
         </div>
       </div>
-      {playlistPage && (
-        <>
-          {playlist?.Songs.map((song) => {
-            return (
-              <button onClick={() => handlePlaylistSongClick(song)}>
-                <p>{song.title}</p>
-              </button>
-            );
-          })}
-        </>
-      )}
-      <div></div>
+      <PlaylistDelete {...{ sessionUser }} {...{ playlist }} />
+      <div className='playlist-songs-list'>
+        {playlist?.Songs.map((song) => {
+          return (
+            <div className='playlist-song' onClick={() => handlePlaylistSongClick(song)}>
+              <p>{song.title}</p>
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 };

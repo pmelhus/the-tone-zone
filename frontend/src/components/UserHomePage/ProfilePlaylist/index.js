@@ -52,10 +52,7 @@ const ProfilePlaylist = ({
 
   const allSongs = useSelector((state) => state.songs);
 
-  const handlePlaylistDelete = () => {
-    dispatch(deleteOnePlaylist(playlist));
-    history.push(`/you/library/playlists`);
-  };
+
 
   const openPlaylist = (e) => {
     setEditModal(!editModal);
@@ -114,8 +111,6 @@ if (playlist) {
                 {...{ playlist }}
                 {...{ setSourceChangeSwitch }}
                 {...{ h5CanPlay }}
-                songPage={true}
-                playlistPage={true}
               />
             )}
           </div>
@@ -132,11 +127,7 @@ if (playlist) {
           </div>
         </div>
       </div>
-      <div onClick={(e) => handlePlaylistDelete()}>
-        {sessionUser.id === sessionUser.id && (
-          <p className="song-button">Delete playlist</p>
-        )}
-      </div>
+
     </>
   );
 };
