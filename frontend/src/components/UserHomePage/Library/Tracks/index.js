@@ -9,6 +9,9 @@ const useStyles = createUseStyles((theme) => ({
     color: "#999",
     width: "100%",
   },
+  song: {
+    width: '228px'
+    }
 }));
 
 const Tracks = () => {
@@ -28,7 +31,7 @@ const Tracks = () => {
         {userSongs.map((song) => {
           return (
             <>
-              <li>
+              <li className={classes.song}>
                 <SongDiscover key={song.id} {...{song}}/>
               </li>
             </>

@@ -4,6 +4,8 @@ import { csrfFetch } from './csrf';
 
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
+const EDIT_USER = 'session/editUser'
+
 
 const setUser = (user) => {
   return {
@@ -17,6 +19,36 @@ const removeUser = () => {
     type: REMOVE_USER,
   };
 };
+
+const editUser = (user) => {
+  return {
+    type: EDIT_USER,
+    payload: user
+  }
+}
+
+export const updateUser = (user) => async (dispatch) => {
+  const { image, username, userId } = user;
+
+  const formData = new FormData();
+  formData.append("username", username);
+  formData.append('id',userId)
+
+
+  if (image) formData.append("image", image);
+
+  const response = await csrfFetch(`/api/users/${userId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    body: formData,
+  });
+  const data = await response.json();
+  dispatch(editUser(data.user));
+  return response;
+}
+
 
 export const login = (user) => async (dispatch) => {
   const { credential, password,  } = user;
@@ -94,6 +126,9 @@ const sessionReducer = (state = initialState, action) => {
       newState = Object.assign({}, state);
       newState.user = null;
       return newState;
+    case EDIT_USER:
+      newState = Object.assign({}, state);
+      newState.user = action.payload;
     default:
       return state;
   }

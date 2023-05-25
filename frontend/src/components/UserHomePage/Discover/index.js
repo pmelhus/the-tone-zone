@@ -6,16 +6,32 @@ import { getAllSongs } from "../../../store/songs";
 import "./Discover.css";
 import { useLocation } from "react-router-dom";
 import SongDiscover from "./SongDiscover";
+import { createUseStyles, useTheme } from "react-jss";
+
+const useStyles = createUseStyles((theme) => ({
+songDiscoverItem: {
+width: '228px'
+}
+}));
 
 const Discover = ({ isLoaded }) => {
+  const theme = useTheme();
+  const classes = useStyles({ theme });
   const dispatch = useDispatch();
   const playlists = useSelector((state) => Object.values(state.playlists));
   const sessionUser = useSelector((state) => state.session?.user);
   const songs = useSelector((state) => Object.values(state?.songs));
   const sortedLatest = useSelector((state) => Object.values(state.songs));
   const { pathname } = useLocation();
+  const yourSongs = songs.filter((song)=> {
+  return  song.userId === sessionUser.id
+  })
+  
   sortedLatest.sort((a, b) => {
-    return b.Comments?.length - a.Comments?.length;
+    return b.id - a.id
+  });
+  yourSongs.sort((a, b) => {
+    return b.id - a.id
   });
 
   // useEffect(() => {
@@ -24,17 +40,7 @@ const Discover = ({ isLoaded }) => {
   //   // setIsLoaded(true);
   // }, [dispatch]);
 
-  useEffect(() => {
-    sortedLatest.sort((a, b) => {
-      return b.Comments?.length - a.Comments?.length;
-    });
-  }, [dispatch, pathname]);
 
-  useEffect(() => {
-    sortedLatest.sort((a, b) => {
-      return b.Comments?.length - a.Comments?.length;
-    });
-  }, []);
 
   return (
     <div className="discover-container">
@@ -55,13 +61,13 @@ const Discover = ({ isLoaded }) => {
       </div> */}
 
       <div className="playlists-container">
-        <p>Hear the songs with the most comments:</p>
+        <p>Hear the most recent uploads in our community:</p>
         <ul className="playlist-cards">
           {isLoaded &&
             sortedLatest.map((song) => {
               return (
                 <>
-                  <li>
+                  <li className={classes.songDiscoverItem}>
                     <SongDiscover song={song} />
                   </li>
                 </>
@@ -71,18 +77,19 @@ const Discover = ({ isLoaded }) => {
       </div>
 
       <div className="playlists-container">
-        <p>Hear your own playlists:</p>
+        <p>Hear your own tracks:</p>
         <ul className="playlist-cards">
-          {playlists &&
-            playlists.map((playlist) => {
-              if (playlist?.userId === sessionUser?.id)
-                return (
-                  <>
-                    <li>
-                      <Playlist playlist={playlist} />
-                    </li>
-                  </>
-                );
+
+
+        {isLoaded &&
+            yourSongs.map((song) => {
+              return (
+                <>
+                  <li className={classes.songDiscoverItem}>
+                    <SongDiscover song={song} />
+                  </li>
+                </>
+              );
             })}
         </ul>
       </div>

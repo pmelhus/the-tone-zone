@@ -16,6 +16,13 @@ z-index: 100;
 .button-div {
   display: flex;
   align-items: center;
+  max-width: 140px;
+}
+.button-div p {
+  width: 100px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 #profile-dropdown-nav button {
