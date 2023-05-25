@@ -29,3 +29,8 @@ form {
 label {
   text-align: center;
 }
+
+
+.modal-body {
+  width: fit-content;
+}

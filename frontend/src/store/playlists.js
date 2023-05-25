@@ -15,10 +15,9 @@ const addOnePlaylist = (payload) => ({
   payload,
 });
 
-const addOneSongToPlaylist = (song, playlist) => ({
+const addOneSongToPlaylist = (payload) => ({
   type: ADD_ONE_SONG,
-  song,
-  playlist,
+  payload,
 });
 
 const getOne = (playlist) => ({
@@ -33,7 +32,6 @@ const getPlaylists = (playlists) => ({
 
 const getAllSongs = (songs) => ({
   type: GET_ALL_SONGS,
-
   songs,
 });
 
@@ -81,20 +79,19 @@ export const createPlaylist = (data) => async (dispatch) => {
     const payload = await response.json();
 
     dispatch(addOnePlaylist(payload));
+
+    return payload
   } catch (error) {
     throw error;
   }
 };
 
-export const getAllPlaylists = () => async (dispatch) => {
-
-  const res = await fetch("/api/playlists");
+export const getAllPlaylists = (id) => async (dispatch) => {
+  const res = await fetch(`/api/playlists/${id}`);
   if (res.ok) {
     const playlists = await res.json();
 
     dispatch(getPlaylists(playlists));
-
-
   } else {
     throw res;
   }
@@ -103,11 +100,9 @@ export const getAllPlaylists = () => async (dispatch) => {
 export const getAllSongsPlaylist = (id) => async (dispatch) => {
   const res = await fetch(`/api/playlists/songs/${id}`);
 
-
   if (res.ok) {
     const data = await res.json();
     dispatch(getAllSongs(data));
-
   } else {
     throw res;
   }
@@ -149,7 +144,7 @@ export const addSongToPlaylist = (data) => async (dispatch) => {
 
     const returned = await response.json();
 
-    dispatch(addOneSongToPlaylist(returned.data.song, returned.data.playlist));
+    dispatch(addOneSongToPlaylist(returned.newSong));
   } catch (error) {
     throw error;
   }
@@ -183,7 +178,6 @@ export const deleteOnePlaylist = (data) => async (dispatch) => {
 };
 
 export const deleteOneSong = (data) => async (dispatch) => {
-
   const response = await csrfFetch(`/api/playlists/song/${data.song.id}`, {
     method: "DELETE",
     headers: {
@@ -196,7 +190,7 @@ export const deleteOneSong = (data) => async (dispatch) => {
   dispatch(deleteSong(deletedSong));
 };
 
-const initialState = { playlistSongs: [] };
+const initialState = { playlists: {}, playlistSongs: {} };
 
 const sortList = (list) => {
   return list
@@ -209,22 +203,25 @@ const sortList = (list) => {
 const playlistReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_ONE: {
-
       const newState = {
         ...state,
-        [action.payload.playlist.id]: {
-          ...action.payload.playlist,
-          Songs: { ...action.payload.song },
-          User: { ...action.payload.user },
+        playlists: {
+          [action.payload.playlist.id]: {
+            ...action.payload.playlist,
+            Songs: { ...action.payload.song },
+            User: { ...action.payload.user },
+          },
         },
       };
       return newState;
     }
 
     case GET_ONE: {
-
       if (action.playlist) {
-        const newState = { ...state, [action.playlist.id]: action.playlist };
+        const newState = {
+          ...state,
+          playlists: { [action.playlist.id]: action.playlist },
+        };
         return newState;
       }
 
@@ -232,12 +229,14 @@ const playlistReducer = (state = initialState, action) => {
     }
 
     case ADD_ONE_SONG: {
-
       const newState = {
         ...state,
-        [action.playlist.id]: {
-          ...action.playlist,
-          Songs: { ...state.Songs, [action.song.id]: action.song },
+
+        playlistSongs: {
+          ...state.playlistSongs,
+          [action.payload.id]: {
+            ...action.payload,
+          },
         },
       };
 
@@ -245,18 +244,16 @@ const playlistReducer = (state = initialState, action) => {
     }
 
     case GET_ALL_SONGS: {
+      const newState = { ...state };
+      console.log(action, "ACTION");
 
-      const newState = {
-        ...state
-
-      };
-
+      action.songs.forEach((song) => (newState.playlistSongs[song.id] = song));
       return newState;
     }
 
     case UPDATE: {
       let newState = { ...state };
-      let newStateObj = Object.values(newState);
+      let newStateObj = Object.values(newState.playlists);
       const playlist = newStateObj.find(
         (object) => object.id === action.playlist.id
       );
@@ -270,22 +267,19 @@ const playlistReducer = (state = initialState, action) => {
       const newState = { ...state };
 
       action.playlists.forEach(
-        (playlist) => (newState[playlist.id] = playlist)
+        (playlist) => (newState.playlists[playlist.id] = playlist)
       );
       return newState;
     }
 
     case DELETE: {
-      delete state[action.playlist.id];
+      delete state.playlists[action.playlist.id];
       const newState = { ...state };
       return newState;
     }
     case DELETE_ONE_SONG: {
-
-      const newSongsArr = state[action.payload.playlist.id].Songs.filter(
-        (object) => object.id !== action.payload.song.id
-      );
-      state[action.payload.playlist.id].Songs = newSongsArr;
+      console.log(action.payload, "payload");
+      delete state.playlistSongs[action.payload.id];
       const newState = { ...state };
       return newState;
     }

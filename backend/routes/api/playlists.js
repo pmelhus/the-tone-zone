@@ -15,10 +15,12 @@ const {
 const router = express.Router();
 
 router.get(
-  "/",
+  "/:id",
   asyncHandler(async function (req, res) {
+    const id = req.params.id;
     const allPlaylists = await Playlist.findAll({
-      include: User,
+      where: { userId: id },
+      include: [User, Song]
     });
 
     return res.json(allPlaylists);
@@ -51,25 +53,23 @@ router.get(
 router.post(
   "/",
   asyncHandler(async (req, res) => {
-
     const { title, song, user } = req.body;
     const userId = user.id;
 
-    const imageUrl = song.imageUrl
+    const imageUrl = song.imageUrl;
 
     const playlist = await Playlist.create({
       title,
       userId,
       imageUrl
+
     });
     const songId = song.id;
     const playlistId = playlist.id;
 
-
     await SongPlaylist.create({
       playlistId,
-      songId
-
+      songId,
     });
 
     return res.json({
@@ -86,14 +86,13 @@ router.post(
     const songId = req.body.song.id;
 
 
-    const data = req.body;
-    await SongPlaylist.create({
+   const newSong = await SongPlaylist.create({
       playlistId,
       songId,
-      include: Song,
     });
+
     return res.json({
-      data,
+newSong
     });
   })
 );
@@ -115,37 +114,37 @@ router.delete(
 );
 
 router.put(
-  '/:id',
-  asyncHandler(async (req,res) => {
-    const id = req.body.id
+  "/:id",
+  asyncHandler(async (req, res) => {
+    const id = req.body.id;
 
-    const reqTitle = req.body.title
-    const thePlaylist = await Playlist.findByPk(id)
-
-
+    const reqTitle = req.body.title;
+    const thePlaylist = await Playlist.findByPk(id);
 
     const editedPlaylist = await thePlaylist.update({
-      title: reqTitle
-    })
-    return res.json(editedPlaylist)
+      title: reqTitle,
+    });
+    return res.json(editedPlaylist);
   })
-)
+);
 
 router.delete(
   "/song/:id",
   asyncHandler(async (req, res) => {
-
-    const songId = req.body.song.id
-    const playlistId = req.body.playlist.id
+    const songId = req.body.song.id;
+    const playlistId = req.body.playlist.id;
+    const response = await SongPlaylist.findOne({
+      where: {songId: songId, playlistId: playlistId}
+    })
 
     const deletedSong = await SongPlaylist.destroy({
       where: {
         playlistId: playlistId,
-        songId: songId
-      },
+        songId: songId,
+      }
     });
 
-    return res.json(req.body);
+    return res.json(response);
   })
 );
 

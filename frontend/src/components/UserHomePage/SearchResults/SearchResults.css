@@ -36,7 +36,7 @@ position: fixed;
 .search-results-categories {
 position: fixed;
 top: 130px;
-left: 225px;
+/* left: 225px; */
 width: 175px;
 }
 
@@ -90,7 +90,8 @@ cursor: pointer;
   /* height: 850px; */
   overflow-y: scroll;
   margin-top: 30px;
-
+width: 100%;
+margin-left: 30px;
   /* min-height: 100vh; */
 }
 
@@ -166,7 +167,12 @@ font-size: 14px;
 }
 
 .search-results-cats-results {
-  margin-left: 200px;
+  /* margin-left: 200px; */
   padding-top: 60px;
+  display: flex;
+}
 
+.search-results-relative {
+  position: relative;
+width: 200px;
 }

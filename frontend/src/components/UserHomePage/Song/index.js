@@ -2,6 +2,7 @@ import "react-h5-audio-player/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { getOneSong, deleteOneSong, getAllSongs } from "../../../store/songs";
+import { getAllPlaylists } from "../../../store/playlists";
 // import AudioPlayer from "react-h5-audio-player";
 import { Link, useParams, useHistory } from "react-router-dom";
 import EditModal from "./EditModal";
@@ -11,6 +12,8 @@ import AddToPlaylistModal from "./AddToPlaylistModal";
 import { ValidationError } from "../../../utils/validationError";
 import Waveform from "../../Waveform";
 import Modal from "react-bootstrap/Modal";
+import DeleteModal from "./DeleteModal";
+import FadeIn from "react-fade-in";
 
 import "./Song.css";
 
@@ -21,6 +24,10 @@ const useStyles = createUseStyles((theme) => ({
     width: "300px",
     height: "300px",
     objectFit: "cover",
+  },
+  songDescription: {
+    marginBottom: "10px",
+    maxHeight: "200px",
   },
 }));
 
@@ -35,6 +42,7 @@ const Song = ({
   toggleIsPlaying,
   setSourceChangeSwitch,
   h5CanPlay,
+  sessionUser,
 }) => {
   const [signInToggle, setSignInToggle] = useState(false);
   const theme = useTheme();
@@ -45,42 +53,31 @@ const Song = ({
   const history = useHistory();
   const [showMenu, setShowMenu] = useState(false);
   const song = useSelector((state) => state.songs[songId]);
-  const user = useSelector((state) => state.session.user);
+
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
 
   useEffect(() => {
     dispatch(getOneSong(songId));
-  }, [dispatch]);
+    if (sessionUser) {
+      dispatch(getAllPlaylists(sessionUser.id));
+    }
+  }, [dispatch, sessionUser]);
 
-  const handleDelete = async (e) => {
-    await dispatch(deleteOneSong(song)).then(history.push("/stream"));
-  };
-
-  const openPlaylist = (e) => {
-    // if (playModal) return
-    setPlayModal(true);
-  };
+  const playlists = useSelector((state) =>
+    Object.values(state.playlists.playlists)
+  );
 
   const handleClose = () => {
     setPlayModal(false);
   };
 
-  const openMenu = (e) => {
-    e.stopPropagation();
-    if (showMenu) return;
-    setShowMenu(!showMenu);
+  const handleDeleteClose = () => {
+    setDeleteModal(false);
   };
-
-  useEffect(() => {
-    if (!showMenu && playModal) return;
-
-    const closeMenu = () => {
-      setShowMenu(false);
-    };
-
-    document.addEventListener("click", closeMenu);
-
-    return () => document.removeEventListener("click", closeMenu);
-  }, [showMenu]);
+  const handleEditClose = () => {
+    setEditModal(false);
+  };
 
   return (
     <div className="song-content">
@@ -126,30 +123,38 @@ const Song = ({
           <div className="comment-button-section">
             <WriteComment song={song} />
             <div className="song-buttons">
-              {user?.id === song?.User?.id && (
+              {sessionUser?.id === song?.User?.id && (
                 <>
                   <button
-                    onClick={() => setSignInToggle(!signInToggle)}
+                    className="song-button"
+                    onClick={() => setEditModal(true)}
                     type="button"
                   >
-                    Edit
+                    <p>Edit</p>
                   </button>
-                  <button onClick={handleDelete}>Delete</button>
+                  <button
+                    className="song-button"
+                    onClick={() => setDeleteModal(true)}
+                  >
+                    <p>Delete</p>
+                  </button>
                 </>
               )}
-              <div className="dropdown-more">
+              {/* <div className="dropdown-more">
                 <button onClick={(e) => openMenu(e)}>
                   <i class="fa-solid fa-ellipsis"></i>More
                 </button>
                 {showMenu && (
-                  <div
-                    className="profile-dropdown"
-                    onClick={(e) => openPlaylist()}
-                  >
-                    <a>add to playlist</a>
-                  </div>
+                  <FadeIn>
+                    <div
+                      className="profile-dropdown"
+                      onClick={(e) => openPlaylist()}
+                    >
+                      <a>add to playlist</a>
+                    </div>
+                  </FadeIn>
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="avatar-comment-description">
@@ -172,24 +177,26 @@ const Song = ({
               )}
             </div>
             <div className="comment-body-description">
-              <div className="song-description">
-                <h3>Description</h3>
+              <div className={classes.songDescription}>
                 <p>{song?.description}</p>
               </div>
               <CommentCard song={song} />
-              <div>
-                <EditModal
-                  title={song.title}
-                  description={song.description}
-                  visible={signInToggle}
-                  setVisible={setSignInToggle}
-                />
-              </div>
-              <Modal backdrop="static" show={playModal} onHide={handleClose}>
+
+              <Modal show={playModal} onHide={handleClose}>
                 <AddToPlaylistModal
+                  {...{ playlists }}
                   playModal={playModal}
                   setPlayModal={setPlayModal}
                 />
+              </Modal>
+              <Modal centered show={deleteModal} onHide={handleDeleteClose}>
+                <DeleteModal {...{ song }} {...{ setDeleteModal }} />
+              </Modal>
+              <Modal centered size="lg" show={editModal} onHide={handleEditClose}>
+                <Modal.Body>
+
+                <EditModal  {...{ song }} {...{ setEditModal }} />
+                </Modal.Body>
               </Modal>
             </div>
           </div>

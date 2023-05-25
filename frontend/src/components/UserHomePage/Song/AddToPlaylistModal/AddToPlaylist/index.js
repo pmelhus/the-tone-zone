@@ -8,8 +8,11 @@ import PlaylistButton from "./PlaylistButton";
 import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
-
-
+playlistsContainer: {
+  height: '400px',
+  padding: '20px',
+  overflowY: 'scroll'
+}
 
 }));
 
@@ -22,40 +25,37 @@ const AddToPlaylist = ({
   showTooltip,
   showForm,
   setSelected,
+  playlists
 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
-  const playlists = useSelector((state) => Object.values(state.playlists));
+
   const sessionUser = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
 
   const [addedToPlaylist, setAddedToPlaylist] = useState(false);
 
-  useEffect(() => {
-    dispatch(getAllPlaylists());
-  }, [dispatch]);
 
 
-  const myPlaylists = playlists.filter((playlist) => {
-    return playlist.userId === sessionUser.id;
-  });
+
+
 
   useEffect(()=> {
-if (!myPlaylists.length) {
+if (!playlists.length) {
   setShowTooltip(true)
 }
 
-  },[myPlaylists])
+  },[playlists])
 
   const [noPlaylists, setNoPlaylists] = useState(false);
 
-  if (!showPlaylist && showForm) return null;
+
 
 
   return (
     <>
-      <div className="playlist-card">
-        {myPlaylists.map((playlist) => {
+      <div className={classes.playlistsContainer}>
+        {playlists.map((playlist) => {
           return (
             <>
               <PlaylistButton {...{ playlist }} />
@@ -64,11 +64,7 @@ if (!myPlaylists.length) {
         })}
       </div>
       <div>
-        {!myPlaylists.length && (
-          <>
-            <p>No playlists</p>
-          </>
-        )}
+
       </div>
     </>
   );

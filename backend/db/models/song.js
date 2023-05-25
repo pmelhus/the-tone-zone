@@ -59,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
       url,
       imageUrl,
     });
-    return Song.findByPk(song.id);
+    return song
   };
 
   return Song;

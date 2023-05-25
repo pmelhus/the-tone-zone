@@ -1,7 +1,7 @@
 .waveform-container img {
   position: absolute;
   max-width: 300px;
-  max-height: 300px;
+  /* max-height: 300px; */
   width: auto;
   object-fit:contain;
 }
@@ -14,4 +14,25 @@
 .container-ref-div {
 padding-top: 20px;
 padding-left: 10px;
+}
+
+.playlist-songs-list {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+}
+
+.playlist-song {
+  width: calc(100% + 300px);
+  height: 30px;
+  border: black solid 1px;
+  cursor: pointer;
+}
+
+.playlist-song:hover {
+  width: calc(100% + 300px);
+  height: 30px;
+  border: black solid 1px;
+  cursor: pointer;
+  background-color:aliceblue;
 }

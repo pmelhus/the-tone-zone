@@ -18,7 +18,7 @@ const H5AudioPLayer = ({
   isLoaded,
   setIsLoaded,
   setH5CanPlay,
-  h5CanPlay
+  h5CanPlay,
 }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
@@ -30,26 +30,21 @@ const H5AudioPLayer = ({
   const currentSong = useSelector((state) => Object.values(state.currentSong));
   const songId = parseInt(pathname.split("/")[2]);
 
-
   const wavePlayFunc = (e) => {
-    if (!wavePlayer.current?.isPlaying()) {
-
+    if (wavePlayer.current && !wavePlayer.current?.isPlaying()) {
       wavePlayer.current.play();
-
     } else {
       return;
     }
   };
 
   const wavePauseFunc = (e) => {
-    if (wavePlayer.current?.isPlaying()) {
+    if (wavePlayer.current && wavePlayer.current?.isPlaying()) {
       wavePlayer.current.pause();
     } else {
       return;
     }
   };
-
-
 
   const onSeek = async (e) => {
     let seekPercentageString =
@@ -63,7 +58,9 @@ const H5AudioPLayer = ({
       let seekPercentDecimal = seekPercentage * 0.01;
       let currentSeekedTime = seekPercentDecimal * h5Duration;
       e.currentTime = currentSeekedTime;
-      wavePlayer.current.seekTo(seekPercentDecimal);
+      if (wavePlayer.current) {
+        wavePlayer.current.seekTo(seekPercentDecimal);
+      }
     };
     await changeCurrentTimeToSeekedTime();
   };
@@ -79,10 +76,8 @@ const H5AudioPLayer = ({
   }, [currentSong]);
 
   useEffect(() => {
-    console.log(currentAudio, "CURRENT AUDIO IN H5 PLAYER");
-    setH5CanPlay(false)
+    setH5CanPlay(false);
   }, [currentAudio]);
-
 
   return (
     <div style={{ zIndex: "100" }} className="continuous-audio-playback">

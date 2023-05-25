@@ -1,14 +1,21 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
-import { Link, Switch, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import {  Route } from "react-router-dom";
+import {getAllSongs} from "../../../store/songs"
 import "./Library.css";
-import Overview from "./Overview";
-import Likes from "./Likes";
+// import Overview from "./Overview";
+// import Likes from "./Likes";
 import Playlists from "./Playlists";
+import Tracks from "./Tracks"
 
 const Library = () => {
+  const dispatch = useDispatch()
+
+//   useEffect(()=> {
+// dispatch(getAllSongs)
+//   },[])
   return (
-    <div>
+    <>
         {/* <Route path="/you/library/overview">
           <Overview />
         </Route> */}
@@ -18,7 +25,11 @@ const Library = () => {
         <Route path="/you/library/playlists">
           <Playlists />
         </Route>
-    </div>
+        <Route path="/you/library/tracks">
+          <Tracks />
+
+        </Route>
+    </>
   );
 };
 

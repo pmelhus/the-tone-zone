@@ -17,10 +17,12 @@ const SongDiscover = ({ song }) => {
           />
         )}
       </Link>
-      <Link to={`/stream/${song.id}`}>
-        <p>{song?.title}</p>
-      </Link>
-      <p>{song?.User?.username}</p>
+      <div className='username-title-playlistCard'>
+        <Link to={`/stream/${song.id}`}>
+          <p>{song?.title}</p>
+        </Link>
+        <p>{song?.User?.username}</p>
+      </div>
     </div>
   );
 };

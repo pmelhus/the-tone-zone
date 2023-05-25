@@ -30,7 +30,7 @@ const SearchResults = ({
   const userResults = searchResults.users;
   const songResults = searchResults.songs;
   const playlistResults = searchResults.playlists;
-
+const searchWord = pathname.split('/')[2]
   const dispatch = useDispatch();
 
   const handleSongFilter = () => {
@@ -48,44 +48,62 @@ const SearchResults = ({
     setSongFilter(true);
   };
 
+  useEffect(()=> {
+dispatch(getSearchResults(searchWord))
+  }, [])
+
   return (
     <>
       <div className="search-results-container">
         <div className="search-results-heading">
           <p>{`Search results for "${pathname.split("/")[2]}"`}</p>
         </div>
+
         <div className="search-results-cats-results">
-          <div className="search-results-categories">
-            <ul className="search-categories-list">
-              <li
-                className={
-                  userFilter && songFilter
-                    ? "everything-selected"
-                    : "everything-unselected"
-                }
-              >
-                <i className="fa-solid fa-lg fa-magnifying-glass"></i>
-                <div className="catagories-text" onClick={handleEverythingFilter}>Everything</div>
-              </li>
-              <li
-                className={
-                  songFilter && !userFilter
-                    ? "everything-selected"
-                    : "everything-unselected"
-                }
-              >
-                <i className="fa-solid fa-list-music"></i>
-                <div className="catagories-text" onClick={handleSongFilter}>Tracks</div>
-              </li>
-              <li                 className={
-                  !songFilter && userFilter
-                    ? "everything-selected"
-                    : "everything-unselected"
-                }>
-                <i className="fa-regular fa-user"></i>
-                <div className="catagories-text" onClick={handleUserFilter}>People</div>
-              </li>
-            </ul>
+          <div className="search-results-relative">
+            <div className="search-results-categories">
+              <ul className="search-categories-list">
+                <li
+                  className={
+                    userFilter && songFilter
+                      ? "everything-selected"
+                      : "everything-unselected"
+                  }
+                >
+                  <i className="fa-solid fa-lg fa-magnifying-glass"></i>
+                  <div
+                    className="catagories-text"
+                    onClick={handleEverythingFilter}
+                  >
+                    Everything
+                  </div>
+                </li>
+                <li
+                  className={
+                    songFilter && !userFilter
+                      ? "everything-selected"
+                      : "everything-unselected"
+                  }
+                >
+                  <i className="fa-solid fa-list-music"></i>
+                  <div className="catagories-text" onClick={handleSongFilter}>
+                    Tracks
+                  </div>
+                </li>
+                <li
+                  className={
+                    !songFilter && userFilter
+                      ? "everything-selected"
+                      : "everything-unselected"
+                  }
+                >
+                  <i className="fa-regular fa-user"></i>
+                  <div className="catagories-text" onClick={handleUserFilter}>
+                    People
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
           <div className="search-results">
             <div
@@ -112,9 +130,9 @@ const SearchResults = ({
                     color: "rgb(253, 77, 1)",
                     margin: "0",
                   }}
-                >{`${userResults?.length}`}</p>
+                >{`${userResults?.length ? userResults?.length : "0"}`}</p>
                 &nbsp;
-                {userResults?.length > 1 || userResults?.length === 0
+                {userResults?.length > 1 || userResults === null
                   ? "people"
                   : "person"}
                 ,
@@ -134,9 +152,9 @@ const SearchResults = ({
                     color: "rgb(253, 77, 1)",
                     margin: "0",
                   }}
-                >{`${songResults?.length}`}</p>
+                >{`${songResults?.length ? songResults?.length : "0"}`}</p>
                 &nbsp;
-                {songResults?.length > 1 || songResults?.length === 0
+                {songResults?.length > 1 || songResults === null
                   ? "tracks"
                   : "track"}
               </div>

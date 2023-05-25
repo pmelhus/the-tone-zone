@@ -1,9 +1,10 @@
 import "./SignUp.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SignUpModal from "./SignUpModal";
 import { createUseStyles, useTheme } from "react-jss";
 import * as sessionActions from "../../../store/session";
 import { useDispatch, useSelector } from "react-redux";
+import {useHistory} from "react-router-dom"
 import Modal from "react-bootstrap/Modal";
 
 const useStyles = createUseStyles((theme) => ({
@@ -14,12 +15,27 @@ const useStyles = createUseStyles((theme) => ({
   },
   exit: {
     position: "absolute",
-    right: "30px",
-    top: "-10px",
+    right: "20px",
+    top: "5px",
     width: "20px",
     height: "20px",
     // padding: "10px",
     cursor: "pointer",
+  },
+  modalSignUp: {
+    padding: "30px",
+    width: "300px",
+  },
+  loginButton: {
+    backgroundColor: theme.orangeTheme,
+    color: "white",
+    borderRadius: "4px",
+    marginTop: "20px",
+  },
+  stockImage: {
+    width: "80px",
+    height: "80px",
+    borderRadius: "100%",
   },
 }));
 
@@ -33,6 +49,8 @@ const SignUp = ({
   const classes = useStyles({ theme });
 
   const dispatch = useDispatch();
+
+  const history = useHistory()
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -54,6 +72,8 @@ const SignUp = ({
           setEmail("");
           setPassword("");
           setImage(null);
+          history.push('/discover')
+          setSignUpToggle(false)
         })
         .catch(async (res) => {
           const data = await res.json();
@@ -81,12 +101,37 @@ const SignUp = ({
     if (file) setImage(file);
   };
 
+
+
+  const handleClose = () => setSignUpToggle(false);
+
+  const [isImageLoaded, setIsImageLoaded] = useState(true);
+  const [preview, setPreview] = useState()
+
+
+
   const updateImage = (e) => {
     const file = e.target.files[0];
     if (file) setImage(file);
   };
 
-  const handleClose = () => setSignUpToggle(false);
+
+  const handleImageInput = (e) => {
+    console.log(e)
+  }
+
+  useEffect(() => {
+    if (!image) {
+      setPreview(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(image);
+    setPreview(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [image]);
 
   return (
     <div className="sign-up-container">
@@ -97,80 +142,114 @@ const SignUp = ({
       >
         Sign Up
       </button>
-      <Modal show={signUpToggle} onHide={handleClose}>
-        <div
-          onClick={(e) => {
-            handleClose();
-          }}
-          className={classes.exit}
-        >
-          <i className="fa-regular fa-xl fa-xmark"></i>
-        </div>
-        <form className="signup-form" onSubmit={handleSubmit}>
-          <ul>
-            {errors.map((error, idx) => (
-              <li key={idx}>{error}</li>
-            ))}
-          </ul>
-          <label>Email</label>
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <label>Username</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <label>Confirm Password</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-          <label
-            style={{ marginTop: "12px", padding: "8px" }}
-            id="profile-avatar-label"
+      <Modal size="lg" centered show={signUpToggle} onHide={handleClose}>
+        <div className={classes.modalSignUp}>
+          <div
+            onClick={(e) => {
+              handleClose();
+            }}
+            className={classes.exit}
           >
-            Upload profile avatar
-            <input
-              id="profile-avatar-upload"
-              placeholder="Upload your image"
-              type="file"
-              accept="image/*"
-              name="image-upload"
-              onChange={updateImage}
-            ></input>
-          </label>
+            <i className="fa-regular fa-xl fa-xmark"></i>
+          </div>
+          <form className="signup-form" onSubmit={handleSubmit}>
+            <ul>
+              {errors.map((error, idx) => (
+                <li key={idx}>{error}</li>
+              ))}
+            </ul>
+            <div className="username-div">
+              <label>Email</label>
+              <input
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <div className="username-div">
+                <label>Username</label>
+              </div>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+            <div className="username-div">
+              <label>Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div className="username-div">
+              <label>Confirm Password</label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div className="username-div">
+              {/* preview for image */}
+              <div>
+                {isImageLoaded ? (
+                  image ? (
+                    <img
+                      className={classes.stockImage}
+                      src={preview}
+                      alt="uploaded"
+                    />
+                  ) : (
+                    <img
+                      className={classes.stockImage}
+                      src="https://img.myloview.com/posters/default-avatar-profile-in-trendy-style-for-social-media-user-icon-400-228654852.jpg"
+                    />
+                  )
+                ) : (
+                  <img
+                  className={classes.stockImage}
+                    src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif"
+                    alt="loading"
+                  />
+                )}
 
-          {/* <label>
+              </div>
+              <label id="profile-avatar-label">
+                Upload profile avatar
+                <input
+
+                  id="profile-avatar-upload"
+                  placeholder="Upload your image"
+                  type="file"
+                  accept="image/*"
+                  name="image-upload"
+                  onChange={updateImage}
+                ></input>
+              </label>
+            </div>
+
+            {/* <label>
             Multiple Upload
             <input
               type="file"
               multiple
               onChange={updateFiles} />
           </label> */}
-          <button style={{ marginTop: "12px" }} type="submit">
-            Sign Up
-          </button>
+            <button className={classes.loginButton} type="submit">
+              Sign Up
+            </button>
 
-          <p style={{ padding: "0" }}>Already have an account?</p>
-          <button style={{ margin: "0" }} onClick={handleSignIn}>
-            Sign in
-          </button>
-        </form>
+            <p style={{ padding: "0", marginTop: "20px" }}>
+              Already have an account?
+            </p>
+            <button onClick={handleSignIn}>Sign in</button>
+          </form>
+        </div>
       </Modal>
     </div>
   );

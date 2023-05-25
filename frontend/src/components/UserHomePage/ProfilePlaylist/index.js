@@ -1,132 +1,133 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Route,
-  Switch,
-  Link,
-  NavLink,
-  useParams,
-  useHistory,
-} from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
-  getOnePlaylist,
-  getAllSongsPlaylist,
-  getAllPlaylists,
   deleteOnePlaylist,
+  getAllSongsPlaylist,
 } from "../../../store/playlists";
-import PlaylistSong from "./PlaylistSong";
-import AudioPlayer from "react-h5-audio-player";
+
 import "./ProfilePlaylist.css";
-import Waveform from "../../Waveform";
+import PlaylistWaveform from "../../Waveform/PlaylistWaveform";
+import { createUseStyles, useTheme } from "react-jss";
+
+const useStyles = createUseStyles((theme) => ({
+  songImage: {
+    width: "300px",
+    height: "300px",
+    objectFit: "cover",
+  },
+}));
 
 const ProfilePlaylist = ({
-
-  proPlayLoaded,
-  setProPlayLoaded,
-
+  setCurrentAudio,
+  audioPlayer,
+  wavePlayer,
+  waveLoading,
+  setWaveLoading,
+  isPlaying,
+  currentAudio,
+  toggleIsPlaying,
+  setSourceChangeSwitch,
+  h5CanPlay,
+  sessionUser,
 }) => {
+  const theme = useTheme();
+  const classes = useStyles({ theme });
+
   const [signInToggle, setSignInToggle] = useState(false);
   const history = useHistory();
-  const { id } = useParams();
+  const { pathname } = useLocation();
+  const id = parseInt(pathname.split("/")[3]);
+  const playlist = useSelector((state) => state.playlists.playlists[id]);
   const dispatch = useDispatch();
-  const playlist = useSelector((state) => state.playlists[id]);
-  const sessionUser = useSelector((state) => state?.session.user);
-
-  const user = useSelector((state) => state?.playlists[id]?.User);
   const [isLoaded, setIsLoaded] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const songs = useSelector((state) => state?.playlists[id]?.Songs);
+  const songs = useSelector((state) =>
+    Object.values(state?.playlists.playlistSongs)
+  );
   const [title, setTitle] = useState(songs?.title);
-  const [url, setUrl] = useState(songs?.url);
+
   const [showSelected, setShowSelected] = useState(false);
-  const [songId, setSongId] = useState(null);
-  const selectedSong = useSelector((state) => state.songs[songId]);
+
+  const allSongs = useSelector((state) => state.songs);
 
 
-  useEffect(() => {
-    setProPlayLoaded(true);
-
-    dispatch(getOnePlaylist(id));
-
-    setIsLoaded(true);
-
-  }, [dispatch]);
-  if (!playlist) return null;
-
-  const handlePlaylistDelete = () => {
-
-    dispatch(deleteOnePlaylist(playlist));
-    history.push(`/you/library/playlists`);
-  };
 
   const openPlaylist = (e) => {
-
-
     setEditModal(!editModal);
-
   };
 
   const openMenu = (e) => {
-
     setShowMenu(!showMenu);
     if (!showMenu) return;
   };
+  const [playlistLoaded, setPlaylistLoaded] = useState(false)
+  const [url, setUrl] = useState()
 
+useEffect(()=> {
+if (playlist) {
+  setPlaylistLoaded(true)
+  setUrl(playlist?.Songs[0].url)
+}
+}, [playlist])
 
   return (
     <>
       <div className="audio-and-image">
-        <div className="song-player">
-          <div className="title-song-player-rel">
-            <div className="title-song-player">
-              <p id="title-p">{playlist?.title}</p>
-              <p id="username-p">{playlist?.User?.username}</p>
-            </div>
-            <div className="playlist-waveform">
-              <Waveform
-
-
-                audio={url}
+        <div className="image-relative-container">
+          {playlist?.imageUrl ? (
+            <>
+              <img src={playlist?.imageUrl} className="background-image-song" />
+            </>
+          ) : (
+            <>
+              <img
+                src="https://images.pexels.com/photos/6985001/pexels-photo-6985001.jpeg"
+                className="background-image-song"
               />
-            </div>
+            </>
+          )}
+        </div>
+        <div className="song-player">
+          <div className="waveform-player-single-song">
+            {playlistLoaded && (
+              <PlaylistWaveform
+                audio={url}
+                {...{ setCurrentAudio }}
+                {...{ wavePlayer }}
+                {...{ playlist }}
+                {...{ waveLoading }}
+                {...{ setWaveLoading }}
+                {...{ audioPlayer }}
+                {...{ isPlaying }}
+                {...{ toggleIsPlaying }}
+                {...{ currentAudio }}
+                {...{ setShowSelected }}
+                {...{ showSelected }}
+                {...{ setUrl }}
+                {...{ setTitle }}
+                {...{ sessionUser }}
+                {...{ playlist }}
+                {...{ setSourceChangeSwitch }}
+                {...{ h5CanPlay }}
+              />
+            )}
           </div>
 
-
           <div className="img-div">
-            <img src={playlist?.imageUrl}></img>
+            {playlist?.imageUrl ? (
+              <img className={classes.songImage} src={playlist?.imageUrl}></img>
+            ) : (
+              <img
+                className={classes.songImage}
+                src="https://images.pexels.com/photos/6985001/pexels-photo-6985001.jpeg"
+              ></img>
+            )}
           </div>
         </div>
       </div>
-      <div className="song-buttons">
-        {user.id === playlist.User.id && (
-          <button onClick={(e) => handlePlaylistDelete()}>
-            Delete playlist
-          </button>
-        )}
-      </div>
 
-
-      {isLoaded &&
-        playlist?.Songs?.map((song) => {
-          return (
-            <>
-              <PlaylistSong
-
-              {...{songId}}
-                key={id}
-                {...{ setSongId }}
-                url={url}
-                song={song}
-                user={user}
-                setUrl={setUrl}
-                setTitle={setTitle}
-                {...{ setShowSelected }}
-                {...{ showSelected }}
-              />
-            </>
-          );
-        })}
     </>
   );
 };
