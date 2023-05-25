@@ -5,28 +5,46 @@ import "./EditModal.css";
 import { updateSong, getOneSong } from "../../../../store/songs";
 import { ValidationError } from "../../../../utils/validationError";
 import ErrorMessage from "../../../ErrorMessage";
+import { createUseStyles, useTheme } from "react-jss";
 
-const EditModal = ({ propTitle, propDescription }) => {
-  const [title, setTitle] = useState(propTitle);
-  const [description, setDescription] = useState(propDescription);
+const useStyles = createUseStyles((theme) => ({
+  editContent: {},
+}));
+
+const EditModal = ({ setEditModal }) => {
+  const theme = useTheme();
+  const classes = useStyles({ theme });
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [errors, setErrors] = useState([]);
   const [errorMessages, setErrorMessages] = useState({});
-
   let history = useHistory();
   const dispatch = useDispatch();
+
+  // extract songId from url
   const { songId } = useParams();
-  const [preview, setPreview] = useState();
+  // turn string songId into integer
+  const songIdInt = parseInt(songId);
+
+  // image preview for edit
+
+  // grab song state from redux and use songIdInt to get the right song
+  const song = useSelector((state) => state.songs)[songIdInt];
+
+  const [preview, setPreview] = useState(song.imageUrl);
+
   const handleCancelClick = (e) => {
     e.preventDefault();
     //!!START SILENT
     setErrorMessages({});
     //!!END
-    history.goBack();
+    setEditModal(false);
   };
   const updateImage = (e) => {
     const file = e.target.files[0];
     if (file) setImage(file);
-
+    console.log(file);
   };
   const [image, setImage] = useState(null);
 
@@ -37,9 +55,10 @@ const EditModal = ({ propTitle, propDescription }) => {
     e.preventDefault();
 
     const payload = {
-      songId,
+      songId: songIdInt,
       title,
       description,
+      image,
     };
 
     let editedSong;
@@ -49,7 +68,6 @@ const EditModal = ({ propTitle, propDescription }) => {
       );
     } catch (error) {
       if (error instanceof ValidationError) {
-
         setErrorMessages(error.errors);
       }
 
@@ -62,26 +80,43 @@ const EditModal = ({ propTitle, propDescription }) => {
       //!!START SILENT
       setErrorMessages({});
       dispatch(getOneSong(songId));
-
+      setEditModal(false);
     }
   };
 
+  useEffect(() => {
+    if (image) {
+      const objectUrl = URL.createObjectURL(image);
+      setPreview(objectUrl);
+
+      // free memory when ever this component is unmounted
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+  }, [image]);
+
+  // set state for title
+  const handleTitle = (e) => {
+    setTitle(e.target.value);
+  };
+
+  // set state for description
+  const handleDescription = (e) => {
+    setDescription(e.target.value);
+  };
+
   return (
-
-    <div className="upload-content">
-
+    <div className={classes.editContent}>
       <ErrorMessage message={errorMessages.overall} />
       <form className="upload-form" onSubmit={onSubmit}>
         <img className="image-preview" src={preview}></img>
         <div>
-
           <label for="song-name">Title</label>
           <br></br>
           <input
             name="song-name"
-            placeholder="Name your track"
+            placeholder={song?.title}
             value={title}
-            onChange={setTitle}
+            onChange={handleTitle}
             type="text"
             min={2}
             required
@@ -93,10 +128,10 @@ const EditModal = ({ propTitle, propDescription }) => {
           <br></br>
           <textarea
             type="text"
-            placeholder="Describe your track"
+            placeholder={song?.description}
             name="song-description"
             value={description}
-            onChange={setDescription}
+            onChange={handleDescription}
             required
           ></textarea>
         </div>
@@ -106,7 +141,7 @@ const EditModal = ({ propTitle, propDescription }) => {
         />
         <div>
           <label className="upload-song-input">
-            Upload image
+            Edit current image
             <input
               placeholder="Upload your image"
               type="file"
@@ -117,14 +152,12 @@ const EditModal = ({ propTitle, propDescription }) => {
           </label>
         </div>
 
-
         <button type="button" onClick={handleCancelClick}>
           Cancel
         </button>
         <button>Save</button>
       </form>
     </div>
-
   );
 };
 

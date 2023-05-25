@@ -195,7 +195,7 @@ const Song = ({
               <Modal centered size="lg" show={editModal} onHide={handleEditClose}>
                 <Modal.Body>
 
-                <EditModal {...{ song }} {...{ setEditModal }} />
+                <EditModal  {...{ song }} {...{ setEditModal }} />
                 </Modal.Body>
               </Modal>
             </div>

@@ -9,7 +9,8 @@ container: {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  height: '180px'
+  height: '180px',
+  padding: '20px'
 },
 heading: {
   fontSize: '20px',

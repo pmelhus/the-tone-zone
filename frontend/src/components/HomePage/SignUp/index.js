@@ -4,6 +4,7 @@ import SignUpModal from "./SignUpModal";
 import { createUseStyles, useTheme } from "react-jss";
 import * as sessionActions from "../../../store/session";
 import { useDispatch, useSelector } from "react-redux";
+import {useHistory} from "react-router-dom"
 import Modal from "react-bootstrap/Modal";
 
 const useStyles = createUseStyles((theme) => ({
@@ -49,6 +50,8 @@ const SignUp = ({
 
   const dispatch = useDispatch();
 
+  const history = useHistory()
+
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -69,6 +72,8 @@ const SignUp = ({
           setEmail("");
           setPassword("");
           setImage(null);
+          history.push('/discover')
+          setSignUpToggle(false)
         })
         .catch(async (res) => {
           const data = await res.json();
