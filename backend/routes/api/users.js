@@ -26,6 +26,15 @@ const validateSignup = [
   handleValidationErrors,
 ];
 
+const validateEdit = [
+  check("username")
+    .exists({ checkFalsy: true })
+    .isLength({ min: 4 })
+    .withMessage("Please provide a username with at least 4 characters."),
+  check("username").not().isEmail().withMessage("Username cannot be an email."),
+  handleValidationErrors,
+];
+
 router.post(
   "/",
   singleMulterUpload("image"),
@@ -47,6 +56,46 @@ router.post(
     return res.json({
       user,
     });
+  })
+);
+
+router.put(
+  "/:id",
+  singleMulterUpload("image"),
+  validateEdit,
+  asyncHandler(async (req, res) => {
+
+    const { username, id } = req.body
+if (req.file) {
+
+
+  const profileImageUrl = await singlePublicFileUpload(req.file);
+
+  const user = await User.findByPk(id)
+
+  const updatedUser = await user.update({
+
+    username: username,
+    profileImageUrl: profileImageUrl
+  });
+
+
+  await setTokenCookie(res, updatedUser);
+  return res.json(updatedUser);
+} else {
+
+  const user = await User.findByPk(id)
+
+  const updatedUser = await user.update({
+
+    username: username,
+
+  });
+
+
+  await setTokenCookie(res, updatedUser);
+  return res.json(updatedUser);
+}
   })
 );
 

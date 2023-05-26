@@ -1,17 +1,9 @@
 
 
-button {
-  width: 100%;
-  margin: 5px;
-}
 
 
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: -25px;
-}
+
+
 
 .username-div {
   width: 100%;

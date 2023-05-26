@@ -14,6 +14,8 @@ import Waveform from "../../Waveform";
 import Modal from "react-bootstrap/Modal";
 import DeleteModal from "./DeleteModal";
 import FadeIn from "react-fade-in";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 import "./Song.css";
 
@@ -172,7 +174,13 @@ const Song = ({
                     className="avatar"
                     src="https://img.myloview.com/posters/default-avatar-profile-in-trendy-style-for-social-media-user-icon-400-228654852.jpg"
                   />
-                  <p>{song.User.username}</p>
+                  <OverlayTrigger
+                    overlay={ song.User.username.length > 22 ? <Tooltip>{song.User.username}</Tooltip> : null}
+                  >
+                    <div style={{ cursor: "pointer" }}>
+                      <p>{song.User.username}</p>
+                    </div>
+                  </OverlayTrigger>
                 </>
               )}
             </div>
@@ -192,10 +200,14 @@ const Song = ({
               <Modal centered show={deleteModal} onHide={handleDeleteClose}>
                 <DeleteModal {...{ song }} {...{ setDeleteModal }} />
               </Modal>
-              <Modal centered size="lg" show={editModal} onHide={handleEditClose}>
+              <Modal
+                centered
+                size="lg"
+                show={editModal}
+                onHide={handleEditClose}
+              >
                 <Modal.Body>
-
-                <EditModal  {...{ song }} {...{ setEditModal }} />
+                  <EditModal {...{ song }} {...{ setEditModal }} />
                 </Modal.Body>
               </Modal>
             </div>
