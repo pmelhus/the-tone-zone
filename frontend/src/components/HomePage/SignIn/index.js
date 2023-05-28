@@ -66,7 +66,7 @@ const SignIn = ({
   };
 
   const demo = async (e) => {
-    const credential = "Demo-lition";
+    const credential = "DemoUser";
     const password = "password";
 
     const user = await dispatch(

@@ -6,19 +6,65 @@ module.exports = {
     return queryInterface.bulkInsert('Users', [
       {
         email: 'demo@user.io',
-        username: 'Demo-lition',
+        username: 'DemoUser',
+        profileImageUrl: "https://tonezonesongs.s3.amazonaws.com/demo.jpeg",
         hashedPassword: bcrypt.hashSync('password')
       },
       {
-        email: 'user1@user.io',
-        username: 'FakeUser1',
-        hashedPassword: bcrypt.hashSync('password2')
+        email: 'john@williams.com',
+        username: 'John Williams',
+        profileImageUrl: "https://tonezonesongs.s3.amazonaws.com/john.jpeg",
+        hashedPassword: bcrypt.hashSync('password')
       },
       {
-        email: 'user2@user.io',
-        username: 'FakeUser2',
-        hashedPassword: bcrypt.hashSync('password3')
-      }
+        email: 'jordan@rakei.com',
+        username: 'Jordan Rakei',
+        profileImageUrl: "https://tonezonesongs.s3.amazonaws.com/jordanrakei.jpeg",
+        hashedPassword: bcrypt.hashSync('password')
+      },
+      {
+        email: 'kings@convenience.com',
+        username: 'Kings of Convenience',
+        profileImageUrl: "https://tonezonesongs.s3.amazonaws.com/kings.jpeg",
+        hashedPassword: bcrypt.hashSync('password')
+      },
+      {
+        email: 'lianne@havas.com',
+        username: 'Lianne La Havas',
+        profileImageUrl: "https://tonezonesongs.s3.amazonaws.com/lianne.jpeg",
+        hashedPassword: bcrypt.hashSync('password')
+      },
+      {
+        email: 'louis@cole.com',
+        username: 'Louis Cole',
+        profileImageUrl: "https://tonezonesongs.s3.amazonaws.com/louiscole.jpeg",
+        hashedPassword: bcrypt.hashSync('password')
+      },
+      {
+        email: 'mac@ayres.com',
+        username: 'Mac Ayres',
+        profileImageUrl: "https://tonezonesongs.s3.amazonaws.com/macayres.jpeg",
+        hashedPassword: bcrypt.hashSync('password')
+      },
+      {
+        email: 'snoh@aalegra.com',
+        username: 'Snoh Aalegra',
+        profileImageUrl: "https://tonezonesongs.s3.amazonaws.com/snoh.jpeg",
+        hashedPassword: bcrypt.hashSync('password')
+      },
+      {
+        email: 'doobie@brothers.com',
+        username: 'The Doobie Brothers',
+        profileImageUrl: "https://tonezonesongs.s3.amazonaws.com/doobie.jpeg",
+        hashedPassword: bcrypt.hashSync('password')
+      },
+      {
+        email: 'tom@misch.com',
+        username: 'Tom Misch',
+        profileImageUrl: "https://tonezonesongs.s3.amazonaws.com/tom.jpeg",
+        hashedPassword: bcrypt.hashSync('password')
+      },
+
     ], {});
   },
 

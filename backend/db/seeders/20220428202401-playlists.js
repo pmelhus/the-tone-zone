@@ -12,19 +12,7 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert(
-      "Playlists",
-      [
-        {
-          userId: 1,
-          title: "test-playlist",
-          imageUrl: "https://tonezonesongs.s3.amazonaws.com/1651512345675.jpeg",
-          createdAt: new Date,
-          updatedAt: new Date
-        },
-      ],
-      {}
-    );
+    return Promise.resolve()
   },
 
   down: (queryInterface, Sequelize) => {

@@ -6,15 +6,79 @@ module.exports = {
       "Songs",
       [
         {
-          userId: 1,
-          title: "MyTestyMent",
-          description: "Feeling testy",
-          url: "https://tonezonesongs.s3.amazonaws.com/1651517422248.m4a",
-          imageUrl: "https://tonezonesongs.s3.amazonaws.com/1651512345675.jpeg",
+          userId: 2,
+          title: "Main Title",
+          description: "In a galaxy far, far away...",
+          url: "https://tonezonesongs.s3.amazonaws.com/01+Main+Title.m4a",
+          imageUrl: "https://tonezonesongs.s3.amazonaws.com/starwars.jpeg",
+          createdAt: new Date,
+          updatedAt: new Date
+        },
+        {
+          userId: 4,
+          title: "Know How",
+          description: "featuring Feist",
+          url: "https://tonezonesongs.s3.amazonaws.com/05+Know+How.m4a",
+          imageUrl: "https://tonezonesongs.s3.amazonaws.com/knowhow.jpeg",
+          createdAt: new Date,
+          updatedAt: new Date
+        },
+        {
+          userId: 5,
+          title: "Sour Flower",
+          description: "A sour flower, it's all me",
+          url: "https://tonezonesongs.s3.amazonaws.com/11+Sour+Flower.m4a",
+          imageUrl: "https://tonezonesongs.s3.amazonaws.com/sour.jpg",
+          createdAt: new Date,
+          updatedAt: new Date
+        },
+        {
+          userId: 6,
+          title: "Real Life",
+          description: "featuring Brad Mehldau",
+          url: "https://tonezonesongs.s3.amazonaws.com/05+Real+Life+(feat.+Brad+Mehldau).m4a",
+          imageUrl: "https://tonezonesongs.s3.amazonaws.com/reallife.jpeg",
+          createdAt: new Date,
+          updatedAt: new Date
+        },
+        {
+          userId: 7,
+          title: "Change Ya Mind",
+          description: "Never tried to change ya",
+          url: "https://tonezonesongs.s3.amazonaws.com/09+Change+Ya+Mind.m4a",
+          imageUrl: "https://tonezonesongs.s3.amazonaws.com/change.jpg",
+          createdAt: new Date,
+          updatedAt: new Date
+        },
+        {
+          userId: 8,
+          title: "Find Someone Like You",
+          description: "I've been waitin' my whole life, to find someone like you",
+          url: "https://tonezonesongs.s3.amazonaws.com/05+Find+Someone+Like+You.m4a",
+          imageUrl: "https://tonezonesongs.s3.amazonaws.com/findsomeonelikeyou.jpg",
+          createdAt: new Date,
+          updatedAt: new Date
+        },
+        {
+          userId: 9,
+          title: "What a Fool Believes",
+          description: "Michael McDonald supremacy!!!",
+          url: "https://tonezonesongs.s3.amazonaws.com/02+What+a+Fool+Believes+(2016+Remastered).m4a",
+          imageUrl: "https://tonezonesongs.s3.amazonaws.com/whatafool.jpeg",
+          createdAt: new Date,
+          updatedAt: new Date
+        },
+        {
+          userId: 10,
+          title: "What Kinda Music",
+          description: "with Yussef Dayes on the drums",
+          url: "https://tonezonesongs.s3.amazonaws.com/01+What+Kinda+Music.m4a",
+          imageUrl: "https://tonezonesongs.s3.amazonaws.com/What_Kinda_Music.jpg",
           createdAt: new Date,
           updatedAt: new Date
         },
       ],
+
       {}
     );
   },

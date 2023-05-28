@@ -39,7 +39,6 @@ const UserHomePage = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(getAllPlaylists(sessionUser.id));
       await dispatch(getAllSongs());
     };
 
