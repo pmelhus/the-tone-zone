@@ -77,6 +77,24 @@ module.exports = {
           createdAt: new Date,
           updatedAt: new Date
         },
+        {
+          userId: 11,
+          title: "Dreamscape",
+          description: "song artwork by my dad and song composed by myself!",
+          url: "https://tonezonesongs.s3.amazonaws.com/Dreamscape.m4a",
+          imageUrl: "https://tonezonesongs.s3.amazonaws.com/Dreamscape.jpg",
+          createdAt: new Date,
+          updatedAt: new Date
+        },
+        {
+          userId: 12,
+          title: "Cute",
+          description: "was feelin' cute so i wrote this song...",
+          url: "https://tonezonesongs.s3.amazonaws.com/04+Cute.m4a",
+          imageUrl: "https://tonezonesongs.s3.amazonaws.com/cute.jpeg",
+          createdAt: new Date,
+          updatedAt: new Date
+        },
       ],
 
       {}

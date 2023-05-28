@@ -23,7 +23,7 @@ const useStyles = createUseStyles((theme) => ({
     cursor: "pointer",
   },
   modalSignUp: {
-    padding: "30px",
+    padding: "50px",
     width: "300px",
   },
   loginButton: {
@@ -37,6 +37,10 @@ const useStyles = createUseStyles((theme) => ({
     height: "80px",
     borderRadius: "100%",
   },
+  errors: {
+    padding: '0',
+
+  }
 }));
 
 const SignUp = ({
@@ -133,6 +137,7 @@ const SignUp = ({
     return () => URL.revokeObjectURL(objectUrl);
   }, [image]);
 
+  
   return (
     <div className="sign-up-container">
       <button
@@ -153,7 +158,7 @@ const SignUp = ({
             <i className="fa-regular fa-xl fa-xmark"></i>
           </div>
           <form className="signup-form" onSubmit={handleSubmit}>
-            <ul>
+            <ul className={classes.errors}>
               {errors.map((error, idx) => (
                 <li key={idx}>{error}</li>
               ))}

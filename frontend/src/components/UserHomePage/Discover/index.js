@@ -4,19 +4,33 @@ import Playlist from "../Library/Playlists/Playlist";
 import { getAllPlaylists } from "../../../store/playlists";
 import { getAllSongs } from "../../../store/songs";
 import "./Discover.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import SongDiscover from "./SongDiscover";
 import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
 songDiscoverItem: {
 width: '228px'
+},
+emptyTracks: {
+  margin: "20px",
+  display: 'flex',
+  justifyContent: 'center',
+  flexDirection: 'column',
+  alignItems: 'center'
+},
+upload: {
+  display: 'flex'
+},
+link: {
+  marginTop: '10px'
 }
 }));
 
 const Discover = ({ isLoaded }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
+  const history = useHistory()
   const dispatch = useDispatch();
   const playlists = useSelector((state) => Object.values(state.playlists));
   const sessionUser = useSelector((state) => state.session?.user);
@@ -40,6 +54,10 @@ const Discover = ({ isLoaded }) => {
   //   // setIsLoaded(true);
   // }, [dispatch]);
 
+
+  const handleLink = () => {
+    history.push('/upload')
+  }
 
 
   return (
@@ -78,9 +96,18 @@ const Discover = ({ isLoaded }) => {
 
       <div className="playlists-container">
         <p>Hear your own tracks:</p>
+
+        {!yourSongs?.length && (
+          <>
+            <div className={classes.emptyTracks}>
+              <p className="fs-6"> Looks like you don't have any tracks!</p>
+              <span className={classes.upload}>
+                <a className={classes.link} onClick ={handleLink}>Upload a song</a>
+              </span>
+            </div>
+          </>
+        )}
         <ul className="playlist-cards">
-
-
         {isLoaded &&
             yourSongs.map((song) => {
               return (

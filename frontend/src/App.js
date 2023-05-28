@@ -12,6 +12,7 @@ import { useRef, forwardRef } from "react";
 import H5AudioPlayer from "./components/H5Player/index";
 import { getAllCurrentSongs } from "./store/currentSong";
 
+
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);

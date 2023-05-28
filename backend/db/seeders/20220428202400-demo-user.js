@@ -64,6 +64,18 @@ module.exports = {
         profileImageUrl: "https://tonezonesongs.s3.amazonaws.com/tom.jpeg",
         hashedPassword: bcrypt.hashSync('password')
       },
+      {
+        email: 'paul@melhus.com',
+        username: 'Paul Melhus',
+        profileImageUrl: "https://tonezonesongs.s3.amazonaws.com/me.jpg",
+        hashedPassword: bcrypt.hashSync('password')
+      },
+      {
+        email: 'kiefer@kiefer.com',
+        username: 'Kiefer',
+        profileImageUrl: "https://tonezonesongs.s3.amazonaws.com/kiefer.jpeg",
+        hashedPassword: bcrypt.hashSync('password')
+      },
 
     ], {});
   },

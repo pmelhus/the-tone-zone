@@ -220,7 +220,7 @@ const Waveform = ({
   return (
     <>
       <div className="waveform-button-title">
-        {indieWaveLoading && h5CanPlay ? (
+        {indieWaveLoading && !h5CanPlay ? (
           <FaPlayCircle
             size="4em"
             disabled
@@ -289,7 +289,7 @@ const Waveform = ({
       </div>
       <div className="waveform-container">
         <div className="waveform-image-container">
-          {indieWaveLoading && h5CanPlay && (
+          {indieWaveLoading && !h5CanPlay && (
             <div
               style={{
                 position: "absolute",

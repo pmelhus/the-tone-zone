@@ -7,14 +7,13 @@ import { useHistory } from "react-router-dom";
 import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
-
-songCard: {
-  width: '197.5px',
-  height: '197.5px',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center'
-}
+  songCard: {
+    width: "220px",
+    height: "197.5px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+  },
 }));
 
 const HomePageSongs = ({ setSignInToggle }) => {
@@ -33,13 +32,24 @@ const HomePageSongs = ({ setSignInToggle }) => {
   useEffect(() => {
     dispatch(getAllSongs());
   }, [dispatch]);
+  
 
   useEffect(() => {
     if (history.location.state?.commentAttempt && !sessionUser) {
       setSignInToggle(true);
     }
-
   }, [history]);
+
+  const handleClick = (song) => {
+    if (!sessionUser) {
+      history.push({state: {
+        pleaseLogin: true
+      }})
+      setSignInToggle(true);
+    } else {
+      history.push(`/stream/${song?.id}`);
+    }
+  };
 
   return (
     <>
@@ -49,7 +59,7 @@ const HomePageSongs = ({ setSignInToggle }) => {
           songList.map((song) => {
             return (
               <div className={classes.songCard}>
-                <a href={`/stream/${song.id}`} id="song-title">
+                <a onClick={() => handleClick(song)} id="song-title">
                   <div className="image-content">
                     {song?.imageUrl ? (
                       <img className="playlist-image" src={song?.imageUrl} />
@@ -64,14 +74,12 @@ const HomePageSongs = ({ setSignInToggle }) => {
 
                 <div className="title-div-homepage">
                   <div>
-                    <a href={`/stream/${song?.id}`} id="song-title">
-                      {song.title}
-                    </a>
+                    <a onClick={() => handleClick(song)} id="song-title">{song.title}</a>
                   </div>
                   <div>
-                    <a href={`/${song?.User?.username}`} id="username">
+                    <p id="username">
                       {song.User?.username}
-                    </a>
+                    </p>
                   </div>
                 </div>
               </div>

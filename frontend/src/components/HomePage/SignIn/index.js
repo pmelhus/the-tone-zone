@@ -1,5 +1,5 @@
 import "./SignIn.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import * as sessionActions from "../../../store/session";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,7 +37,6 @@ const SignIn = ({
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
-  const [exited, setExited] = useState(false);
 
   let history = useHistory();
 
@@ -58,9 +57,14 @@ const SignIn = ({
       }
     });
   };
+  const [pleaseLoginMsg, setPleaseLoginMsg] = useState(false);
 
   const handleSignUp = (e) => {
     e.preventDefault();
+    if (history.location.state.pleaseLogin && !sessionUser) {
+      setPleaseLoginMsg(true);
+    }
+
     setSignInToggle(false);
     setSignUpToggle(true);
   };
@@ -82,7 +86,27 @@ const SignIn = ({
     // return <Redirect to="/discover"/>
   };
 
-  const handleClose = () => setSignInToggle(false);
+  const handleClose = () => {
+    setPleaseLoginMsg(false)
+    setSignInToggle(false);
+    history.push({state: {
+      pleaseLogin: false
+    }})
+  };
+
+  // check the state of history to see if login was prompted by song click or not
+
+
+
+  useEffect(() => {
+    if (history.location.state?.pleaseLogin) {
+      setPleaseLoginMsg(true)
+    }
+
+  }, [history.location.state?.pleaseLogin]);
+  // console.log(history.location.state, "STATE");
+  // useEffect(()=> {
+  // },[])
 
   return (
     <div className="sign-in-container">
@@ -95,9 +119,7 @@ const SignIn = ({
       </button>
       <Modal size="lg" centered show={signInToggle} onHide={handleClose}>
         <form className="signin-form" onSubmit={handleSubmit}>
-          {history.location.state?.commentAttempt && !exited && (
-            <p>Please log in or sign up to comment on a song!</p>
-          )}
+          {pleaseLoginMsg && <p>Please log in or sign up to play a song!</p>}
           <ul>
             {errors && errors.map((error, idx) => <li key={idx}>{error}</li>)}
           </ul>
