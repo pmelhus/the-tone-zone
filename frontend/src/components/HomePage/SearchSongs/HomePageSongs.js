@@ -9,8 +9,8 @@ import { createUseStyles, useTheme } from "react-jss";
 const useStyles = createUseStyles((theme) => ({
 
 songCard: {
-  width: '196.5px',
-  height: '196.5px',
+  width: '197.5px',
+  height: '197.5px',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center'

@@ -52,12 +52,11 @@ const SignIn = ({
       if (data && data.errors) {
         setErrors(data.errors);
       }
-      await setSignInToggle(false);
       if (!errors) {
+        await setSignInToggle(false);
         await history.push("/discover");
       }
     });
-
   };
 
   const handleSignUp = (e) => {
@@ -74,10 +73,12 @@ const SignIn = ({
       sessionActions.login({ credential, password })
     ).catch(async (res) => {
       const data = await res.json();
-      if (data && data.errors) setErrors(data.errors);
+      if (data && data.errors) await setErrors(data.errors);
     });
-    await setSignInToggle(false);
-    await history.push("/discover");
+    if (user) {
+      await setSignInToggle(false);
+      await history.push("/discover");
+    }
     // return <Redirect to="/discover"/>
   };
 
@@ -92,8 +93,11 @@ const SignIn = ({
       >
         Sign In
       </button>
-      <Modal size='lg' centered show={signInToggle} onHide={handleClose}>
+      <Modal size="lg" centered show={signInToggle} onHide={handleClose}>
         <form className="signin-form" onSubmit={handleSubmit}>
+          {history.location.state?.commentAttempt && !exited && (
+            <p>Please log in or sign up to comment on a song!</p>
+          )}
           <ul>
             {errors && errors.map((error, idx) => <li key={idx}>{error}</li>)}
           </ul>

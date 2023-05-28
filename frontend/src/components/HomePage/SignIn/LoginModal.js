@@ -87,9 +87,7 @@ const LoginModal = ({ setSignInToggle, signInToggle, setSignUpToggle }) => {
               <span className="or-span">or</span>
             </div>
           </div> */}
-          {history.location.state?.commentAttempt && !exited && (
-            <p>Please log in or sign up to comment on a song!</p>
-          )}
+
 
         </div>
       </div>

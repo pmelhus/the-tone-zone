@@ -107,6 +107,8 @@ label {
 
 .signin-form {
   padding: 40px;
+  max-width: 340px;
+  width: 340px;
 
 }
 
