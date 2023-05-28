@@ -86,7 +86,7 @@ const [isPlaying, toggleIsPlaying] = useState(false)
             {...{ signInToggle }}
             {...{ setSignInToggle }}
           />
-          {isLoaded && sessionUser && (
+          {isLoaded && (
             <UserHomePage
               {...{ audioPlayer }}
               {...{ waveLoading }}

@@ -61,10 +61,8 @@ const Song = ({
 
   useEffect(() => {
     dispatch(getOneSong(songId));
-    if (sessionUser) {
-      dispatch(getAllPlaylists(sessionUser.id));
-    }
-  }, [dispatch, sessionUser]);
+
+  }, [dispatch]);
 
   const playlists = useSelector((state) =>
     Object.values(state.playlists.playlists)

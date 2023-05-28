@@ -24,9 +24,9 @@ const Discover = ({ isLoaded }) => {
   const sortedLatest = useSelector((state) => Object.values(state.songs));
   const { pathname } = useLocation();
   const yourSongs = songs.filter((song)=> {
-  return  song.userId === sessionUser.id
+  return  song.userId === sessionUser?.id
   })
-  
+
   sortedLatest.sort((a, b) => {
     return b.id - a.id
   });
