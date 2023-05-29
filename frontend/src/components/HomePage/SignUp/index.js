@@ -4,33 +4,30 @@ import SignUpModal from "./SignUpModal";
 import { createUseStyles, useTheme } from "react-jss";
 import * as sessionActions from "../../../store/session";
 import { useDispatch, useSelector } from "react-redux";
-import {useHistory} from "react-router-dom"
+import { useHistory } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
+import Spinner from "react-bootstrap/Spinner";
 
 const useStyles = createUseStyles((theme) => ({
-  loginButton: {
-    backgroundColor: theme.orangeTheme,
-    color: "white",
-    borderRadius: "4px",
-  },
   exit: {
     position: "absolute",
     right: "20px",
-    top: "5px",
+    top: "10px",
     width: "20px",
     height: "20px",
     // padding: "10px",
     cursor: "pointer",
   },
   modalSignUp: {
-    padding: "50px",
-    width: "300px",
+    padding: "40px",
+    width: "340px",
   },
   loginButton: {
     backgroundColor: theme.orangeTheme,
     color: "white",
     borderRadius: "4px",
     marginTop: "20px",
+    width: "100%",
   },
   stockImage: {
     width: "80px",
@@ -38,9 +35,26 @@ const useStyles = createUseStyles((theme) => ({
     borderRadius: "100%",
   },
   errors: {
-    padding: '0',
-
-  }
+    padding: "0",
+  },
+  signInButton: {
+    width: "100%",
+  },
+  submitButton: {
+    backgroundColor: theme.orangeTheme,
+    color: "white",
+    borderRadius: "4px",
+    "&:hover": {
+      backgroundColor: "white",
+      color: theme.orangeTheme,
+    },
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: "13px",
+    padding: "0",
+  },
 }));
 
 const SignUp = ({
@@ -54,7 +68,7 @@ const SignUp = ({
 
   const dispatch = useDispatch();
 
-  const history = useHistory()
+  const history = useHistory();
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -62,11 +76,13 @@ const SignUp = ({
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // if (sessionUser) return <Redirect to="/discover" />;
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     let newErrors = [];
 
     if (password === confirmPassword) {
@@ -76,8 +92,9 @@ const SignUp = ({
           setEmail("");
           setPassword("");
           setImage(null);
-          history.push('/discover')
-          setSignUpToggle(false)
+          history.push("/discover");
+          setLoading(false);
+          setSignUpToggle(false);
         })
         .catch(async (res) => {
           const data = await res.json();
@@ -98,6 +115,7 @@ const SignUp = ({
     e.preventDefault();
     setSignUpToggle(false);
     setSignInToggle(true);
+    setErrors([])
   };
 
   const updateFile = (e) => {
@@ -105,24 +123,19 @@ const SignUp = ({
     if (file) setImage(file);
   };
 
-
-
   const handleClose = () => setSignUpToggle(false);
 
   const [isImageLoaded, setIsImageLoaded] = useState(true);
-  const [preview, setPreview] = useState()
-
-
+  const [preview, setPreview] = useState();
 
   const updateImage = (e) => {
     const file = e.target.files[0];
     if (file) setImage(file);
   };
 
-
   const handleImageInput = (e) => {
-    console.log(e)
-  }
+    console.log(e);
+  };
 
   useEffect(() => {
     if (!image) {
@@ -137,7 +150,6 @@ const SignUp = ({
     return () => URL.revokeObjectURL(objectUrl);
   }, [image]);
 
-  
   return (
     <div className="sign-up-container">
       <button
@@ -217,17 +229,15 @@ const SignUp = ({
                   )
                 ) : (
                   <img
-                  className={classes.stockImage}
+                    className={classes.stockImage}
                     src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif"
                     alt="loading"
                   />
                 )}
-
               </div>
               <label id="profile-avatar-label">
                 Upload profile avatar
                 <input
-
                   id="profile-avatar-upload"
                   placeholder="Upload your image"
                   type="file"
@@ -245,14 +255,33 @@ const SignUp = ({
               multiple
               onChange={updateFiles} />
           </label> */}
-            <button className={classes.loginButton} type="submit">
-              Sign Up
-            </button>
 
-            <p style={{ padding: "0", marginTop: "20px" }}>
+            {loading ? (
+              <button disabled className={classes.submitButton}>
+                {" "}
+                <Spinner
+                  as="span"
+                  animation="grow"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+                Loading...
+              </button>
+            ) : (
+              <button className={classes.submitButton} type="submit">
+                Sign Up
+              </button>
+            )}
+
+            <p
+              style={{ padding: "0", marginTop: "20px", marginBottom: "10px" }}
+            >
               Already have an account?
             </p>
-            <button onClick={handleSignIn}>Sign in</button>
+            <button className={classes.submitButton} onClick={handleSignIn}>
+              Sign in
+            </button>
           </form>
         </div>
       </Modal>

@@ -8,11 +8,12 @@ import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
   songCard: {
-    width: "220px",
+    width: "234px",
     height: "197.5px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
+    margin: '20px'
   },
 }));
 
@@ -32,7 +33,7 @@ const HomePageSongs = ({ setSignInToggle }) => {
   useEffect(() => {
     dispatch(getAllSongs());
   }, [dispatch]);
-  
+
 
   useEffect(() => {
     if (history.location.state?.commentAttempt && !sessionUser) {

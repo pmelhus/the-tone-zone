@@ -6,41 +6,41 @@ import { ValidationError } from "../../../utils/validationError";
 import ErrorMessage from "../../ErrorMessage";
 import * as songActions from "../../../store/songs";
 import { createUseStyles, useTheme } from "react-jss";
-import Spinner from 'react-bootstrap/Spinner';
+import Spinner from "react-bootstrap/Spinner";
 
 const useStyles = createUseStyles((theme) => ({
   submitButton: {
     backgroundColor: theme.orangeTheme,
     color: "white",
     borderRadius: "4px",
-    '&:hover': {
-      backgroundColor: 'white',
-      color: theme.orangeTheme
+    "&:hover": {
+      backgroundColor: "white",
+      color: theme.orangeTheme,
     },
-    width: '90px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontSize: '13px',
-    padding: '0'
+    width: "90px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: "13px",
+    padding: "0",
   },
   buttonDiv: {
-    display: 'flex',
-    padding: '10px'
+    display: "flex",
+    padding: "10px",
   },
   inputField: {
-    padding: '10px'
+    padding: "10px",
   },
   fileInput: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    paddingLeft: '10px'
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    paddingLeft: "10px",
   },
   input: {
-    width: '100%',
-    padding: '10px'
-  }
+    width: "100%",
+    padding: "10px",
+  },
 }));
 
 const Upload = (sessionUser) => {
@@ -60,12 +60,12 @@ const Upload = (sessionUser) => {
   const [preview, setPreview] = useState();
 
   // set load state for uploading song
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    setIsLoading(true)
+    setIsLoading(true);
     const payload = {
       userId,
       title,
@@ -81,17 +81,14 @@ const Upload = (sessionUser) => {
         .then(() => history.push(`/stream`))
         .then(() => dispatch(songActions.getAllSongs()));
     } catch (error) {
-
       if (error instanceof ValidationError) {
-
         setErrorMessages(error.errors);
       }
 
       // If error is not a ValidationError, add slice at the end to remove extra
       // "Error: "
       else {
-
-        setErrorMessages({ overall:"Please upload a valid audio file"});
+        setErrorMessages({ overall: "Please upload a valid audio file" });
       }
     }
     //!!END
@@ -101,10 +98,10 @@ const Upload = (sessionUser) => {
       //!!END
       setTitle("");
       setDescription("");
-      setAudio(null)
+      setAudio(null);
 
       history.push(`/stream`);
-      setIsLoading(false)
+      setIsLoading(false);
       dispatch(songActions.getAllSongs());
     }
   };
@@ -120,7 +117,6 @@ const Upload = (sessionUser) => {
   const updateImage = (e) => {
     const file = e.target.files[0];
     if (file) setImage(file);
-
   };
 
   const handleCancelClick = (e) => {
@@ -148,19 +144,17 @@ const Upload = (sessionUser) => {
 
   // creating state for indication of song uploaded to input
 
-  const [songInInput, setSongInInput] =useState(false)
+  const [songInInput, setSongInInput] = useState(false);
   const handleSongUpload = () => {
-setSongInInput(true)
-  }
+    setSongInInput(true);
+  };
 
   return (
     <div className="upload-content">
-
       <ErrorMessage message={errorMessages.overall} />
       <form className="upload-form" onSubmit={onSubmit}>
         <img className="image-preview" src={preview}></img>
         <div className={classes.inputField}>
-
           <label for="song-name">Title</label>
           <br></br>
           <input
@@ -191,58 +185,53 @@ setSongInInput(true)
           message={errorMessages.description}
         />
 
-          <div className={classes.fileInput}>
-
-
-<label  className="upload-song-input">
-
-            Upload your song
-</label>
-            <input
-              type="file"
-              // name="song-upload"
-              accept="audio/*"
-              onChange={updateAudio}
-              className={classes.input}
-            ></input>
-          </div>
-
-
-
         <div className={classes.fileInput}>
-          <label className="upload-song-input">
-            Upload song cover
-          </label>
-            <input
+          <label className="upload-song-input">Upload your song</label>
+          <input
+            type="file"
+            // name="song-upload"
+            accept="audio/*"
+            onChange={updateAudio}
             className={classes.input}
-              placeholder="Upload your image"
-              type="file"
-              accept="image/*"
-              name="image-upload"
-              onChange={updateImage}
-            ></input>
+          ></input>
         </div>
 
-<div className={classes.buttonDiv}>
+        <div className={classes.fileInput}>
+          <label className="upload-song-input">Upload song cover</label>
+          <input
+            className={classes.input}
+            placeholder="Upload your image"
+            type="file"
+            accept="image/*"
+            name="image-upload"
+            onChange={updateImage}
+          ></input>
+        </div>
 
-
-        <button className={classes.submitButton} type="button" onClick={handleCancelClick}>
-          Cancel
-        </button>
-        {isLoading ?
-          <button disabled className={classes.submitButton}>      <Spinner
-          as="span"
-          animation="grow"
-          size="sm"
-          role="status"
-          aria-hidden="true"
-        />
-        Loading...</button>
-        :
-
-        <button className={classes.submitButton}>Save</button>
-        }
-</div>
+        <div className={classes.buttonDiv}>
+          <button
+            className={classes.submitButton}
+            type="button"
+            onClick={handleCancelClick}
+          >
+            Cancel
+          </button>
+          {isLoading ? (
+            <button disabled className={classes.submitButton}>
+              {" "}
+              <Spinner
+                as="span"
+                animation="grow"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+              Loading...
+            </button>
+          ) : (
+            <button className={classes.submitButton}>Save</button>
+          )}
+        </div>
       </form>
     </div>
   );

@@ -179,7 +179,7 @@ z-index: 50000;
 }
 
 .song-page-avatar p {
-  margin-top: 5px;
+  margin-top: 10px;
   font-size: 12px;
   font-weight:lighter;
   text-overflow: ellipsis;
