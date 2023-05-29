@@ -6,8 +6,9 @@
   /* padding: 0 30px; */
   margin: 0 auto;
   width: 1240px;
-height: 1350px;
+min-height: 100%;
 background-color: white;
+padding: 0;
 }
 
 .top-images-container {
@@ -16,3 +17,5 @@ background-color: white;
   position: relative;
   border-top: 4px solid #f50;
 }
+
+
