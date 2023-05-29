@@ -83,9 +83,11 @@ function Navigation({ isLoaded }) {
           {/* </div> */}
           <div className={sessionUser ? "profile-button" : "signin-signup-div"}>
             {sessionUser ? (
-              <NavLink to="/upload">
-                <p style={{ margin: "0" }}>Upload</p>
-              </NavLink>
+              <div className='upload-div'>
+                <NavLink to="/upload">
+                  <p>Upload</p>
+                </NavLink>
+              </div>
             ) : (
               <>
                 <a onClick={handleSignIn}>

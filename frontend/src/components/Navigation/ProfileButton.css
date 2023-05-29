@@ -90,3 +90,19 @@ border: none;
 .dropdown-item {
   color: black;
 }
+
+.custom-toggle {
+  color: rgba(255, 255, 255, 0.753);
+}
+
+.dropdown {
+  height: 100%;
+  display: flex;
+padding-right: 10px;
+  justify-content: right;
+}
+
+.dropdown:hover {
+background-color: rgba(33, 37, 41, .5);
+height: 100%;
+}
