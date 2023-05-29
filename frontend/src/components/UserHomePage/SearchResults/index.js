@@ -19,6 +19,10 @@ const SearchResults = ({
   setSourceChangeSwitch,
   setCurrentAudio,
   h5CanPlay,
+  signInToggle,
+  setSignInToggle,
+  signUpToggle,
+  setSignUpToggle
 }) => {
   const { pathname } = useLocation();
 
@@ -173,6 +177,7 @@ dispatch(getSearchResults(searchWord))
                 {songFilter && (
                   <>
                     <SearchSongs
+
                       {...{ h5CanPlay }}
                       {...{ wavePlayer }}
                       {...{ setCurrentAudio }}
@@ -184,6 +189,10 @@ dispatch(getSearchResults(searchWord))
                       {...{ setSourceChangeSwitch }}
                       {...{ audioPlayer }}
                       {...{ songResults }}
+                      {...{ signInToggle }}
+                      {...{ setSignInToggle }}
+                      {...{ signUpToggle }}
+                      {...{ setSignUpToggle }}
                     />
                   </>
                 )}

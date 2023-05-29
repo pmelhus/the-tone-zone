@@ -7,29 +7,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LoginModal from "../HomePage/SignIn/LoginModal";
 import SignUpModal from "../HomePage/SignUp/SignUpModal";
 import SearchBarNav from "./SearchBarNav";
+import SignIn2 from "./SignIn2";
+import SignUp2 from "./SignUp2";
 
 function Navigation({ isLoaded }) {
   // const sessionUser = useSelector((st ate) => state.session.user);
-  const [signInToggle2, setSignInToggle2] = useState(false);
-  const [signUpToggle2, setSignUpToggle2] = useState(false);
+
   const location = useLocation();
   const streamUrl = location.pathname.split("/")[1];
   const sessionUser = useSelector((state) => state.session.user);
 
-  const handleSignIn = (e) => {
-    setSignInToggle2(true);
-  };
-
-  const handleSignUp = (e) => {
-    setSignUpToggle2(true);
-  };
-
-  let sessionLinks;
-  if (sessionUser) {
-    sessionLinks = (
-      <ProfileButton {...{ setSignInToggle2 }} user={sessionUser} />
-    );
-  }
 
   return (
     <header>
@@ -83,40 +70,24 @@ function Navigation({ isLoaded }) {
           {/* </div> */}
           <div className={sessionUser ? "profile-button" : "signin-signup-div"}>
             {sessionUser ? (
-              <div className='upload-div'>
+              <div className="upload-div">
                 <NavLink to="/upload">
                   <p>Upload</p>
                 </NavLink>
               </div>
             ) : (
               <>
-                <a onClick={handleSignIn}>
-                  <li className="ul-nav-items">
-                    <p>Sign In</p>
-                  </li>
-                </a>
-                <a onClick={handleSignUp}>
-                  <li className="ul-nav-items">
-                    <p>Sign Up</p>
-                  </li>
-                </a>
+                <li className="ul-nav-items">
+                  <SignIn2 />
+                </li>
+
+                <li className="ul-nav-items">
+                  <SignUp2 />
+                </li>
               </>
             )}
-            {isLoaded && sessionLinks}
           </div>
         </nav>
-        <LoginModal
-          setSignInToggle={setSignInToggle2}
-          signInToggle={signInToggle2}
-          setSignUpToggle={setSignUpToggle2}
-          signUpToggle={signUpToggle2}
-        />
-        <SignUpModal
-          setSignInToggle={setSignInToggle2}
-          signInToggle={signInToggle2}
-          setSignUpToggle={setSignUpToggle2}
-          signUpToggle={signUpToggle2}
-        />
       </div>
     </header>
   );

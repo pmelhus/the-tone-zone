@@ -38,14 +38,14 @@ const SearchSongs = ({ setSignInToggle }) => {
   return (
     <>
       <div className="home-search-container">
-        <form className={classes.searchForm} onSubmit={handleSubmit}>
+        {/* <form className={classes.searchForm} onSubmit={handleSubmit}>
           <input
             placeholder="Search for artists, bands, or tracks"
             value={searchWord}
             onChange={handleSearchWord}
           ></input>
           <button style={{display:'none'}} type="submit"></button>
-        </form>
+        </form> */}
         <HomePageSongs {...{ setSignInToggle }} />
       </div>
     </>

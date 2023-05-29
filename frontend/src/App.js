@@ -88,6 +88,10 @@ function App() {
           />
           {isLoaded && (
             <UserHomePage
+            {...{ signUpToggle }}
+            {...{ setSignUpToggle }}
+            {...{ signInToggle }}
+            {...{ setSignInToggle }}
               {...{ audioPlayer }}
               {...{ waveLoading }}
               {...{ setWaveLoading }}

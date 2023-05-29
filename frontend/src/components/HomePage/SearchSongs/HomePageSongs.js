@@ -8,12 +8,12 @@ import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
   songCard: {
-    width: "234px",
-    height: "197.5px",
+    width: "240px",
+    height: "240px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    margin: '20px'
+    margin: '25px'
   },
 }));
 

@@ -43,21 +43,25 @@ margin-right: 10px;
 }
 
 .ul-nav li {
-  padding: 0 20px;
   display: flex;
   align-items: center;
+
 }
 
 .ul-nav-items {
   height: 40px;
   margin: 0;
+  padding: 0;
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 60px;
 }
 
 .ul-nav-items p {
   margin: 0;
-  width: 50px;
+  padding: 0;
+  /* width: 50px; */
   text-align: center;
 }
 
@@ -105,11 +109,7 @@ margin-right: 10px;
   border: none;
 }
 
+
 .signin-signup-div {
   display: flex;
-}
-
-.signin-signup-div a {
-  margin: 0 8px;
-  border: none;
 }

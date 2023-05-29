@@ -12,10 +12,16 @@ padding: 0;
 }
 
 .top-images-container {
-  display: block;
-  /* height: 440px; */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+justify-content: space-between;
   position: relative;
+
   border-top: 4px solid #f50;
 }
 
 
+.main-content {
+  min-height: 100vh;
+}

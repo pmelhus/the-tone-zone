@@ -29,7 +29,11 @@ const UserHomePage = ({
   audioPlayer,
   setCurrentAudio,
   currentAudio,
-  h5CanPlay
+  h5CanPlay,
+  signInToggle,
+  setSignInToggle,
+  signUpToggle,
+  setSignUpToggle,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
@@ -77,21 +81,23 @@ const UserHomePage = ({
             {...{ h5CanPlay }}
           />
         </Route>
-        <Route exact path="/stream">
-          <Songs
-            {...{ audioPlayer }}
-            sessionUser={sessionUser}
-            {...{ setSourceChangeSwitch }}
-            {...{ waveLoading }}
-            {...{ setWaveLoading }}
-            {...{ wavePlayer }}
-            {...{ isPlaying }}
-            {...{ toggleIsPlaying }}
-            {...{ setCurrentAudio }}
-            {...{ currentAudio }}
-            {...{ h5CanPlay }}
-          />
-        </Route>
+        {sessionUser && (
+          <Route exact path="/stream">
+            <Songs
+              {...{ audioPlayer }}
+              sessionUser={sessionUser}
+              {...{ setSourceChangeSwitch }}
+              {...{ waveLoading }}
+              {...{ setWaveLoading }}
+              {...{ wavePlayer }}
+              {...{ isPlaying }}
+              {...{ toggleIsPlaying }}
+              {...{ setCurrentAudio }}
+              {...{ currentAudio }}
+              {...{ h5CanPlay }}
+            />
+          </Route>
+        )}
         <Route path="/you/library">
           <LibraryNav />
 
@@ -121,6 +127,10 @@ const UserHomePage = ({
             </Route>
             <Route path="/search">
               <SearchResults
+                {...{ signInToggle }}
+                {...{ setSignInToggle }}
+                {...{ signUpToggle }}
+                {...{ setSignUpToggle }}
                 {...{ audioPlayer }}
                 {...{ isLoaded }}
                 sessionUser={sessionUser}
@@ -133,6 +143,7 @@ const UserHomePage = ({
                 {...{ setCurrentAudio }}
                 {...{ currentAudio }}
                 {...{ h5CanPlay }}
+                {...{sessionUser}}
               />
             </Route>
           </>
