@@ -74,6 +74,7 @@ function Navigation({ isLoaded }) {
                 <NavLink to="/upload">
                   <p>Upload</p>
                 </NavLink>
+                <ProfileButton/>
               </div>
             ) : (
               <>

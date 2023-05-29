@@ -23,7 +23,7 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
   </div>
 ));
 
-function ProfileButton({ setSignInToggle2 }) {
+function ProfileButton({ }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   let history = useHistory();
@@ -50,7 +50,6 @@ function ProfileButton({ setSignInToggle2 }) {
 
   const logout = (e) => {
     e.preventDefault();
-    setSignInToggle2(false);
     dispatch(sessionActions.logout());
     history.push("/");
   };

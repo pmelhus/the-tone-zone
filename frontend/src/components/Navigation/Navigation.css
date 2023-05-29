@@ -51,7 +51,7 @@ margin-right: 10px;
 .ul-nav-items {
   height: 40px;
   margin: 0;
-  padding: 0;
+  padding: 0 34px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -102,6 +102,8 @@ margin-right: 10px;
 
 .upload-div {
   margin-right: 10px;
+  display: flex;
+  align-items: center;
 }
 
 
