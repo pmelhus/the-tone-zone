@@ -93,9 +93,13 @@ margin-right: 10px;
   display: flex;
   justify-content: right;
   width: 600px;
-  padding-right: 26px;
   align-items: center;
 }
+
+.upload-div {
+  margin-right: 10px;
+}
+
 
 .profile-button a {
   border: none;
