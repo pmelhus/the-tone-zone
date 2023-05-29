@@ -17,7 +17,7 @@ const WriteComment = ({ song }) => {
   const [errorMessages, setErrorMessages] = useState({});
 
   const handleClick = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!session.user) {
       history.push("/", { commentAttempt: true, from: location.pathname });
     } else {
@@ -29,39 +29,34 @@ const WriteComment = ({ song }) => {
       };
 
       let createdComment;
-      try {
-        createdComment = await dispatch(createComment(payload))
-         await dispatch(getAllComments())
-         await setBody("");
-         await setErrorMessages({});
 
-      } catch (error) {
-        if (error instanceof ValidationError) {
+      createdComment = await dispatch(createComment(payload));
 
-          setErrorMessages(error.errors);
-        }
+      await console.log(createdComment);
 
-        // If error is not a ValidationError, add slice at the end to remove extra
-        // "Error: "
-        else setErrorMessages({ overall: error.toString().slice(7) });
-      }
-      //!!END
 
-        //!!START SILENT
+      await dispatch(getAllComments());
+      await setBody("");
+      await setErrorMessages({});
 
-        //!!END
 
-        // return dispatch(createComment(payload)).then(() => {
-        //   dispatch(getAllComments());
-        // });
-
+      // If error is not a ValidationError, add slice at the end to remove extra
+      // "Error: "
     }
+    //!!END
+
+    //!!START SILENT
+
+    //!!END
+
+    // return dispatch(createComment(payload)).then(() => {
+    //   dispatch(getAllComments());
+    // });
   };
 
   const updateBody = (e) => {
     setBody(e.target.value);
   };
-
 
   return (
     <>

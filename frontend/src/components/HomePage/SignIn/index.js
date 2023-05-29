@@ -1,5 +1,5 @@
 import "./SignIn.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import * as sessionActions from "../../../store/session";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,7 +37,6 @@ const SignIn = ({
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
-  const [exited, setExited] = useState(false);
 
   let history = useHistory();
 
@@ -52,36 +51,62 @@ const SignIn = ({
       if (data && data.errors) {
         setErrors(data.errors);
       }
-      await setSignInToggle(false);
       if (!errors) {
+        await setSignInToggle(false);
         await history.push("/discover");
       }
     });
-
   };
+  const [pleaseLoginMsg, setPleaseLoginMsg] = useState(false);
 
   const handleSignUp = (e) => {
     e.preventDefault();
+    if (history.location.state.pleaseLogin && !sessionUser) {
+      setPleaseLoginMsg(true);
+    }
+
     setSignInToggle(false);
     setSignUpToggle(true);
   };
 
   const demo = async (e) => {
-    const credential = "Demo-lition";
+    const credential = "DemoUser";
     const password = "password";
 
     const user = await dispatch(
       sessionActions.login({ credential, password })
     ).catch(async (res) => {
       const data = await res.json();
-      if (data && data.errors) setErrors(data.errors);
+      if (data && data.errors) await setErrors(data.errors);
     });
-    await setSignInToggle(false);
-    await history.push("/discover");
+    if (user) {
+      await setSignInToggle(false);
+      await history.push("/discover");
+    }
     // return <Redirect to="/discover"/>
   };
 
-  const handleClose = () => setSignInToggle(false);
+  const handleClose = () => {
+    setPleaseLoginMsg(false)
+    setSignInToggle(false);
+    history.push({state: {
+      pleaseLogin: false
+    }})
+  };
+
+  // check the state of history to see if login was prompted by song click or not
+
+
+
+  useEffect(() => {
+    if (history.location.state?.pleaseLogin) {
+      setPleaseLoginMsg(true)
+    }
+
+  }, [history.location.state?.pleaseLogin]);
+  // console.log(history.location.state, "STATE");
+  // useEffect(()=> {
+  // },[])
 
   return (
     <div className="sign-in-container">
@@ -92,8 +117,9 @@ const SignIn = ({
       >
         Sign In
       </button>
-      <Modal size='lg' centered show={signInToggle} onHide={handleClose}>
+      <Modal size="lg" centered show={signInToggle} onHide={handleClose}>
         <form className="signin-form" onSubmit={handleSubmit}>
+          {pleaseLoginMsg && <p>Please log in or sign up to play a song!</p>}
           <ul>
             {errors && errors.map((error, idx) => <li key={idx}>{error}</li>)}
           </ul>

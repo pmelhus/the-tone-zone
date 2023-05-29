@@ -28,7 +28,7 @@ function App() {
   const sessionUser = useSelector((state) => state.session.user);
   const songs = useSelector((state) => state.songs);
   const [sourceChangeSwitch, setSourceChangeSwitch] = useState(false);
-const [isPlaying, toggleIsPlaying] = useState(false)
+  const [isPlaying, toggleIsPlaying] = useState(false);
   const audioPlayer = useRef();
   const wavePlayer = useRef();
 
@@ -86,15 +86,15 @@ const [isPlaying, toggleIsPlaying] = useState(false)
             {...{ signInToggle }}
             {...{ setSignInToggle }}
           />
-          {isLoaded && sessionUser && (
+          {isLoaded && (
             <UserHomePage
               {...{ audioPlayer }}
               {...{ waveLoading }}
               {...{ setWaveLoading }}
               {...{ wavePlayer }}
               {...{ setCurrentAudio }}
-              {...{toggleIsPlaying}}
-              {...{isPlaying}}
+              {...{ toggleIsPlaying }}
+              {...{ isPlaying }}
               {...{ sessionUser }}
               {...{ currentAudio }}
               {...{ setSourceChangeSwitch }}

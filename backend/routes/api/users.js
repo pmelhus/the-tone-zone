@@ -42,20 +42,38 @@ router.post(
   asyncHandler(async (req, res) => {
     const { email, password, username } = req.body
 
-    const profileImageUrl = await singlePublicFileUpload(req.file);
 
-    const user = await User.signup({
-      email,
-      username,
-      password,
-      profileImageUrl,
-    });
+    if (req.file) {
+
+      const profileImageUrl = await singlePublicFileUpload(req.file);
 
 
-    await setTokenCookie(res, user);
-    return res.json({
-      user,
-    });
+
+      const user = await User.signup({
+        email,
+        username,
+        password,
+        profileImageUrl,
+      });
+
+
+      await setTokenCookie(res, user);
+      return res.json({
+        user,
+      });
+    } else {
+      const user = await User.signup({
+        email,
+        username,
+        password
+      });
+
+
+      await setTokenCookie(res, user);
+      return res.json({
+        user,
+      });
+    }
   })
 );
 

@@ -29,7 +29,7 @@ const UserHomePage = ({
   audioPlayer,
   setCurrentAudio,
   currentAudio,
-  h5CanPlay,
+  h5CanPlay
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
@@ -39,7 +39,6 @@ const UserHomePage = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(getAllPlaylists(sessionUser.id));
       await dispatch(getAllSongs());
     };
 
@@ -54,14 +53,14 @@ const UserHomePage = ({
     setIsLoaded(true);
   }, [dispatch, pathname]);
 
-
-
   return (
     <div className="user-home-body">
       <Switch>
-        <Route path="/discover">
-          <Discover {...{ isLoaded }} />
-        </Route>
+        {isLoaded && sessionUser && (
+          <Route path="/discover">
+            <Discover {...{ isLoaded }} />
+          </Route>
+        )}
         <Route path="/stream/:songId">
           <Song
             {...{ h5CanPlay }}
@@ -117,8 +116,7 @@ const UserHomePage = ({
                 {...{ setCurrentAudio }}
                 {...{ currentAudio }}
                 {...{ h5CanPlay }}
-                {...{setCurrentAudio}}
-         
+                {...{ setCurrentAudio }}
               />
             </Route>
             <Route path="/search">

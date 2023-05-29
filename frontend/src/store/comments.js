@@ -28,36 +28,36 @@ const deleteComment = (comment) => ({
 });
 
 export const createComment = (comment) => async (dispatch) => {
-  try {
-    const response = await csrfFetch(`/api/comments/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(comment),
-    });
-    if (!response.ok) {
-      let error;
-      if (response.status === 422) {
-        error = await response.json();
-        throw new ValidationError(error.errors, response.statusText);
-      } else {
-        let errorJSON;
-        error = await response.text();
-        try {
-          errorJSON = JSON.parse(error);
-        } catch {
-          throw new Error(error);
-        }
-        throw new Error(`${errorJSON.title}: ${errorJSON.message}`);
+
+
+
+  const response = await csrfFetch(`/api/comments/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(comment),
+  });
+
+  if (!response.ok) {
+
+    let error;
+    if (response.status === 422) {
+      error = await response.json();
+      throw new ValidationError(error.errors, response.statusText);
+    } else {
+      let errorJSON;
+      error = await response.text();
+      try {
+        errorJSON = JSON.parse(error);
+      } catch {
+        throw new Error(error);
       }
+      throw new Error(`${errorJSON.title}: ${errorJSON.message}`);
     }
-
+  } else {
     const commentRes = await response.json();
-
     dispatch(addOneComment(commentRes, commentRes.user));
-  } catch (error) {
-    throw error;
   }
 };
 
@@ -101,6 +101,7 @@ export const updateComment = (data) => async (dispatch) => {
     const comment = await response.json();
     dispatch(update(comment));
   } catch (error) {
+
     throw error;
   }
 };
