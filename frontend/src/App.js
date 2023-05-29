@@ -12,7 +12,6 @@ import { useRef, forwardRef } from "react";
 import H5AudioPlayer from "./components/H5Player/index";
 import { getAllCurrentSongs } from "./store/currentSong";
 
-
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -29,7 +28,7 @@ function App() {
   const sessionUser = useSelector((state) => state.session.user);
   const songs = useSelector((state) => state.songs);
   const [sourceChangeSwitch, setSourceChangeSwitch] = useState(false);
-const [isPlaying, toggleIsPlaying] = useState(false)
+  const [isPlaying, toggleIsPlaying] = useState(false);
   const audioPlayer = useRef();
   const wavePlayer = useRef();
 
@@ -94,8 +93,8 @@ const [isPlaying, toggleIsPlaying] = useState(false)
               {...{ setWaveLoading }}
               {...{ wavePlayer }}
               {...{ setCurrentAudio }}
-              {...{toggleIsPlaying}}
-              {...{isPlaying}}
+              {...{ toggleIsPlaying }}
+              {...{ isPlaying }}
               {...{ sessionUser }}
               {...{ currentAudio }}
               {...{ setSourceChangeSwitch }}
