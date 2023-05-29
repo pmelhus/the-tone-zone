@@ -13,7 +13,16 @@ const useStyles = createUseStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    margin: '25px'
+    margin: '25px',
+    "@media (min-width: 768px)": {
+      width: "110px",
+      height: "110px"
+    },
+    "@media (min-height: 2500px)": {
+      width: "210px",
+      height: "210px",
+      margin: '50px 40px'
+    }
   },
 }));
 

@@ -24,6 +24,17 @@
   /* backdrop-filter: blur(50px); */
 }
 
+@media(min-height: 2500px) {
+  .audio-and-image {
+    margin-top: -16px;
+
+    margin-left: -20px;
+    margin-right: -20px;
+    height: 100%;
+  }
+}
+
+
 .song-player {
   display: flex;
   justify-content: space-between;
@@ -237,11 +248,8 @@ z-index: 50000;
 }
 .image-relative-container {
   position: relative;
-
 }
-.waveform-headings {
 
-}
 .background-image-song {
   position: absolute;
 width: 100%;

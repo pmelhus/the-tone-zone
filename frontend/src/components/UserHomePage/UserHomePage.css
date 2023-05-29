@@ -1,14 +1,15 @@
 .user-home-body {
   margin: 0 auto;
-  width: 1180px;
+  width: 75%;
   /* padding: 0 30px; */
   margin-top: 34px;
   min-height: 100vh;
 padding-bottom: 40px;
   background-color: white;
-  padding: 20px;
   padding-bottom: 80px;
   /* max-width: 1180px; */
+  display: flex;
+  flex-direction: column;
   /* position: absolute;
   top: 0;
   bottom: 0;
@@ -16,4 +17,8 @@ padding-bottom: 40px;
   right: 0; */
   /* overflow-y: scroll; */
 
+}
+
+.user-top-half {
+  height: 100%;
 }

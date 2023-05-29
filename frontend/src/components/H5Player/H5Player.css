@@ -51,7 +51,7 @@ justify-content: space-evenly;
 }
 
 .h5-audio-player-div {
-  width: 1180px;
+width: 75%;
   display: flex;
 }
 

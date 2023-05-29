@@ -4,6 +4,7 @@ padding-top: 20px;
   color: #999;
   width: 100%;
 
+
 }
 
 .playlist-image {
@@ -11,7 +12,19 @@ padding-top: 20px;
   height: 200px;
 }
 
+@media(min-width: 768px) {
+  .playlist-image {
+    width: 140px;
+    height: 140px;
+  }
+}
 
+@media(min-height: 2500px) {
+  .playlist-image {
+    width: 260px;
+    height: 260px;
+  }
+}
 
 
 
