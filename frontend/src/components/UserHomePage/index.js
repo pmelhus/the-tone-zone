@@ -16,6 +16,7 @@ import SearchResults from "./SearchResults";
 import { getSearchResults } from "../../store/search";
 import LibraryNav from "./LibraryNav";
 import { getAllCurrentSongs } from "../../store/currentSong";
+import Footer from "../HomePage/Footer"
 
 // howler.js range i
 const UserHomePage = ({
@@ -149,6 +150,7 @@ const UserHomePage = ({
           </>
         )}
       </Switch>
+        <Footer/>
     </div>
   );
 };
