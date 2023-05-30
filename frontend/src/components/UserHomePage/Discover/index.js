@@ -10,28 +10,37 @@ import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
   songDiscoverItem: {
-    "@media (min-width: 768px)": {
+
+    "@media (min-width: 768px ) and (max-width: 768px)": {
       width: "150px",
       height: "150px",
       margin: "14px",
     },
-    "@media (min-height: 2500px)": {
-      width: "268px",
-      height: "268px",
+
+    "@media (min-height: 2500px) and (min-width: 1170px)": {
+      width: "260px",
+      height: "260px",
       margin: "4px",
     },
-
-    "@media (min-width: 1980px)": {
+    "@media (min-width: 769px) and (max-width: 1979px) and (max-height: 1080px)": {
       width: "280px",
       height: "280px",
-      margin: "4px",
+      margin: "4px"
     },
-    "@media (min-width: 2560px)": {
+
+    "@media (min-width: 1980px) and (max-width: 2539px)": {
+      width: "280px",
+      height: "280px",
+      margin: "4px"
+    },
+
+    "@media (min-width: 2540px) and  (max-width: 2999px)": {
       width: "304px",
       height: "304px",
-      margin: "4px",
+      margin: "4px"
     },
-    "@media (min-width: 3840px)": {
+
+    "@media (min-width: 3000px) and (max-width: 3840px)": {
       width: "500px",
       height: "500px",
       margin: "34px",
