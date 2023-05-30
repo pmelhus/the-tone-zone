@@ -15,11 +15,6 @@
 
 .audio-and-image {
 
-  margin-top: -16px;
-
-  margin-left: -20px;
-  margin-right: -20px;
-  height: 100%;
 
   /* backdrop-filter: blur(50px); */
 }
@@ -97,6 +92,7 @@ z-index: 1;
   flex-direction: row;
   justify-content: left;
   position: relative;
+  margin-left: 20px;
 }
 .song-buttons button {
   /* width: auto; */
@@ -186,11 +182,11 @@ z-index: 50000;
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  margin-top: 20px;
+  margin: 20px;
 }
 
 .song-page-avatar p {
-  margin-top: 10px;
+  margin-left: 20px;
   font-size: 12px;
   font-weight:lighter;
   text-overflow: ellipsis;
@@ -206,6 +202,7 @@ z-index: 50000;
 .comment-body-description {
   /* position: absolute; */
   margin-top: -30px;
+  margin-left: 20px;
   padding-left: 150px;
   width: 100%;
   height: 100%;
@@ -253,7 +250,7 @@ z-index: 50000;
 .background-image-song {
   position: absolute;
 width: 100%;
-height: 340px;
+/* height: 340px; */
 z-index: 0;
 background-position: center;
 

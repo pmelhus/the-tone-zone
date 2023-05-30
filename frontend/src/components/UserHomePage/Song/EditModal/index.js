@@ -8,8 +8,50 @@ import ErrorMessage from "../../../ErrorMessage";
 import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
-  editContent: {},
+  editContent: {
+    display: "flex",
+    justifyContent: 'center',
+    flexDirection: 'column',
+
+  },
+container: {
+  margin: "0 auto"
+},
+image: {
+width: '260px',
+height: '260px',
+backgroundImage: "linear-gradient(135deg,#846170,#70929c)"
+},
+imgContainer: {
+display: 'flex',
+justifyContent: 'center'
+},
+  submitButton: {
+    backgroundColor: theme.orangeTheme,
+    color: "white",
+    borderRadius: "4px",
+    "&:hover": {
+      backgroundColor: "white",
+      color: theme.orangeTheme,
+    },
+    width: "100%",
+    marginTop: '10px',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: "13px",
+    padding: "0",
+  },
+  formInput: {
+width: "100%",
+margin: '10px 0'
+  },
+  upload: {
+    margin: '0 auto',
+    marginTop: "20px"
+  }
 }));
+
 
 const EditModal = ({ setEditModal }) => {
   const theme = useTheme();
@@ -105,14 +147,30 @@ const EditModal = ({ setEditModal }) => {
   };
 
   return (
-    <div className={classes.editContent}>
+    <div className={classes.container}>
       <ErrorMessage message={errorMessages.overall} />
-      <form className="upload-form" onSubmit={onSubmit}>
-        <img className="image-preview" src={preview}></img>
-        <div>
+      <form  className={classes.editContent} onSubmit={onSubmit}>
+        <div className={classes.imgContainer}>
+
+        <img className={classes.image} src={preview}></img>
+        </div>
+               <div className={classes.upload}>
+          <label className="upload-song-input">
+            Edit current image
+            <input
+              placeholder="Upload your image"
+              type="file"
+              accept="image/*"
+              name="image-upload"
+              onChange={updateImage}
+            ></input>
+          </label>
+        </div>
+        <div className={classes.formInput}>
           <label for="song-name">Title</label>
           <br></br>
           <input
+          className={classes.formInput}
             name="song-name"
             placeholder={song?.title}
             value={title}
@@ -127,6 +185,7 @@ const EditModal = ({ setEditModal }) => {
           <label for="song-description">Description</label>
           <br></br>
           <textarea
+          className={classes.formInput}
             type="text"
             placeholder={song?.description}
             name="song-description"
@@ -139,23 +198,12 @@ const EditModal = ({ setEditModal }) => {
           label={"description"}
           message={errorMessages.description}
         />
-        <div>
-          <label className="upload-song-input">
-            Edit current image
-            <input
-              placeholder="Upload your image"
-              type="file"
-              accept="image/*"
-              name="image-upload"
-              onChange={updateImage}
-            ></input>
-          </label>
-        </div>
 
-        <button type="button" onClick={handleCancelClick}>
+
+        <button type="button" className={classes.submitButton} onClick={handleCancelClick}>
           Cancel
         </button>
-        <button>Save</button>
+        <button className={classes.submitButton} >Save</button>
       </form>
     </div>
   );

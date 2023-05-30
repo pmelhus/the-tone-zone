@@ -145,7 +145,7 @@ const Waveform = ({
     });
 
     waveSurfer.on("play", () => {
-      waveSurfer.setWaveColor("rgba(51, 51, 51, .5)");
+      waveSurfer?.setWaveColor("rgba(51, 51, 51, .5)");
       if (audioPlayer.current.audio.current.src === audio) {
         wavePlayer.current = waveSurfer;
         toggleIsPlaying(true);
@@ -154,7 +154,7 @@ const Waveform = ({
 
     waveSurfer.on("pause", () => {
       toggleIsPlaying(false);
-      waveSurfer.setWaveColor("rgba(51, 51, 51, .4)");
+      waveSurfer?.setWaveColor("rgba(51, 51, 51, .4)");
     });
 
     waveSurfer.on("seek", (e) => {
@@ -202,13 +202,13 @@ const Waveform = ({
   }, [audio, pathname]);
 
   const handleWaveHover = () => {
-    if (!currentWavePlayer.isPlaying()) {
+    if (!currentWavePlayer?.isPlaying()) {
       currentWavePlayer.setWaveColor("rgba(51, 51, 51, .5)");
     }
   };
 
   const handleWaveHoverLeave = () => {
-    if (!currentWavePlayer.isPlaying()) {
+    if (!currentWavePlayer?.isPlaying()) {
       currentWavePlayer.setWaveColor("rgb(51, 51, 51, .4)");
     }
   };

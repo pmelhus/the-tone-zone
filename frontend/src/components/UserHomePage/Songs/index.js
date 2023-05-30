@@ -88,23 +88,22 @@ const Songs = ({
                 </p>
               </div>
               <div className="audio-content">
-                <div className="image-content">
-                  {song?.imageUrl ? (
-                    <div
-                      className="image-content"
-                      onClick={() => handleImageClick(song)}
-                    >
-                      <img src={song?.imageUrl} />
-                    </div>
-                  ) : (
-                    <div
-                      className="image-content"
-                      onClick={() => handleImageClick(song)}
-                    >
-                      <img src="https://images.pexels.com/photos/7130560/pexels-photo-7130560.jpeg" />
-                    </div>
-                  )}
-                </div>
+                {song?.imageUrl ? (
+                  <div
+                    className="image-content"
+                    onClick={() => handleImageClick(song)}
+                  >
+                    <img src={song?.imageUrl} />
+                  </div>
+                ) : (
+                  <div
+                    className="image-content"
+                    onClick={() => handleImageClick(song)}
+                  >
+                    <img src="https://images.pexels.com/photos/7130560/pexels-photo-7130560.jpeg" />
+                  </div>
+                )}
+
                 <div className="audio-player-div">
                   {/* <div className="title-div">
                     <div>

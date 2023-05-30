@@ -121,7 +121,6 @@ const Song = ({
             </div>
           </div>
           <div className="comment-button-section">
-            <WriteComment song={song} />
             <div className="song-buttons">
               {sessionUser?.id === song?.User?.id && (
                 <>
@@ -140,6 +139,7 @@ const Song = ({
                   </button>
                 </>
               )}
+
               {/* <div className="dropdown-more">
                 <button onClick={(e) => openMenu(e)}>
                   <i class="fa-solid fa-ellipsis"></i>More
@@ -156,6 +156,7 @@ const Song = ({
                 )}
               </div> */}
             </div>
+            <WriteComment song={song} />
           </div>
           <div className="avatar-comment-description">
             <div className="song-page-avatar">
@@ -200,7 +201,6 @@ const Song = ({
               </Modal>
               <Modal
                 centered
-                size="lg"
                 show={editModal}
                 onHide={handleEditClose}
               >
