@@ -26,32 +26,42 @@ const HomePage = ({
       <div className="container">
         <div className="main-content">
           <div className="top-images-container">
-            <TopLogo />
-            {!sessionUser ? (
-              <>
-                <SignIn
-                  {...{ signInToggle }}
-                  {...{ setSignInToggle }}
-                  {...{ signUpToggle }}
-                  {...{ setSignUpToggle }}
-                />
-                <SignUp
-                  {...{ signInToggle }}
-                  {...{ setSignInToggle }}
-                  {...{ signUpToggle }}
-                  {...{ setSignUpToggle }}
-                />
-              </>
-            ) : (
-              <div className="sign-up-container">
-                <Link to="/discover">
-                  <button className="sign-up">Home</button>
-                </Link>
-              </div>
-            )}
-            <ImageSlides />
-            <SearchSongs {...{ setSignInToggle }} />
-            <Footer />
+            <div className="top-half">
+              <TopLogo />
+              {!sessionUser ? (
+                <>
+                  <SignIn
+                    {...{ signInToggle }}
+                    {...{ setSignInToggle }}
+                    {...{ signUpToggle }}
+                    {...{ setSignUpToggle }}
+                  />
+                  <SignUp
+                    {...{ signInToggle }}
+                    {...{ setSignInToggle }}
+                    {...{ signUpToggle }}
+                    {...{ setSignUpToggle }}
+                  />
+                </>
+              ) : (
+                <div className="sign-up-container">
+                  <Link to="/discover">
+                    <button className="sign-up">Home</button>
+                  </Link>
+                </div>
+              )}
+              <ImageSlides />
+              <SearchSongs
+              
+                {...{ signInToggle }}
+                {...{ setSignInToggle }}
+                {...{ signUpToggle }}
+                {...{ setSignUpToggle }}
+              />
+            </div>
+            <div className="footer-half">
+              <Footer />
+            </div>
           </div>
         </div>
       </div>

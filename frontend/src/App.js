@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch, useLocation } from "react-router-dom";
 import * as sessionActions from "./store/session";
-import Navigation from "./components/Navigation";
+
 import HomePage from "./components/HomePage";
 import UserHomePage from "./components/UserHomePage/index";
 import Waveform from "./components/Waveform";
@@ -79,15 +79,13 @@ function App() {
           )}
         </Route>
         <div className="home-body-container">
-          <Navigation
-            isLoaded={isLoaded}
+
+          {isLoaded && (
+            <UserHomePage
             {...{ signUpToggle }}
             {...{ setSignUpToggle }}
             {...{ signInToggle }}
             {...{ setSignInToggle }}
-          />
-          {isLoaded && (
-            <UserHomePage
               {...{ audioPlayer }}
               {...{ waveLoading }}
               {...{ setWaveLoading }}

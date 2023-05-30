@@ -29,16 +29,27 @@ margin-bottom: 10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: left;
-  max-width: 1180px;
+  max-width: 100%;
+  margin: 0 auto;
+
   /* width: 1200px; */
-  min-width: 1180px;
+
   padding: 20px 40px;
-  height: 500px;
-  max-height: 500px;
+  /* height: 500px; */
+  max-height:100%;
   overflow-y: scroll;
 }
 
 .title-div-homepage {
-  margin-left: 17px;
-  margin-top: 6px;
+  margin-top: 4px;
+}
+
+
+
+.top-half {
+  min-height: 90%;
+}
+
+.footer-half {
+  min-height: 10%;
 }

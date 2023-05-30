@@ -10,7 +10,16 @@ import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
 songDiscoverItem: {
-width: '228px'
+width: '228px',
+"@media (min-width: 768px)": {
+  width: "182px",
+  height: "182px"
+},
+"@media (min-height: 2500px)": {
+  width: "280px",
+  height: "280px",
+  margin: '40px'
+}
 },
 emptyTracks: {
   margin: "20px",

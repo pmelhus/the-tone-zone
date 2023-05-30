@@ -4,7 +4,7 @@ import "./SearchResults.css";
 
 const SearchSongs = ({
   songResults,
-  sessionUser,
+
   waveLoading,
   setWaveLoading,
   wavePlayer,
@@ -15,9 +15,14 @@ const SearchSongs = ({
   setSourceChangeSwitch,
   setCurrentAudio,
   h5CanPlay,
+  signInToggle,
+  setSignInToggle,
+  signUpToggle,
+  setSignUpToggle,
 }) => {
   const history = useHistory();
   const handleImageClick = (song) => {
+
     history.push(`/stream/${song.id}`);
   };
   return (
