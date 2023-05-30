@@ -1,28 +1,47 @@
 .playlists-container > p {
-padding-top: 20px;
+
   font-size: 14px;
   color: #999;
   width: 100%;
-
+margin: 0;
+padding: 0;
 
 }
 
-.playlist-image {
-  width: 200px;
-  height: 200px;
-}
+
 
 @media(min-width: 768px) {
   .playlist-image {
-    width: 140px;
-    height: 140px;
+    width: 110px;
+    height: 110px;
+  }
+}
+
+@media(min-width: 1980px) {
+  .playlist-image {
+    width: 220px;
+    height: 220px;
+  }
+}
+
+@media(min-width: 2560px) {
+  .playlist-image {
+    width: 238px;
+    height: 238px;
+  }
+}
+
+@media(min-width: 3840px) {
+  .playlist-image {
+    width: 400px;
+    height: 400px;
   }
 }
 
 @media(min-height: 2500px) {
   .playlist-image {
-    width: 260px;
-    height: 260px;
+    width: 220px;
+    height: 220px;
   }
 }
 

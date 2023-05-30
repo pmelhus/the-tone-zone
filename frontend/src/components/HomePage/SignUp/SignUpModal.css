@@ -28,10 +28,7 @@ label {
   padding: 6px 0;
 }
 
-.signup-form button {
-  margin: 0;
-  /* padding: 0; */
-}
+
 
 #profile-avatar-upload {
   display: none;

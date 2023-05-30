@@ -80,7 +80,7 @@ function App() {
             )}
           </Route>
           <div className="home-body-container">
-            {isLoaded && (
+            {isLoaded && sessionUser && (
               <UserHomePage
                 {...{ signUpToggle }}
                 {...{ setSignUpToggle }}

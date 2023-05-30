@@ -16,7 +16,7 @@ import SearchResults from "./SearchResults";
 import { getSearchResults } from "../../store/search";
 import LibraryNav from "./LibraryNav";
 import { getAllCurrentSongs } from "../../store/currentSong";
-import Footer from "../HomePage/Footer";
+import Footer from "../Footer"
 import Navigation from "../Navigation/";
 
 // howler.js range i

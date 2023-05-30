@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./HomePage.css";
 import { useState } from "react";
 import * as sessionActions from "../../store/session";
-import Footer from "./Footer";
+import Footer from "../Footer"
 
 const HomePage = ({
   signInToggle,
@@ -52,7 +52,7 @@ const HomePage = ({
               )}
               <ImageSlides />
               <SearchSongs
-              
+
                 {...{ signInToggle }}
                 {...{ setSignInToggle }}
                 {...{ signUpToggle }}

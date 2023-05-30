@@ -20,7 +20,8 @@ const useStyles = createUseStyles((theme) => ({
   },
   modalSignUp: {
     padding: "40px",
-    width: "340px",
+    margin: '5px'
+
   },
   loginButton: {
     backgroundColor: theme.orangeTheme,
@@ -49,12 +50,19 @@ const useStyles = createUseStyles((theme) => ({
       color: theme.orangeTheme,
     },
     width: "100%",
+    marginTop:"10px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     fontSize: "13px",
     padding: "0",
+
   },
+  image: {
+    display: 'flex',
+    justifyContent: "center",
+    padding: '10px 0'
+  }
 }));
 
 const SignUp = ({
@@ -159,7 +167,7 @@ const SignUp = ({
       >
         Sign Up
       </button>
-      <Modal size="lg" centered show={signUpToggle} onHide={handleClose}>
+      <Modal size='sm' centered show={signUpToggle} onHide={handleClose}>
         <div className={classes.modalSignUp}>
           <div
             onClick={(e) => {
@@ -213,7 +221,7 @@ const SignUp = ({
             </div>
             <div className="username-div">
               {/* preview for image */}
-              <div>
+              <div className={classes.image}>
                 {isImageLoaded ? (
                   image ? (
                     <img

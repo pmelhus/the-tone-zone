@@ -22,7 +22,10 @@ const useStyles = createUseStyles((theme) => ({
     // padding: "10px",
     cursor: "pointer",
   },
+  modalSignUp: {
+    padding: "40px",
 
+  },
   submitButton: {
     backgroundColor: theme.orangeTheme,
     color: "white",
@@ -31,13 +34,17 @@ const useStyles = createUseStyles((theme) => ({
       backgroundColor: "white",
       color: theme.orangeTheme,
     },
-    width: "90px",
+    width: "100%",
+    marginTop: '10px',
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     fontSize: "13px",
     padding: "0",
   },
+  noAccount: {
+    marginTop: '20px',
+  }
 }));
 
 const SignIn = ({
@@ -149,8 +156,8 @@ const SignIn = ({
       >
         Sign In
       </button>
-      <Modal size="lg" centered show={signInToggle} onHide={handleClose}>
-        <form className="signin-form" onSubmit={handleSubmit}>
+      <Modal size='sm' centered show={signInToggle} onHide={handleClose}>
+        <form className={classes.modalSignUp} onSubmit={handleSubmit}>
           <div
             onClick={(e) => {
               handleClose();
@@ -218,7 +225,7 @@ const SignIn = ({
             </button>
           )}
 
-          <p>Don't have an account?</p>
+          <p className={classes.noAccount}>Don't have an account?</p>
           <button onClick={handleSignUp} className={classes.submitButton}>
             Sign Up
           </button>

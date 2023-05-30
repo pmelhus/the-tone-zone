@@ -9,52 +9,68 @@ import SongDiscover from "./SongDiscover";
 import { createUseStyles, useTheme } from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
-songDiscoverItem: {
-width: '228px',
-"@media (min-width: 768px)": {
-  width: "182px",
-  height: "182px"
-},
-"@media (min-height: 2500px)": {
-  width: "280px",
-  height: "280px",
-  margin: '40px'
-}
-},
-emptyTracks: {
-  margin: "20px",
-  display: 'flex',
-  justifyContent: 'center',
-  flexDirection: 'column',
-  alignItems: 'center'
-},
-upload: {
-  display: 'flex'
-},
-link: {
-  marginTop: '10px'
-}
+  songDiscoverItem: {
+    "@media (min-width: 768px)": {
+      width: "150px",
+      height: "150px",
+      margin: "14px",
+    },
+    "@media (min-height: 2500px)": {
+      width: "268px",
+      height: "268px",
+      margin: "4px",
+    },
+
+    "@media (min-width: 1980px)": {
+      width: "280px",
+      height: "280px",
+      margin: "4px",
+    },
+    "@media (min-width: 2560px)": {
+      width: "304px",
+      height: "304px",
+      margin: "4px",
+    },
+    "@media (min-width: 3840px)": {
+      width: "500px",
+      height: "500px",
+      margin: "34px",
+    },
+  },
+  emptyTracks: {
+    margin: "20px",
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  upload: {
+    display: "flex",
+  },
+  link: {
+    marginTop: "10px",
+  },
 }));
 
 const Discover = ({ isLoaded }) => {
   const theme = useTheme();
   const classes = useStyles({ theme });
-  const history = useHistory()
+  const history = useHistory();
   const dispatch = useDispatch();
   const playlists = useSelector((state) => Object.values(state.playlists));
   const sessionUser = useSelector((state) => state.session?.user);
   const songs = useSelector((state) => Object.values(state?.songs));
   const sortedLatest = useSelector((state) => Object.values(state.songs));
   const { pathname } = useLocation();
-  const yourSongs = songs.filter((song)=> {
-  return  song.userId === sessionUser?.id
-  })
+  const yourSongs = songs.filter((song) => {
+    return song.userId === sessionUser?.id;
+  });
 
   sortedLatest.sort((a, b) => {
-    return b.id - a.id
+    return b.id - a.id;
   });
   yourSongs.sort((a, b) => {
-    return b.id - a.id
+    return b.id - a.id;
   });
 
   // useEffect(() => {
@@ -63,11 +79,9 @@ const Discover = ({ isLoaded }) => {
   //   // setIsLoaded(true);
   // }, [dispatch]);
 
-
   const handleLink = () => {
-    history.push('/upload')
-  }
-
+    history.push("/upload");
+  };
 
   return (
     <div className="discover-container">
@@ -111,13 +125,15 @@ const Discover = ({ isLoaded }) => {
             <div className={classes.emptyTracks}>
               <p className="fs-6"> Looks like you don't have any tracks!</p>
               <span className={classes.upload}>
-                <a className={classes.link} onClick ={handleLink}>Upload a song</a>
+                <a className={classes.link} onClick={handleLink}>
+                  Upload a song
+                </a>
               </span>
             </div>
           </>
         )}
         <ul className="playlist-cards">
-        {isLoaded &&
+          {isLoaded &&
             yourSongs.map((song) => {
               return (
                 <>

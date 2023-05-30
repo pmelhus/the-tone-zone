@@ -45,3 +45,9 @@ border: none;
   text-align: center;
   transition: opacity .2s linear;
   }
+
+  .signin-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
