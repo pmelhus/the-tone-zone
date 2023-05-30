@@ -13,7 +13,7 @@ import { ValidationError } from "../../../utils/validationError";
 import Waveform from "../../Waveform";
 import Modal from "react-bootstrap/Modal";
 import DeleteModal from "./DeleteModal";
-import FadeIn from "react-fade-in";
+
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
