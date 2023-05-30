@@ -1,5 +1,5 @@
 import React from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./index.css";
@@ -17,7 +17,6 @@ import { restoreCSRF, csrfFetch } from "./store/csrf";
 import * as sessionActions from "./store/session";
 
 import { ThemeProvider } from "react-jss";
-
 
 const store = configureStore();
 
@@ -44,11 +43,11 @@ const root = ReactDOMClient.createRoot(container);
 root.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <React.StrictMode>
+        <BrowserRouter>
+      <React.StrictMode>
           <App />
-        </React.StrictMode>
-      </BrowserRouter>
+      </React.StrictMode>
+        </BrowserRouter>
     </ThemeProvider>
   </Provider>
 );

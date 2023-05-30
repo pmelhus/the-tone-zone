@@ -17,7 +17,7 @@ import { getSearchResults } from "../../store/search";
 import LibraryNav from "./LibraryNav";
 import { getAllCurrentSongs } from "../../store/currentSong";
 import Footer from "../HomePage/Footer";
-import Navigation from "../Navigation"
+import Navigation from "../Navigation/";
 
 // howler.js range i
 const UserHomePage = ({
@@ -70,33 +70,17 @@ const UserHomePage = ({
       />
       <div className="user-top-half">
         <Switch>
-          {isLoaded && sessionUser && (
-            <Route path="/discover">
-              <Discover {...{ isLoaded }} />
-            </Route>
-          )}
-          <Route path="/stream/:songId">
-            <Song
-              {...{ h5CanPlay }}
-              {...{ audioPlayer }}
-              sessionUser={sessionUser}
-              {...{ waveLoading }}
-              {...{ setWaveLoading }}
-              {...{ wavePlayer }}
-              {...{ isPlaying }}
-              {...{ toggleIsPlaying }}
-              {...{ setCurrentAudio }}
-              {...{ currentAudio }}
-              {...{ setSourceChangeSwitch }}
-              {...{ h5CanPlay }}
-            />
-          </Route>
-          {sessionUser && (
-            <Route exact path="/stream">
-              <Songs
+          <>
+            {isLoaded && sessionUser && (
+              <Route path="/discover">
+                <Discover {...{ isLoaded }} />
+              </Route>
+            )}
+            <Route path="/stream/:songId">
+              <Song
+                {...{ h5CanPlay }}
                 {...{ audioPlayer }}
                 sessionUser={sessionUser}
-                {...{ setSourceChangeSwitch }}
                 {...{ waveLoading }}
                 {...{ setWaveLoading }}
                 {...{ wavePlayer }}
@@ -104,60 +88,78 @@ const UserHomePage = ({
                 {...{ toggleIsPlaying }}
                 {...{ setCurrentAudio }}
                 {...{ currentAudio }}
+                {...{ setSourceChangeSwitch }}
                 {...{ h5CanPlay }}
               />
             </Route>
-          )}
-          <Route path="/you/library">
-            <LibraryNav />
+            {sessionUser && (
+              <Route exact path="/stream">
+                <Songs
+                  {...{ audioPlayer }}
+                  sessionUser={sessionUser}
+                  {...{ setSourceChangeSwitch }}
+                  {...{ waveLoading }}
+                  {...{ setWaveLoading }}
+                  {...{ wavePlayer }}
+                  {...{ isPlaying }}
+                  {...{ toggleIsPlaying }}
+                  {...{ setCurrentAudio }}
+                  {...{ currentAudio }}
+                  {...{ h5CanPlay }}
+                />
+              </Route>
+            )}
+            <Route path="/you/library">
+              <LibraryNav />
 
-            <Library />
-          </Route>
-          <Route path="/upload">
-            <Upload sessionUser={sessionUser} />
-          </Route>
-          {isLoaded && (
-            <>
-              <Route path="/:username">
-                <ProfilePage
-                  sessionUser={sessionUser}
-                  {...{ audioPlayer }}
-                  {...{ wavePlayer }}
-                  {...{ setSourceChangeSwitch }}
-                  {...{ waveLoading }}
-                  {...{ setWaveLoading }}
-                  {...{ wavePlayer }}
-                  {...{ isPlaying }}
-                  {...{ toggleIsPlaying }}
-                  {...{ setCurrentAudio }}
-                  {...{ currentAudio }}
-                  {...{ h5CanPlay }}
-                  {...{ setCurrentAudio }}
-                />
-              </Route>
-              <Route path="/search">
-                <SearchResults
-                  {...{ signInToggle }}
-                  {...{ setSignInToggle }}
-                  {...{ signUpToggle }}
-                  {...{ setSignUpToggle }}
-                  {...{ audioPlayer }}
-                  {...{ isLoaded }}
-                  sessionUser={sessionUser}
-                  {...{ setSourceChangeSwitch }}
-                  {...{ waveLoading }}
-                  {...{ setWaveLoading }}
-                  {...{ wavePlayer }}
-                  {...{ isPlaying }}
-                  {...{ toggleIsPlaying }}
-                  {...{ setCurrentAudio }}
-                  {...{ currentAudio }}
-                  {...{ h5CanPlay }}
-                  {...{ sessionUser }}
-                />
-              </Route>
-            </>
-          )}
+              <Library />
+            </Route>
+            <Route path="/upload">
+              <Upload sessionUser={sessionUser} />
+            </Route>
+            {isLoaded && (
+              <>
+                <Route path="/:username">
+                  <ProfilePage
+                    sessionUser={sessionUser}
+                    {...{ audioPlayer }}
+                    {...{ wavePlayer }}
+                    {...{ setSourceChangeSwitch }}
+                    {...{ waveLoading }}
+                    {...{ setWaveLoading }}
+                    {...{ wavePlayer }}
+                    {...{ isPlaying }}
+                    {...{ toggleIsPlaying }}
+                    {...{ setCurrentAudio }}
+                    {...{ currentAudio }}
+                    {...{ h5CanPlay }}
+                    {...{ setCurrentAudio }}
+                  />
+                </Route>
+                <Route path="/search">
+                  <SearchResults
+                    {...{ signInToggle }}
+                    {...{ setSignInToggle }}
+                    {...{ signUpToggle }}
+                    {...{ setSignUpToggle }}
+                    {...{ audioPlayer }}
+                    {...{ isLoaded }}
+                    sessionUser={sessionUser}
+                    {...{ setSourceChangeSwitch }}
+                    {...{ waveLoading }}
+                    {...{ setWaveLoading }}
+                    {...{ wavePlayer }}
+                    {...{ isPlaying }}
+                    {...{ toggleIsPlaying }}
+                    {...{ setCurrentAudio }}
+                    {...{ currentAudio }}
+                    {...{ h5CanPlay }}
+                    {...{ sessionUser }}
+                  />
+                </Route>
+              </>
+            )}
+          </>
         </Switch>
       </div>
       <Footer />

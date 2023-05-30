@@ -74,7 +74,7 @@ setAccountModal(true)
       <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
         <div className="button-div">
           {user.profileImageUrl ? (
-            <img className="avatar" src={isLoaded && user?.profileImageUrl} />
+            <img className="avatar" src={user?.profileImageUrl} />
           ) : (
             <img
               className="avatar"

@@ -3,9 +3,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import LoginModal from "../HomePage/SignIn/LoginModal";
-import SignUpModal from "../HomePage/SignUp/SignUpModal";
+
 import SearchBarNav from "./SearchBarNav";
 import SignIn2 from "./SignIn2";
 import SignUp2 from "./SignUp2";
@@ -16,7 +14,6 @@ function Navigation({ isLoaded }) {
   const location = useLocation();
   const streamUrl = location.pathname.split("/")[1];
   const sessionUser = useSelector((state) => state.session.user);
-
 
   return (
     <header>
@@ -74,7 +71,7 @@ function Navigation({ isLoaded }) {
                 <NavLink to="/upload">
                   <p>Upload</p>
                 </NavLink>
-                <ProfileButton/>
+                <ProfileButton />
               </div>
             ) : (
               <>
