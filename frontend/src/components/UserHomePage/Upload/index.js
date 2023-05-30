@@ -34,11 +34,10 @@ const useStyles = createUseStyles((theme) => ({
   fileInput: {
     display: "flex",
     flexDirection: "column",
-    width: "100%",
+
     paddingLeft: "10px",
   },
   input: {
-    width: "100%",
     padding: "10px",
   },
 }));
@@ -152,87 +151,91 @@ const Upload = (sessionUser) => {
   return (
     <div className="upload-content">
       <ErrorMessage message={errorMessages.overall} />
-      <form className="upload-form" onSubmit={onSubmit}>
+      <div>
         <img className="image-preview" src={preview}></img>
-        <div className={classes.inputField}>
-          <label for="song-name">Title</label>
-          <br></br>
-          <input
-            name="song-name"
-            placeholder="Name your track"
-            value={title}
-            onChange={updateTitle}
-            type="text"
-            min={2}
-            required
-          ></input>
-        </div>
-        <ErrorMessage label={"title"} message={errorMessages.title} />
-        <div className={classes.inputField}>
-          <label for="song-description">Description</label>
-          <br></br>
-          <textarea
-            type="text"
-            placeholder="Describe your track"
-            name="song-description"
-            value={description}
-            onChange={updateDescription}
-            required
-          ></textarea>
-        </div>
-        <ErrorMessage
-          label={"description"}
-          message={errorMessages.description}
-        />
+      </div>
+      <div>
+        <form className="upload-form" onSubmit={onSubmit}>
+          <div className={classes.inputField}>
+            <label for="song-name">Title</label>
+            <br></br>
+            <input
+              name="song-name"
+              placeholder="Name your track"
+              value={title}
+              onChange={updateTitle}
+              type="text"
+              min={2}
+              required
+            ></input>
+          </div>
+          <ErrorMessage label={"title"} message={errorMessages.title} />
+          <div className={classes.inputField}>
+            <label for="song-description">Description</label>
+            <br></br>
+            <textarea
+              type="text"
+              placeholder="Describe your track"
+              name="song-description"
+              value={description}
+              onChange={updateDescription}
+              required
+            ></textarea>
+          </div>
+          <ErrorMessage
+            label={"description"}
+            message={errorMessages.description}
+          />
 
-        <div className={classes.fileInput}>
-          <label className="upload-song-input">Upload your song</label>
-          <input
-            type="file"
-            // name="song-upload"
-            accept="audio/*"
-            onChange={updateAudio}
-            className={classes.input}
-          ></input>
-        </div>
+          <div className={classes.fileInput}>
+            <label className="upload-song-input">Upload your song</label>
+            <input
+              type="file"
+              // name="song-upload"
+              accept="audio/*"
+              onChange={updateAudio}
+              className={classes.input}
+            ></input>
+          </div>
 
-        <div className={classes.fileInput}>
-          <label className="upload-song-input">Upload song cover</label>
-          <input
-            className={classes.input}
-            placeholder="Upload your image"
-            type="file"
-            accept="image/*"
-            name="image-upload"
-            onChange={updateImage}
-          ></input>
-        </div>
+          <div className={classes.fileInput}>
+            <label className="upload-song-input">Upload song cover</label>
+            <input
+              className={classes.input}
+              placeholder="Upload your image"
+              type="file"
+              accept="image/*"
+              name="image-upload"
+              onChange={updateImage}
+            ></input>
+          </div>
 
-        <div className={classes.buttonDiv}>
-          <button
-            className={classes.submitButton}
-            type="button"
-            onClick={handleCancelClick}
-          >
-            Cancel
-          </button>
-          {isLoading ? (
-            <button disabled className={classes.submitButton}>
-              {" "}
-              <Spinner
-                as="span"
-                animation="grow"
-                size="sm"
-                role="status"
-                aria-hidden="true"
-              />
-              Loading...
+          <div className={classes.buttonDiv}>
+            <button
+              className={classes.submitButton}
+              type="button"
+              onClick={handleCancelClick}
+            >
+              Cancel
             </button>
-          ) : (
-            <button className={classes.submitButton}>Save</button>
-          )}
-        </div>
-      </form>
+            {isLoading ? (
+              <button disabled className={classes.submitButton}>
+                {" "}
+                <Spinner
+                  as="span"
+                  animation="grow"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+                Loading...
+              </button>
+            ) : (
+              <button className={classes.submitButton}>Save</button>
+            )}
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Route, Switch, useLocation, useHistory } from "react-router-dom";
 import * as sessionActions from "./store/session";
 
 import HomePage from "./components/HomePage";
@@ -16,7 +16,7 @@ function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   const { pathname } = useLocation();
-
+  const history = useHistory();
   const [signInToggle, setSignInToggle] = useState(false);
   const [signUpToggle, setSignUpToggle] = useState(false);
 
@@ -79,39 +79,41 @@ function App() {
               />
             )}
           </Route>
-          <div className="home-body-container">
-            {isLoaded && sessionUser && (
-              <UserHomePage
-                {...{ signUpToggle }}
-                {...{ setSignUpToggle }}
-                {...{ signInToggle }}
-                {...{ setSignInToggle }}
-                {...{ audioPlayer }}
+          {pathname !== "/" && (
+            <div className="home-body-container">
+              {isLoaded && (
+                <UserHomePage
+                  {...{ signUpToggle }}
+                  {...{ setSignUpToggle }}
+                  {...{ signInToggle }}
+                  {...{ setSignInToggle }}
+                  {...{ audioPlayer }}
+                  {...{ waveLoading }}
+                  {...{ setWaveLoading }}
+                  {...{ wavePlayer }}
+                  {...{ setCurrentAudio }}
+                  {...{ toggleIsPlaying }}
+                  {...{ isPlaying }}
+                  {...{ sessionUser }}
+                  {...{ currentAudio }}
+                  {...{ setSourceChangeSwitch }}
+                  {...{ h5CanPlay }}
+                />
+              )}
+              <H5AudioPlayer
                 {...{ waveLoading }}
-                {...{ setWaveLoading }}
+                {...{ audioPlayer }}
+                {...{ sourceChangeSwitch }}
                 {...{ wavePlayer }}
+                {...{ isLoaded }}
+                {...{ setIsLoaded }}
                 {...{ setCurrentAudio }}
-                {...{ toggleIsPlaying }}
-                {...{ isPlaying }}
-                {...{ sessionUser }}
                 {...{ currentAudio }}
-                {...{ setSourceChangeSwitch }}
                 {...{ h5CanPlay }}
+                {...{ setH5CanPlay }}
               />
-            )}
-            <H5AudioPlayer
-              {...{ waveLoading }}
-              {...{ audioPlayer }}
-              {...{ sourceChangeSwitch }}
-              {...{ wavePlayer }}
-              {...{ isLoaded }}
-              {...{ setIsLoaded }}
-              {...{ setCurrentAudio }}
-              {...{ currentAudio }}
-              {...{ h5CanPlay }}
-              {...{ setH5CanPlay }}
-            />
-          </div>
+            </div>
+          )}
         </>
       </Switch>
     </>
