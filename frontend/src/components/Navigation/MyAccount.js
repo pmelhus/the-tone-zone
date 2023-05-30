@@ -9,7 +9,7 @@ import Spinner from "react-bootstrap/Spinner";
 
 const useStyles = createUseStyles((theme) => ({
   form: {
-    padding: "30px",
+    padding: "50px",
   },
   stockImage: {
     width: "100px",
@@ -36,9 +36,19 @@ const useStyles = createUseStyles((theme) => ({
     '&:hover': {
       backgroundColor: 'white',
       color: theme.orangeTheme
-    }
+    },
+    width: '100%'
 
-  }
+  },
+  exit: {
+    position: "absolute",
+    right: "20px",
+    top: "10px",
+    width: "20px",
+    height: "20px",
+    // padding: "10px",
+    cursor: "pointer",
+  },
 }));
 
 const MyAccount = ({ setAccountModal }) => {
@@ -59,6 +69,12 @@ const MyAccount = ({ setAccountModal }) => {
   const handleUsername = (e) => {
     setUsername(e.target.value);
   };
+
+// close the account modal
+
+const handleClose = () => {
+  setAccountModal(false)
+}
 
   // change the state of the image
   const [image, setImage] = useState(sessionUser.profileImageUrl);
@@ -117,6 +133,14 @@ const MyAccount = ({ setAccountModal }) => {
 
   return (
     <Form onSubmit={handleSubmit} className={classes.form}>
+               <div
+            onClick={(e) => {
+              handleClose();
+            }}
+            className={classes.exit}
+          >
+            <i className="fa-regular fa-xl fa-xmark"></i>
+          </div>
       <h4>Edit your account information</h4>
       <div className={classes.imageContainer}>
         <img className={classes.stockImage} src={preview} />

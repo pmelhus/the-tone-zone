@@ -89,7 +89,7 @@ setAccountModal(true)
         <Dropdown.Item onClick={logout}>Log Out</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
-    <Modal size='xl' centered show={accountModal} onHide={handleClose}>
+    <Modal centered show={accountModal} onHide={handleClose}>
 
       <MyAccount {...{setAccountModal}}/>
     </Modal>
