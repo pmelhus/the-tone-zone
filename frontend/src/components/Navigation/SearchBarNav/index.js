@@ -22,9 +22,9 @@ const SearchBarNav = () => {
     return history.push(`/search/${searchWord}`);
   };
 
-  useEffect(() => {
-    dispatch(getSearchResults(searchWord));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getSearchResults(searchWord));
+  // }, []);
 
   return (
     <>
