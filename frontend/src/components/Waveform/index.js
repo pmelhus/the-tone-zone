@@ -203,13 +203,13 @@ const Waveform = ({
 
   const handleWaveHover = () => {
     if (!currentWavePlayer?.isPlaying()) {
-      currentWavePlayer.setWaveColor("rgba(51, 51, 51, .5)");
+      currentWavePlayer?.setWaveColor("rgba(51, 51, 51, .5)");
     }
   };
 
   const handleWaveHoverLeave = () => {
     if (!currentWavePlayer?.isPlaying()) {
-      currentWavePlayer.setWaveColor("rgb(51, 51, 51, .4)");
+      currentWavePlayer?.setWaveColor("rgb(51, 51, 51, .4)");
     }
   };
 

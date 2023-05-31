@@ -5,6 +5,9 @@
   width: auto;
   object-fit:contain;
 }
+.waveform-container {
+  width: 100%;
+}
 
 .waveform-image-container {
   position: relative;
@@ -14,6 +17,7 @@
 .container-ref-div {
 padding-top: 20px;
 padding-left: 10px;
+width: 100%;
 }
 
 .playlist-songs-list {

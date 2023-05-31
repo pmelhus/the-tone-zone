@@ -114,7 +114,7 @@ const PlaylistWaveform = ({
   const handlePlaylistSongClick = async (song) => {
     await setUrl(song?.url);
     await setCurrentAudio(song);
-    
+
     await handlePlayButton(song);
   };
 
@@ -153,7 +153,7 @@ const PlaylistWaveform = ({
     });
 
     waveSurfer.on("play", () => {
-      waveSurfer.setWaveColor("rgba(51, 51, 51, .5)");
+      waveSurfer?.setWaveColor("rgba(51, 51, 51, .5)");
       if (audioPlayer.current.audio.current.src === audio) {
         wavePlayer.current = waveSurfer;
         toggleIsPlaying(true);
@@ -162,7 +162,7 @@ const PlaylistWaveform = ({
 
     waveSurfer.on("pause", () => {
       toggleIsPlaying(false);
-      waveSurfer.setWaveColor("rgba(51, 51, 51, .4)");
+      waveSurfer?.setWaveColor("rgba(51, 51, 51, .4)");
     });
 
     waveSurfer.on("seek", (e) => {
@@ -211,13 +211,13 @@ const PlaylistWaveform = ({
 
   const handleWaveHover = () => {
     if (!currentWavePlayer.isPlaying()) {
-      currentWavePlayer.setWaveColor("rgba(51, 51, 51, .5)");
+      currentWavePlayer?.setWaveColor("rgba(51, 51, 51, .5)");
     }
   };
 
   const handleWaveHoverLeave = () => {
     if (!currentWavePlayer.isPlaying()) {
-      currentWavePlayer.setWaveColor("rgb(51, 51, 51, .4)");
+      currentWavePlayer?.setWaveColor("rgb(51, 51, 51, .4)");
     }
   };
 
