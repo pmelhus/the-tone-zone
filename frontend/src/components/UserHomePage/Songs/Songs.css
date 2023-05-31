@@ -64,6 +64,10 @@
   color: gray;
 }
 
+.username-p-div {
+  margin: 0 4px;
+}
+
 .title-div {
   display: block;
   flex: 1;

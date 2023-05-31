@@ -70,7 +70,7 @@ const Songs = ({
                     src="https://img.myloview.com/posters/default-avatar-profile-in-trendy-style-for-social-media-user-icon-400-228654852.jpg"
                   />
                 )}
-                <a href={`/${song?.User?.username}`}>{song.User?.username}</a>
+                <div className="username-p-div">{song.User?.username}</div>
 
                 <p id="time">
                   &nbsp;posted a track at{" "}
