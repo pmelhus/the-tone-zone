@@ -166,7 +166,7 @@ const SignIn = ({
           >
             <i className="fa-regular fa-xl fa-xmark"></i>
           </div>
-          {pleaseLoginMsg && <p>Please log in or sign up to play a song!</p>}
+          {pleaseLoginMsg && <p>Please sign in or sign up to play a song!</p>}
           <ul>
             {errors && errors.map((error, idx) => <li key={idx}>{error}</li>)}
           </ul>
@@ -203,7 +203,7 @@ const SignIn = ({
             </button>
           ) : (
             <button className={classes.submitButton} type="submit">
-              Log In
+              Sign In
             </button>
           )}
 
@@ -221,7 +221,7 @@ const SignIn = ({
             </button>
           ) : (
             <button className={classes.submitButton} onClick={demo}>
-              Demo Login
+              Demo Sign In
             </button>
           )}
 
