@@ -4,6 +4,8 @@
 
 ToneZone is a web application for listening to music and connecting with your peers and audience. I used SoundCloud as my main source of inspiration and built it using React.js, Redux, and Express/Sequelize.
 
+##ToneZone Live Link (https://the-tone-zone.herokuapp.com/)
+
 ### Splash page (unauthorized user)
 
 ![Screenshot 2023-05-30 at 8 36 53 PM](https://github.com/pmelhus/the-tone-zone/assets/97479364/f6772b07-a333-4745-bf3b-7013cdc777dc)
