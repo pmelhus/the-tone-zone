@@ -11,22 +11,27 @@ const useStyles = createUseStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    "@media (min-width: 768px)": {
+    "@media (min-width: 768px) and (max-width: 1030px)": {
       width: "106px",
       height: "106px",
       margin: '28px'
     },
 
-    "@media (min-width: 1024px)": {
-      width: "110px",
-      height: "110px",
-      margin: '31px'
+    "@media (min-width: 1030px)  and (max-width: 2000px)": {
+      width: "240px",
+      height: "240px",
+      margin: '35px'
     },
 
-    "@media (min-width: 1980px)": {
+    "@media (min-width: 2001px)  and (max-width: 3500px)": {
       width: "200px",
       height: "200px",
       margin: '55px'
+    },
+    "@media (min-width: 3501px)  and (max-width: 4500px)": {
+      width: "250px",
+      height: "250px",
+      margin: '30px'
     },
     "@media (min-height: 2500px)": {
       width: "182px",

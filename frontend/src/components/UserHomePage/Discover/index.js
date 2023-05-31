@@ -11,7 +11,7 @@ import { createUseStyles, useTheme } from "react-jss";
 const useStyles = createUseStyles((theme) => ({
   songDiscoverItem: {
 
-    "@media (min-width: 768px ) and (max-width: 768px)": {
+    "@media (min-width: 768px ) and (max-width: 1030px)": {
       width: "150px",
       height: "150px",
       margin: "14px",
@@ -22,13 +22,13 @@ const useStyles = createUseStyles((theme) => ({
       height: "260px",
       margin: "4px",
     },
-    "@media (min-width: 769px) and (max-width: 1979px) and (max-height: 1080px)": {
-      width: "280px",
-      height: "280px",
-      margin: "4px"
+    "@media (min-width: 1030px) and (max-width: 2000px) and (max-height: 1080px)": {
+      width: "260px",
+      height: "260px",
+      margin: "9px"
     },
 
-    "@media (min-width: 1980px) and (max-width: 2539px)": {
+    "@media (min-width: 2001px) and (max-width: 2539px)": {
       width: "280px",
       height: "280px",
       margin: "4px"
@@ -40,7 +40,7 @@ const useStyles = createUseStyles((theme) => ({
       margin: "4px"
     },
 
-    "@media (min-width: 3000px) and (max-width: 3840px)": {
+    "@media (min-width: 3501px) and (max-width: 4500px)": {
       width: "500px",
       height: "500px",
       margin: "34px",
