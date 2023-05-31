@@ -22,22 +22,22 @@ ToneZone is a web application for listening to music and connecting with your pe
 
 ### Feature list
 
+* Integrated continuous playback using the react-h5-audio-player in conjunction with waveplayer.js
+* Use of redux allows for data to be rendered correctly in real time and for currently playing song to be saved throughout renders on page
 * Sign in/sign up with email/username
 * Can upload/play/edit/delete audio tracks posted by other users or your own music
 * Images and audio files can be loaded with tracks and will render on the page once uploaded
 * Users can create, edit/delete their own tracks
 * Users can create comments on tracks and delete them
+* Users can search for songs and users
 * AWS upload configured
 * Discover page displays the most recent tracks uploaded by users
-* Use of redux allows for data to be rendered correctly in real time.
+
 
 ### To-do
 
-* Implement continous playback
 * Likes
 * Tags
 * Shares
-* Waveform audio player
 * Follows
-* Search
 * Notifications
